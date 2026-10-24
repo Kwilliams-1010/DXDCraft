@@ -122,9 +122,23 @@ public final class Abilities {
     public static void tryGearUltimate(ServerPlayer p, SacredGearItem gear) {
         DxDData d = DxDLogic.data(p);
         if (p.getCooldowns().isOnCooldown(gear)) return;
+        int stage = GearGrowth.stage(p, gear);
+        if (stage < GearGrowth.BALANCE_BREAKER && !p.getAbilities().instabuild) {
+            p.displayClientMessage(Component.literal("This gear's ultimate unlocks at Stage III: Balance Breaker (now "
+                    + GearGrowth.label(stage) + ")").withStyle(ChatFormatting.GOLD), true);
+            return;
+        }
         if (!checkGauge(p, d)) return;
-        if (!DxDLogic.spendMana(p, ULT_MANA_COST)) return;
-        if (gear.performUltimate(p, p.serverLevel())) {
+        d.setCastingStage(Math.max(1, stage));
+        boolean done;
+        try {
+            if (!DxDLogic.spendMana(p, ULT_MANA_COST)) return;
+            done = gear.performUltimate(p, p.serverLevel());
+        } finally {
+            d.setCastingStage(0);
+        }
+        if (done) {
+            GearGrowth.addXp(p, gear, 25);
             title(p, gear.ultimateName(), ChatFormatting.GOLD, "Ultimate");
             spend(p, d);
             p.getCooldowns().addCooldown(gear, 40);

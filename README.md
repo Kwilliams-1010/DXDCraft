@@ -53,7 +53,7 @@ Every gear has an active skill (right-click) and an **Ultimate** (see below).
 ### Ultimates and the ULT gauge
 - You charge the **ULT gauge** by dealing damage, faster by taking damage, and slowly over time. It's shown on the action bar as `ULT xx%`.
 - At 100% you get an "ULTIMATE READY" alert. Press **G** (or sneak + right-click a Sacred Gear) to unleash it.
-- Holding a Sacred Gear fires that gear's ultimate. Holding no gear fires your **race ultimate**:
+- Holding a Sacred Gear fires that gear's ultimate (the gear must be at **Stage III: Balance Breaker**). Holding no gear fires your **race ultimate**:
 
 | Race | Race ultimate (G) | Racial ability (V) |
 |---|---|---|
@@ -97,7 +97,7 @@ If you've mastered a gear but aren't Lv 40 yet, pressing J still triggers the dr
 During a Juggernaut Drive your mana regenerates fast (+3/s incomplete, +6/s complete) instead of refilling instantly.
 
 ### Juggernaut Drive (Boosted Gear & Divine Dividing only)
-Reach **DxD Lv 20**, hold the Boosted Gear (Red Dragon) or Divine Dividing (White Dragon), fill the ULT gauge, have 80 mana, and press **J**.
+Reach **DxD Lv 20**, grow the gear to **Stage III: Balance Breaker**, hold the Boosted Gear (Red Dragon) or Divine Dividing (White Dragon), fill the ULT gauge, have 80 mana, and press **J**.
 
 | | Incomplete (default) | Complete (mastered) |
 |---|---|---|
@@ -126,7 +126,7 @@ Once you're **Lv 20+** and carry the Boosted Gear or Divine Dividing *anywhere i
 - **At 100% the dragon takes over.** An **Incomplete** Juggernaut Drive starts on its own, with no ULT gauge, mana or key press needed. It's always the incomplete, berserk version, even if you've mastered the gear. The meter then resets.
 - The meter clears when you die.
 
-**Unlocking the Complete drive:** reach **Lv 40**, and master the gear. The Heavenly Dragon boss drops a **Heavenly Dragon Heart**. Use it while holding the Boosted Gear or Divine Dividing in your other hand to master that gear permanently. Each gear needs its own Heart. (Ops can use `/dxd master both` to unlock both for testing.)
+**Unlocking the Complete drive:** reach **Lv 40**, grow the gear to **Stage IV: Sublimation**, and master the gear. The Heavenly Dragon boss drops a **Heavenly Dragon Heart**. Use it while holding the Boosted Gear or Divine Dividing in your other hand to master that gear permanently. Each gear needs its own Heart. (Ops can use `/dxd master both` to unlock both for testing.)
 
 ### Realms: Heaven and the Underworld
 Two new dimensions, each reached with a reusable travel item (use it again there to come home):
@@ -185,6 +185,28 @@ Element damage grows +2% per DxD level.
 
 Anyone can still craft or loot Sacred Gears. Destiny is an extra, personal power on top of that.
 
+### Sacred Gear growth (stages)
+Every Sacred Gear grows with its wielder through four stages. Growth is stored on **you**, per gear, so a lost or re-summoned gear keeps its stage.
+
+| Stage | Gear XP needed* | DxD level | Unlocks |
+|---|---|---|---|
+| I: Awakened | – | – | Active skill |
+| II: Enhanced | 150 | 5 | +25% skill power, -10% mana cost |
+| III: **Balance Breaker** | 500 | 15 | +50% power, -20% mana, enchanted glow, **the gear's Ultimate**, the Incomplete Juggernaut Drive and the Rage meter (dragon gears) |
+| IV: **Sublimation** | 1500 | 30 | +75% power, -30% mana, required for the **Complete** Juggernaut Drive |
+
+\*Rare gears need 1.25× the XP, Longinus gears 1.5×.
+
+Gear XP comes from using that gear: **+5** per active skill, **+1** per melee hit with it (held or worn in Curios), **+25** per ultimate, **+1** per second of Juggernaut Drive. The tooltip shows the stage, XP and what's next. Reaching Balance Breaker or Sublimation plays a big animation and is announced to everyone.
+
+### Summoning animation
+Sacred Gears visibly manifest:
+- **Drawing** a gear (switching to it in your hotbar, or equipping it in a Curios slot) shows a quick magic circle and rising spiral in the gear's colour, plus its name and stage on the action bar.
+- **Awakening** an innate gear or **re-summoning** it (Sneak+V) plays a larger 2-second summoning circle with gathering sparks and a flash.
+- **Stage-ups** play the biggest version (more spiral arms at Balance Breaker+) with a dragon roar.
+
+Everyone nearby sees the particles.
+
 ### Magic
 - **Sigil of Destruction** (Devils) – Power of Destruction blast, 25 mana. Erases soft blocks it hits.
 - **Light Spear** (Angels / Fallen Angels) – 15 mana. Double damage to devils and undead.
@@ -235,6 +257,9 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd destiny gear <gear> [targets]` | Give a specific dormant innate gear |
 | `/dxd element set <element> [targets]` | Set the first element (removes any innate gear) |
 | `/dxd element second <element\|none> [targets]` | Set or remove the second element |
+| `/dxd gear stage <gear> <1-4> [targets]` | Set a Sacred Gear's growth stage |
+| `/dxd gear xp <gear> <n> [targets]` | Give gear XP |
+| `/dxd gear summon [targets]` | Play the summon animation for the held/innate gear |
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 

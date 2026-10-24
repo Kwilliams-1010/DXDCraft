@@ -55,7 +55,11 @@ public final class RageMeter {
     }
 
     public static boolean eligible(ServerPlayer p, DxDData d) {
-        return !p.isSpectator() && d.getLevel() >= DxDData.JD_LEVEL && dragonGear(p) != DxDData.JD_NONE;
+        if (p.isSpectator() || d.getLevel() < DxDData.JD_LEVEL) return false;
+        int type = dragonGear(p);
+        if (type == DxDData.JD_NONE) return false;
+        var gear = type == DxDData.JD_RED ? ModItems.BOOSTED_GEAR.get() : ModItems.DIVINE_DIVIDING.get();
+        return GearGrowth.stage(p, gear) >= GearGrowth.BALANCE_BREAKER;
     }
 
     /** Adds rage. {@code reason} (may be null) is shown in chat when it's a big emotional trigger. */

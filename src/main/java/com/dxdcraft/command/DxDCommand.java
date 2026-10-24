@@ -151,6 +151,14 @@ public final class DxDCommand {
                         .then(Commands.literal("second").then(targeted(Commands.argument("element", StringArgumentType.word()).suggests(ELEMENTS_NONE),
                                 (ctx, t) -> elementSet(ctx, t, true)))))
 
+                // Sacred Gear growth
+                .then(Commands.literal("gear").requires(DxDCommand::op)
+                        .then(Commands.literal("stage").then(Commands.argument("gear", StringArgumentType.word()).suggests(GEAR_IDS)
+                                .then(targeted(Commands.argument("stage", IntegerArgumentType.integer(1, 4)), DxDCommand::gearStage))))
+                        .then(Commands.literal("xp").then(Commands.argument("gear", StringArgumentType.word()).suggests(GEAR_IDS)
+                                .then(targeted(Commands.argument("amount", IntegerArgumentType.integer(1, 100000)), DxDCommand::gearXp))))
+                        .then(targeted(Commands.literal("summon"), DxDCommand::gearSummonAnim)))
+
                 // Realms
                 .then(Commands.literal("travel").requires(DxDCommand::op)
                         .then(targeted(Commands.argument("realm", StringArgumentType.word()).suggests(REALMS), DxDCommand::travel)))
@@ -217,6 +225,9 @@ public final class DxDCommand {
                 {"/dxd destiny reroll|awaken [targets]", "reroll birth power / awaken dormant gear"},
                 {"/dxd destiny gear <gear> [targets]", "give a dormant innate Sacred Gear"},
                 {"/dxd element set|second <element> [targets]", "set elements (second accepts none)"},
+                {"/dxd gear stage <gear> <1-4> [targets]", "set a Sacred Gear's growth stage"},
+                {"/dxd gear xp <gear> <n> [targets]", "give gear XP"},
+                {"/dxd gear summon [targets]", "play the summon animation"},
                 {"/dxd travel <heaven|underworld|overworld> [targets]", "teleport to a realm"},
                 {"/dxd summon <heavenly_dragon|stray_devil|rogue_fallen_angel>", "spawn a mod mob"},
         };
@@ -265,6 +276,10 @@ public final class DxDCommand {
                 c.append(Component.literal("\n  Elements: ").withStyle(ChatFormatting.GREEN)).append(Destiny.elements(d));
                 if (d.getElement2() == null) c.append(Component.literal("  (next 2nd-element chance at Lv "
                         + (d.getSecondChanceStage() == 0 ? Destiny.SECOND_ELEMENT_LEVEL_1 : Destiny.SECOND_ELEMENT_LEVEL_2) + ")").withStyle(ChatFormatting.GRAY));
+            }
+            for (String gid : d.grownGears()) {
+                c.append(Component.literal("\n  " + Destiny.gearName(gid) + ": " + com.dxdcraft.logic.GearGrowth.label(d.getGearStage(gid))
+                        + " (" + d.getGearXp(gid) + " XP)").withStyle(ChatFormatting.AQUA));
             }
             if (d.jdActive()) {
                 c.append(Component.literal("\n  " + JuggernautDrive.name(d.getJdType(), d.isJdComplete()) + " - " + d.getJdSeconds() + "s left").withStyle(ChatFormatting.RED));
@@ -532,6 +547,45 @@ public final class DxDCommand {
         }
         ok(ctx.getSource(), (second ? "Second" : "First") + " element set to " + id + " for " + names(targets));
         return targets.size();
+    }
+
+    // ------------------------------------------------------------------ gear growth
+
+    private static int gearStage(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        String gid = StringArgumentType.getString(ctx, "gear").toLowerCase();
+        if (!Destiny.gearIds().contains(gid)) return fail(ctx.getSource(), "Unknown gear: " + gid);
+        int stage = IntegerArgumentType.getInteger(ctx, "stage");
+        for (ServerPlayer p : targets) {
+            DxDData d = DxDLogic.data(p);
+            d.setGearStage(gid, stage);
+            d.setGearXp(gid, Math.max(d.getGearXp(gid), com.dxdcraft.logic.GearGrowth.xpForStage(gid, stage)));
+            com.dxdcraft.logic.GearGrowth.startAnim(p, gid, com.dxdcraft.logic.GearGrowth.ANIM_STAGE_UP);
+        }
+        ok(ctx.getSource(), Destiny.gearName(gid) + " set to " + com.dxdcraft.logic.GearGrowth.label(stage) + " for " + names(targets));
+        return targets.size();
+    }
+
+    private static int gearXp(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        String gid = StringArgumentType.getString(ctx, "gear").toLowerCase();
+        if (!Destiny.gearIds().contains(gid)) return fail(ctx.getSource(), "Unknown gear: " + gid);
+        int amount = IntegerArgumentType.getInteger(ctx, "amount");
+        for (ServerPlayer p : targets) com.dxdcraft.logic.GearGrowth.addXp(p, Destiny.gearItem(gid), amount);
+        ok(ctx.getSource(), "Gave " + amount + " gear XP to " + Destiny.gearName(gid) + " for " + names(targets));
+        return targets.size();
+    }
+
+    private static int gearSummonAnim(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        int n = 0;
+        for (ServerPlayer p : targets) {
+            net.minecraft.world.item.Item held = p.getMainHandItem().getItem();
+            String gid = held instanceof SacredGearItem ? com.dxdcraft.logic.GearGrowth.id(held) : DxDLogic.data(p).getInnateGear();
+            if (gid.isEmpty()) continue;
+            com.dxdcraft.logic.GearGrowth.startAnim(p, gid, com.dxdcraft.logic.GearGrowth.ANIM_SUMMON);
+            n++;
+        }
+        if (n == 0) return fail(ctx.getSource(), "Hold a Sacred Gear (or have an innate one) to play the summon animation");
+        ok(ctx.getSource(), "Played the summon animation for " + n + " player(s)");
+        return n;
     }
 
     // ------------------------------------------------------------------ realms

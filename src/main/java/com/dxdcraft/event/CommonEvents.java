@@ -37,8 +37,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
-        if (event.getEntity() instanceof ServerPlayer player && player.tickCount % 20 == 0) {
-            DxDLogic.secondTick(player);
+        if (event.getEntity() instanceof ServerPlayer player) {
+            com.dxdcraft.logic.GearGrowth.tick(player);
+            if (player.tickCount % 20 == 0) DxDLogic.secondTick(player);
         }
     }
 
@@ -98,6 +99,23 @@ public class CommonEvents {
                 }
             } else if (attacker.getMainHandItem().is(ModItems.DIVINE_DIVIDING.get()) || com.dxdcraft.compat.CuriosCompat.has(attacker, ModItems.DIVINE_DIVIDING.get())) {
                 DivineDividingItem.divide(attacker, victim);
+            }
+        }
+
+        // Sacred Gear growth: skills/ultimates hit harder at higher stages; melee with a gear grows it.
+        if (source.getEntity() instanceof ServerPlayer gp && gp != victim) {
+            DxDData gd = DxDLogic.data(gp);
+            if (gd.getCastingStage() > 1) {
+                event.setAmount(event.getAmount() * com.dxdcraft.logic.GearGrowth.power(gd.getCastingStage()));
+            } else if (direct == gp && source.is(DamageTypes.PLAYER_ATTACK)) {
+                net.minecraft.world.item.Item held = gp.getMainHandItem().getItem();
+                if (held instanceof com.dxdcraft.item.SacredGearItem) {
+                    event.setAmount(event.getAmount() * com.dxdcraft.logic.GearGrowth.power(com.dxdcraft.logic.GearGrowth.stage(gp, held)));
+                    com.dxdcraft.logic.GearGrowth.addXp(gp, held, 1);
+                } else {
+                    com.dxdcraft.item.SacredGearItem worn = com.dxdcraft.compat.CuriosCompat.wornGear(gp);
+                    if (worn != null) com.dxdcraft.logic.GearGrowth.addXp(gp, worn, 1);
+                }
             }
         }
 

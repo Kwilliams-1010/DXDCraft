@@ -69,12 +69,19 @@ public final class JuggernautDrive {
             p.displayClientMessage(Component.literal("Juggernaut Drive needs a full ULT gauge (" + d.getUltCharge() + "%)").withStyle(ChatFormatting.GOLD), true);
             return;
         }
+        net.minecraft.world.item.Item gearItem = type == DxDData.JD_RED ? ModItems.BOOSTED_GEAR.get() : ModItems.DIVINE_DIVIDING.get();
+        int gearStage = GearGrowth.stage(p, gearItem);
+        if (gearStage < GearGrowth.BALANCE_BREAKER && !creative) {
+            p.displayClientMessage(Component.literal("Your gear must reach Stage III: Balance Breaker first (now "
+                    + GearGrowth.label(gearStage) + ")").withStyle(ChatFormatting.RED), true);
+            return;
+        }
         boolean mastered = type == DxDData.JD_RED ? d.isMasteredRed() : d.isMasteredWhite();
-        boolean complete = mastered && (d.getLevel() >= DxDData.JD_COMPLETE_LEVEL || creative);
+        boolean complete = mastered && ((d.getLevel() >= DxDData.JD_COMPLETE_LEVEL && gearStage >= GearGrowth.SUBLIMATION) || creative);
         if (!DxDLogic.spendMana(p, MANA_COST)) return;
         if (mastered && !complete) {
-            p.sendSystemMessage(Component.literal("Your body can't sustain the complete drive until Lv " + DxDData.JD_COMPLETE_LEVEL
-                    + "... the dragon's rage takes over!").withStyle(ChatFormatting.DARK_RED, ChatFormatting.ITALIC));
+            p.sendSystemMessage(Component.literal("The complete drive needs Lv " + DxDData.JD_COMPLETE_LEVEL
+                    + " and Stage IV: Sublimation... the dragon's rage takes over!").withStyle(ChatFormatting.DARK_RED, ChatFormatting.ITALIC));
         }
         if (!creative) d.setUltCharge(0);
         start(p, type, complete);
@@ -159,6 +166,8 @@ public final class JuggernautDrive {
         }
 
         level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), complete ? 30 : 50, 0.6, 1.0, 0.6, 0.05);
+
+        GearGrowth.addXp(p, type == DxDData.JD_RED ? ModItems.BOOSTED_GEAR.get() : ModItems.DIVINE_DIVIDING.get(), 1);
 
         int left = d.getJdSeconds() - 1;
         d.setJdSeconds(left);

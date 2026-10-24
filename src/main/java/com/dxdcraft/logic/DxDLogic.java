@@ -77,6 +77,7 @@ public final class DxDLogic {
         DxDData d = data(player);
         checkLevelUp(player, d);
         Destiny.secondTick(player, d);
+        GearGrowth.secondTick(player, d);
         ElementCasting.passives(player, d);
         Race race = d.getRace();
         boolean day = player.level().isDay();
@@ -166,6 +167,8 @@ public final class DxDLogic {
     /** Spend mana for an ability. Creative is free. Tells the player when they are short. */
     public static boolean spendMana(Player player, int cost) {
         if (player.getAbilities().instabuild) return true;
+        int stage = data(player).getCastingStage();
+        if (stage > 1) cost = Math.max(1, Math.round(cost * GearGrowth.manaDiscount(stage)));
         if (data(player).tryUseMana(cost)) return true;
         player.displayClientMessage(Component.literal("Not enough mana (" + cost + " needed, "
                 + data(player).getMana() + " left)").withStyle(ChatFormatting.AQUA), true);

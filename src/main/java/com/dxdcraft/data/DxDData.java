@@ -128,6 +128,34 @@ public class DxDData implements INBTSerializable<CompoundTag> {
     private final long[] elementReadyAt = new long[2];
     private long resummonReadyAt = 0;
 
+    // ---- Sacred Gear growth (saved): per gear id ----
+    private final java.util.Map<String, Integer> gearXp = new java.util.HashMap<>();
+    private final java.util.Map<String, Integer> gearStage = new java.util.HashMap<>();
+    // transient
+    private int castingStage = 0;          // >0 while a gear skill/ultimate is executing
+    private String lastHeldGear = "";
+    private String lastWornGear = "";
+    private int animTicks = 0, animTotal = 0, animKind = 0;
+    private String animGear = "";
+
+    public int getGearXp(String id) { return gearXp.getOrDefault(id, 0); }
+    public void setGearXp(String id, int xp) { gearXp.put(id, Math.max(0, xp)); }
+    public int getGearStage(String id) { return gearStage.getOrDefault(id, 1); }
+    public void setGearStage(String id, int st) { gearStage.put(id, Math.max(1, Math.min(4, st))); }
+    public java.util.Set<String> grownGears() { return gearXp.keySet(); }
+    public int getCastingStage() { return castingStage; }
+    public void setCastingStage(int s) { castingStage = s; }
+    public String getLastHeldGear() { return lastHeldGear; }
+    public void setLastHeldGear(String s) { lastHeldGear = s; }
+    public String getLastWornGear() { return lastWornGear; }
+    public void setLastWornGear(String s) { lastWornGear = s; }
+    public int getAnimTicks() { return animTicks; }
+    public int getAnimTotal() { return animTotal; }
+    public int getAnimKind() { return animKind; }
+    public String getAnimGear() { return animGear; }
+    public void startAnim(String gear, int total, int kind) { animGear = gear; animTotal = total; animTicks = total; animKind = kind; }
+    public void tickAnim() { if (animTicks > 0) animTicks--; }
+
     public boolean isDestinyRolled() { return destinyRolled; }
     public void setDestinyRolled(boolean v) { destinyRolled = v; }
     public String getInnateGear() { return innateGear; }
@@ -181,6 +209,14 @@ public class DxDData implements INBTSerializable<CompoundTag> {
         tag.putInt("secondChanceStage", secondChanceStage);
         tag.putInt("hostileKills", hostileKills);
         tag.putBoolean("bossSlain", bossSlain);
+        CompoundTag growth = new CompoundTag();
+        for (var e : gearXp.entrySet()) {
+            CompoundTag g = new CompoundTag();
+            g.putInt("xp", e.getValue());
+            g.putInt("stage", getGearStage(e.getKey()));
+            growth.put(e.getKey(), g);
+        }
+        tag.put("gearGrowth", growth);
         return tag;
     }
 
@@ -201,6 +237,14 @@ public class DxDData implements INBTSerializable<CompoundTag> {
         secondChanceStage = tag.getInt("secondChanceStage");
         hostileKills = tag.getInt("hostileKills");
         bossSlain = tag.getBoolean("bossSlain");
+        gearXp.clear();
+        gearStage.clear();
+        CompoundTag growth = tag.getCompound("gearGrowth");
+        for (String key : growth.getAllKeys()) {
+            CompoundTag g = growth.getCompound(key);
+            gearXp.put(key, g.getInt("xp"));
+            gearStage.put(key, Math.max(1, Math.min(4, g.getInt("stage"))));
+        }
         mana = tag.getInt("mana");
         ultCharge = tag.getInt("ult");
         masteredRed = tag.getBoolean("masteredRed");

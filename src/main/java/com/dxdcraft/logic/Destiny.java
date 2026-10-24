@@ -208,6 +208,7 @@ public final class Destiny {
         p.serverLevel().sendParticles(ParticleTypes.TOTEM_OF_UNDYING, p.getX(), p.getY() + 1, p.getZ(), 150, 0.6, 1.2, 0.6, 0.5);
         p.serverLevel().playSound(null, p.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
         if (tierOf(d.getInnateGear()) == Tier.COMMON) p.heal(10.0F); // the gear saves you
+        GearGrowth.startAnim(p, d.getInnateGear(), GearGrowth.ANIM_SUMMON);
         p.server.getPlayerList().broadcastSystemMessage(Component.literal(p.getName().getString() + " has awakened the Sacred Gear ")
                 .withStyle(ChatFormatting.GREEN).append(Component.literal(name).withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)), false);
         p.sendSystemMessage(Component.literal("If you ever lose it, Sneak + [V] re-manifests it (5 min cooldown).").withStyle(ChatFormatting.GRAY));
@@ -240,7 +241,7 @@ public final class Destiny {
         }
         giveGear(p, d);
         d.setResummonReadyAt(now + RESUMMON_COOLDOWN_TICKS);
-        p.serverLevel().sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1, p.getZ(), 40, 0.4, 0.8, 0.4, 0.05);
+        GearGrowth.startAnim(p, d.getInnateGear(), GearGrowth.ANIM_SUMMON);
         p.displayClientMessage(Component.literal("Your Sacred Gear answers your call.").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD), true);
         return true;
     }
