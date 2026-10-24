@@ -199,15 +199,20 @@ public final class Destiny {
         if (met) awaken(p, d);
     }
 
+    /** Starts the awakening: the gear's unique cutscene plays, then {@link #finishAwaken} grants it. */
     public static void awaken(ServerPlayer p, DxDData d) {
         if (!d.hasInnateGear()) return;
-        d.setGearAwakened(true);
+        d.setGearAwakened(true); // locked in now; if the player logs out mid-cutscene, Sneak+V recovers the gear
+        if (tierOf(d.getInnateGear()) == Tier.COMMON) p.heal(10.0F); // the gear saves you from the near-death moment
+        com.dxdcraft.cutscene.ServerCutscene.start(p, d.getInnateGear(), true);
+    }
+
+    public static void finishAwaken(ServerPlayer p, DxDData d) {
         giveGear(p, d);
         String name = gearName(d.getInnateGear());
         Abilities.title(p, "SACRED GEAR AWAKENED", ChatFormatting.GREEN, name);
         p.serverLevel().sendParticles(ParticleTypes.TOTEM_OF_UNDYING, p.getX(), p.getY() + 1, p.getZ(), 150, 0.6, 1.2, 0.6, 0.5);
         p.serverLevel().playSound(null, p.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
-        if (tierOf(d.getInnateGear()) == Tier.COMMON) p.heal(10.0F); // the gear saves you
         GearGrowth.startAnim(p, d.getInnateGear(), GearGrowth.ANIM_SUMMON);
         p.server.getPlayerList().broadcastSystemMessage(Component.literal(p.getName().getString() + " has awakened the Sacred Gear ")
                 .withStyle(ChatFormatting.GREEN).append(Component.literal(name).withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)), false);

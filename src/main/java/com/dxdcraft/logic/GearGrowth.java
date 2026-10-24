@@ -209,8 +209,16 @@ public final class GearGrowth {
         String held = main instanceof SacredGearItem ? id(main) : "";
         if (!held.equals(d.getLastHeldGear())) {
             d.setLastHeldGear(held);
-            if (!held.isEmpty() && d.getAnimTicks() <= 0) startAnim(p, held, ANIM_DRAW);
+            if (!held.isEmpty() && !d.inCutscene()) {
+                if (!d.hasSeenCutscene(held) && !p.getAbilities().instabuild) {
+                    // First time this player ever draws this gear: its awakening cutscene.
+                    com.dxdcraft.cutscene.ServerCutscene.start(p, held, false);
+                } else if (d.getAnimTicks() <= 0) {
+                    startAnim(p, held, ANIM_DRAW);
+                }
+            }
         }
+        com.dxdcraft.cutscene.ServerCutscene.tick(p);
         if (d.getAnimTicks() > 0) {
             playFrame(p, d);
             d.tickAnim();

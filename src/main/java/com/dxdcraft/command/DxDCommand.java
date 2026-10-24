@@ -159,6 +159,11 @@ public final class DxDCommand {
                                 .then(targeted(Commands.argument("amount", IntegerArgumentType.integer(1, 100000)), DxDCommand::gearXp))))
                         .then(targeted(Commands.literal("summon"), DxDCommand::gearSummonAnim)))
 
+                // Cutscenes
+                .then(Commands.literal("cutscene").requires(DxDCommand::op)
+                        .then(Commands.literal("reset").then(targeted(Commands.literal("seen"), DxDCommand::cutsceneReset)))
+                        .then(targeted(Commands.argument("gear", StringArgumentType.word()).suggests(GEAR_IDS), DxDCommand::cutscenePlay)))
+
                 // Realms
                 .then(Commands.literal("travel").requires(DxDCommand::op)
                         .then(targeted(Commands.argument("realm", StringArgumentType.word()).suggests(REALMS), DxDCommand::travel)))
@@ -228,6 +233,8 @@ public final class DxDCommand {
                 {"/dxd gear stage <gear> <1-4> [targets]", "set a Sacred Gear's growth stage"},
                 {"/dxd gear xp <gear> <n> [targets]", "give gear XP"},
                 {"/dxd gear summon [targets]", "play the summon animation"},
+                {"/dxd cutscene <gear> [targets]", "play a gear's awakening cutscene"},
+                {"/dxd cutscene reset seen [targets]", "let first-draw cutscenes play again"},
                 {"/dxd travel <heaven|underworld|overworld> [targets]", "teleport to a realm"},
                 {"/dxd summon <heavenly_dragon|stray_devil|rogue_fallen_angel>", "spawn a mod mob"},
         };
@@ -586,6 +593,22 @@ public final class DxDCommand {
         if (n == 0) return fail(ctx.getSource(), "Hold a Sacred Gear (or have an innate one) to play the summon animation");
         ok(ctx.getSource(), "Played the summon animation for " + n + " player(s)");
         return n;
+    }
+
+    // ------------------------------------------------------------------ cutscenes
+
+    private static int cutscenePlay(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        String gid = StringArgumentType.getString(ctx, "gear").toLowerCase();
+        if (com.dxdcraft.cutscene.CutsceneScripts.get(gid) == null) return fail(ctx.getSource(), "Unknown gear: " + gid);
+        for (ServerPlayer p : targets) com.dxdcraft.cutscene.ServerCutscene.start(p, gid, false);
+        ok(ctx.getSource(), "Playing the " + Destiny.gearName(gid) + " cutscene for " + names(targets));
+        return targets.size();
+    }
+
+    private static int cutsceneReset(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        for (ServerPlayer p : targets) DxDLogic.data(p).clearSeenCutscenes();
+        ok(ctx.getSource(), "Cutscenes will play again on first draw for " + names(targets));
+        return targets.size();
     }
 
     // ------------------------------------------------------------------ realms

@@ -138,6 +138,23 @@ public class DxDData implements INBTSerializable<CompoundTag> {
     private int animTicks = 0, animTotal = 0, animKind = 0;
     private String animGear = "";
 
+    // ---- Awakening cutscenes ----
+    private final java.util.Set<String> seenCutscenes = new java.util.HashSet<>(); // saved
+    private String cutsceneGear = "";   // transient: active cutscene
+    private int cutsceneTick = 0;
+    private boolean cutsceneAwaken = false;
+
+    public boolean hasSeenCutscene(String id) { return seenCutscenes.contains(id); }
+    public void markCutsceneSeen(String id) { seenCutscenes.add(id); }
+    public void clearSeenCutscenes() { seenCutscenes.clear(); }
+    public boolean inCutscene() { return !cutsceneGear.isEmpty(); }
+    public String getCutsceneGear() { return cutsceneGear; }
+    public int getCutsceneTick() { return cutsceneTick; }
+    public void setCutsceneTick(int t) { cutsceneTick = t; }
+    public boolean isCutsceneAwaken() { return cutsceneAwaken; }
+    public void beginCutscene(String gear, boolean awaken) { cutsceneGear = gear; cutsceneTick = 0; cutsceneAwaken = awaken; }
+    public void endCutscene() { cutsceneGear = ""; cutsceneTick = 0; cutsceneAwaken = false; }
+
     public int getGearXp(String id) { return gearXp.getOrDefault(id, 0); }
     public void setGearXp(String id, int xp) { gearXp.put(id, Math.max(0, xp)); }
     public int getGearStage(String id) { return gearStage.getOrDefault(id, 1); }
@@ -217,6 +234,9 @@ public class DxDData implements INBTSerializable<CompoundTag> {
             growth.put(e.getKey(), g);
         }
         tag.put("gearGrowth", growth);
+        net.minecraft.nbt.ListTag seen = new net.minecraft.nbt.ListTag();
+        for (String id : seenCutscenes) seen.add(net.minecraft.nbt.StringTag.valueOf(id));
+        tag.put("seenCutscenes", seen);
         return tag;
     }
 
@@ -239,6 +259,9 @@ public class DxDData implements INBTSerializable<CompoundTag> {
         bossSlain = tag.getBoolean("bossSlain");
         gearXp.clear();
         gearStage.clear();
+        seenCutscenes.clear();
+        net.minecraft.nbt.ListTag seen = tag.getList("seenCutscenes", net.minecraft.nbt.Tag.TAG_STRING);
+        for (int i = 0; i < seen.size(); i++) seenCutscenes.add(seen.getString(i));
         CompoundTag growth = tag.getCompound("gearGrowth");
         for (String key : growth.getAllKeys()) {
             CompoundTag g = growth.getCompound(key);

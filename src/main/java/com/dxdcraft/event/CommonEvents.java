@@ -52,6 +52,11 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) com.dxdcraft.cutscene.ServerCutscene.abort(player);
+    }
+
+    @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             DxDData d = DxDLogic.data(player);
@@ -66,6 +71,12 @@ public class CommonEvents {
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
         LivingEntity victim = event.getEntity();
         DamageSource source = event.getSource();
+
+        // Players in an awakening cutscene can't be hurt.
+        if (victim instanceof ServerPlayer cp && DxDLogic.data(cp).inCutscene()) {
+            event.setCanceled(true);
+            return;
+        }
 
         // Wind affinity: no fall damage.
         if (victim instanceof Player wp && source.is(DamageTypes.FALL)

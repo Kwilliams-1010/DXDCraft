@@ -166,7 +166,7 @@ The first time a player joins, they roll their **Destiny**:
 | Rare | Dimension Lost, Forbidden Balor View, Annihilation Maker (6 each) | Reach Growth Lv 10 and defeat 50 hostile creatures |
 | Longinus | Boosted Gear, Divine Dividing, Zenith Tempest, Regulus Nemea (2 each) | Reach Growth Lv 20 and slay a boss-class foe (200+ max health: Heavenly Dragon, Wither, Ender Dragon, Warden…) |
 
-On awakening the gear appears in your inventory with a server-wide announcement. If you ever lose it, **Sneak + V** re-manifests it (5 minute cooldown). `/dxd info` shows your progress.
+On awakening the gear's unique cutscene plays, then the gear appears in your inventory with a server-wide announcement. If you ever lose it, **Sneak + V** re-manifests it (5 minute cooldown). `/dxd info` shows your progress.
 
 **65%: born with an Element** instead (equal odds): **Lightning, Fire, Water, Wind, Light or Dark**. There's a **15%** chance you're born with **two**.
 
@@ -206,6 +206,30 @@ Sacred Gears visibly manifest:
 - **Stage-ups** play the biggest version (more spiral arms at Balance Breaker+) with a dragon roar.
 
 Everyone nearby sees the particles.
+
+### Awakening cutscenes
+Every Sacred Gear has its own 10-second awakening cutscene. It plays when an **innate gear awakens** (the gear is granted when the scene ends), and the **first time you ever draw** a gear you crafted or looted (not in creative).
+
+During the scene:
+- Cinematic letterbox bars, a fade from black and a slowly orbiting third-person camera. The normal HUD is hidden and your view returns to normal afterwards.
+- You're frozen and can't be hurt, and nearby mobs lose interest in you.
+- An exchange between you and the gear's inner voice, typed out line by line, then a white flash and a big title card.
+- **Sneak** to skip after the first 2 seconds.
+
+| Gear | Inner voice | Set-piece |
+|---|---|---|
+| Boosted Gear | Red Dragon | Flame spirals, rising heartbeat, fire pillars, explosion and dragon roar |
+| Divine Dividing | White Dragon | Glowing wings unfold behind you, sparks, a high-pitched roar |
+| Twilight Healing | Gentle Voice | Twin rings of light at your hands, chimes, a burst of hearts |
+| Sword Birth | Echo of Blades | Blades of light erupt from the ground, ending in a ring of swords |
+| Absorption Line | Sly Voice | Green lines lash out and retract around you |
+| Annihilation Maker | Many Voices | Pools of shadow, rising ink pillars, sculk souls |
+| Dimension Lost | Distant Whisper | Fog thickens until everything vanishes in mist |
+| Regulus Nemea | Lion's Spirit | A golden mane flares around your head, lion roars |
+| Zenith Tempest | Voice of the Storm | Storm clouds and rain overhead, lightning strikes around you (harmless) |
+| Forbidden Balor View | The Eye | A still ring of violet light, tolling bells slowing down: time stops |
+
+Ops: `/dxd cutscene <gear> [targets]` plays one, and `/dxd cutscene reset seen [targets]` lets first-draw cutscenes play again.
 
 ### Magic
 - **Sigil of Destruction** (Devils) – Power of Destruction blast, 25 mana. Erases soft blocks it hits.
@@ -260,6 +284,8 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd gear stage <gear> <1-4> [targets]` | Set a Sacred Gear's growth stage |
 | `/dxd gear xp <gear> <n> [targets]` | Give gear XP |
 | `/dxd gear summon [targets]` | Play the summon animation for the held/innate gear |
+| `/dxd cutscene <gear> [targets]` | Play a gear's awakening cutscene |
+| `/dxd cutscene reset seen [targets]` | Let first-draw cutscenes play again |
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 
