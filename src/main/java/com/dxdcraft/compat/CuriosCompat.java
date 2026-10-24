@@ -36,8 +36,22 @@ public final class CuriosCompat {
     }
 
     /** Every non-empty stack the entity has equipped in Curios slots (empty list without Curios). */
+    private static final java.util.Map<java.util.UUID, Cached> CACHE = new java.util.HashMap<>();
+    private record Cached(long time, List<ItemStack> stacks) {}
+
     public static List<ItemStack> equipped(LivingEntity entity) {
         if (!isLoaded() || failed) return List.of();
+        if (entity.level().isClientSide) return lookup(entity);
+        long now = entity.level().getGameTime();
+        Cached c = CACHE.get(entity.getUUID());
+        if (c != null && c.time == now) return c.stacks;
+        List<ItemStack> stacks = lookup(entity);
+        if (CACHE.size() > 512) CACHE.clear(); // stale entries from logged-out players
+        CACHE.put(entity.getUUID(), new Cached(now, stacks));
+        return stacks;
+    }
+
+    private static List<ItemStack> lookup(LivingEntity entity) {
         try {
             if (getCuriosInventory == null) {
                 Class<?> api = Class.forName("top.theillusivec4.curios.api.CuriosApi");

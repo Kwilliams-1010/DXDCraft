@@ -23,6 +23,9 @@ public record AbilityPayload(int action) implements CustomPacketPayload {
     public static void handle(AbilityPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player() instanceof ServerPlayer player) || !player.isAlive()) return;
+            if (!com.dxdcraft.logic.DxDLogic.data(player).allowAbilityPacket(player.level().getGameTime(),
+                    com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.MAX_ABILITY_PACKETS_PER_SECOND::get, 10))) return;
+            if (com.dxdcraft.logic.DxDLogic.data(player).inCutscene()) return; // no casting mid-cutscene
             switch (payload.action()) {
                 case Abilities.ACTION_ULTIMATE -> Abilities.ultimateKey(player);
                 case Abilities.ACTION_RACE_ABILITY -> Abilities.raceAbility(player);

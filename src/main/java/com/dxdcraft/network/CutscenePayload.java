@@ -21,6 +21,7 @@ public record CutscenePayload(String gear, boolean start) implements CustomPacke
     }
 
     public static void handle(CutscenePayload payload, IPayloadContext context) {
+        if (!net.neoforged.fml.loading.FMLEnvironment.dist.isClient()) return;
         // Only ever received on the client; ClientCutscene is only loaded there.
         context.enqueueWork(() -> {
             if (payload.start()) com.dxdcraft.client.ClientCutscene.start(payload.gear());

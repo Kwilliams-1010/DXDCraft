@@ -5,12 +5,9 @@ import com.dxdcraft.data.DxDData;
 import com.dxdcraft.item.SacredGearItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,11 +15,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
-import org.joml.Vector3f;
+import com.dxdcraft.network.FxPayload;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Sacred Gears grow with their wielder.
@@ -120,8 +117,8 @@ public final class GearGrowth {
         };
         p.sendSystemMessage(Component.literal("Your " + name + " grew to " + label(stage) + "." + extra).withStyle(color));
         if (stage >= BALANCE_BREAKER) {
-            p.server.getPlayerList().broadcastSystemMessage(Component.literal(p.getName().getString() + "'s " + name
-                    + " reached " + STAGE_NAMES[stage] + "!").withStyle(color, ChatFormatting.BOLD), false);
+            Combat.announce(p, Component.literal(p.getName().getString() + "'s " + name
+                    + " reached " + STAGE_NAMES[stage] + "!").withStyle(color, ChatFormatting.BOLD));
         }
         startAnim(p, gid, ANIM_STAGE_UP);
     }
@@ -173,18 +170,8 @@ public final class GearGrowth {
     }
 
     // ------------------------------------------------------------------ summon animation
-
-    private static final Map<String, Vector3f> COLORS = Map.of(
-            "boosted_gear", new Vector3f(0.90F, 0.10F, 0.15F),
-            "divine_dividing", new Vector3f(0.80F, 0.92F, 1.00F),
-            "twilight_healing", new Vector3f(0.55F, 1.00F, 0.60F),
-            "sword_birth", new Vector3f(0.50F, 0.20F, 0.75F),
-            "absorption_line", new Vector3f(0.40F, 0.80F, 0.20F),
-            "annihilation_maker", new Vector3f(0.18F, 0.12F, 0.25F),
-            "dimension_lost", new Vector3f(0.88F, 0.88F, 0.93F),
-            "regulus_nemea", new Vector3f(1.00F, 0.80F, 0.20F),
-            "zenith_tempest", new Vector3f(0.50F, 0.80F, 1.00F),
-            "forbidden_balor_view", new Vector3f(0.62F, 0.30F, 0.90F));
+    // The particles are drawn client-side (ClientFx) from one FxPayload sent to everyone tracking
+    // the player; the server only keeps timing and plays the sounds.
 
     public static void startAnim(ServerPlayer p, String gearId, int kind) {
         int total = switch (kind) {
@@ -192,11 +179,14 @@ public final class GearGrowth {
             case ANIM_STAGE_UP -> 60;
             default -> 16;
         };
-        DxDLogic.data(p).startAnim(gearId, total, kind);
+        DxDData d = DxDLogic.data(p);
+        d.startAnim(gearId, total, kind);
+        int fxKind = kind == ANIM_SUMMON ? FxPayload.FX_SUMMON : kind == ANIM_STAGE_UP ? FxPayload.FX_STAGE_UP : FxPayload.FX_DRAW;
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(p, new FxPayload(p.getId(), gearId, fxKind, d.getGearStage(gearId)));
         p.serverLevel().playSound(null, p.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS,
                 kind == ANIM_DRAW ? 0.4F : 1.0F, kind == ANIM_DRAW ? 1.8F : 1.2F);
         if (kind == ANIM_DRAW) {
-            int stage = DxDLogic.data(p).getGearStage(gearId);
+            int stage = d.getGearStage(gearId);
             p.displayClientMessage(Component.literal("✦ " + Destiny.gearName(gearId) + " ✦ ").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD)
                     .append(Component.literal(label(stage)).withStyle(ChatFormatting.GRAY)), true);
         }
@@ -210,7 +200,8 @@ public final class GearGrowth {
         if (!held.equals(d.getLastHeldGear())) {
             d.setLastHeldGear(held);
             if (!held.isEmpty() && !d.inCutscene()) {
-                if (!d.hasSeenCutscene(held) && !p.getAbilities().instabuild) {
+                if (!d.hasSeenCutscene(held) && !p.getAbilities().instabuild
+                        && com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.FIRST_DRAW_CUTSCENES::get, true)) {
                     // First time this player ever draws this gear: its awakening cutscene.
                     com.dxdcraft.cutscene.ServerCutscene.start(p, held, false);
                 } else if (d.getAnimTicks() <= 0) {
@@ -225,55 +216,16 @@ public final class GearGrowth {
         }
     }
 
+    /** Server half of an animation frame: only the finale sounds. */
     private static void playFrame(ServerPlayer p, DxDData d) {
-        ServerLevel level = p.serverLevel();
-        int total = d.getAnimTotal();
-        int t = total - d.getAnimTicks();          // 0 .. total-1
-        double progress = t / (double) Math.max(1, total - 1);
+        if (d.getAnimTicks() != 1) return;
         int kind = d.getAnimKind();
+        if (kind == ANIM_DRAW) return;
         int stage = d.getGearStage(d.getAnimGear());
-        Vector3f color = COLORS.getOrDefault(d.getAnimGear(), new Vector3f(1F, 1F, 1F));
-        DustParticleOptions dust = new DustParticleOptions(color, kind == ANIM_DRAW ? 0.9F : 1.4F);
-        double x = p.getX(), y = p.getY(), z = p.getZ();
-
-        // 1) magic circle on the ground, drawn in as the animation progresses
-        double radius = kind == ANIM_DRAW ? 0.9 : 1.4 + 0.2 * stage;
-        int ringPoints = kind == ANIM_DRAW ? 10 : 24;
-        for (int i = 0; i < ringPoints; i++) {
-            double a = (i / (double) ringPoints) * Math.PI * 2 * Math.min(1.0, progress * 1.5) + t * 0.05;
-            level.sendParticles(dust, x + Math.cos(a) * radius, y + 0.05, z + Math.sin(a) * radius, 1, 0, 0, 0, 0);
-            if (kind != ANIM_DRAW && i % 3 == 0) {
-                level.sendParticles(dust, x + Math.cos(-a) * radius * 0.6, y + 0.05, z + Math.sin(-a) * radius * 0.6, 1, 0, 0, 0, 0);
-            }
-        }
-
-        // 2) rising spiral around the wielder (3 arms; 4 at Balance Breaker+)
-        int arms = stage >= BALANCE_BREAKER ? 4 : 3;
-        double height = progress * (kind == ANIM_STAGE_UP ? 3.0 : 2.2);
-        for (int arm = 0; arm < arms; arm++) {
-            double a = t * 0.55 + arm * (Math.PI * 2 / arms);
-            double r = 0.8 * (1.0 - progress * 0.5);
-            level.sendParticles(dust, x + Math.cos(a) * r, y + height, z + Math.sin(a) * r, 2, 0.02, 0.02, 0.02, 0);
-        }
-
-        // 3) gathering sparks into the hand / body
-        if (kind != ANIM_DRAW && t % 2 == 0) {
-            level.sendParticles(ParticleTypes.ENCHANT, x, y + 1.2, z, 6, 1.0, 1.0, 1.0, 0.5);
-        }
-
-        // 4) finale burst
-        if (d.getAnimTicks() == 1) {
-            int count = kind == ANIM_DRAW ? 15 : kind == ANIM_SUMMON ? 60 : 120;
-            level.sendParticles(dust, x, y + 1.0, z, count, 0.5, 0.8, 0.5, 0.2);
-            level.sendParticles(ParticleTypes.END_ROD, x, y + 1.0, z, count / 3, 0.3, 0.6, 0.3, 0.15);
-            if (kind != ANIM_DRAW) {
-                level.sendParticles(ParticleTypes.FLASH, x, y + 1.0, z, 1, 0, 0, 0, 0);
-                level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.5F, 0.8F);
-            }
-            if (kind == ANIM_STAGE_UP) {
-                level.playSound(null, p.blockPosition(), stage >= BALANCE_BREAKER ? SoundEvents.ENDER_DRAGON_GROWL : SoundEvents.PLAYER_LEVELUP,
-                        SoundSource.PLAYERS, 1.2F, 1.1F);
-            }
+        p.serverLevel().playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.5F, 0.8F);
+        if (kind == ANIM_STAGE_UP) {
+            p.serverLevel().playSound(null, p.blockPosition(), stage >= BALANCE_BREAKER ? SoundEvents.ENDER_DRAGON_GROWL : SoundEvents.PLAYER_LEVELUP,
+                    SoundSource.PLAYERS, 1.2F, 1.1F);
         }
     }
 }

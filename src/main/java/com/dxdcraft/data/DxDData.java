@@ -138,6 +138,18 @@ public class DxDData implements INBTSerializable<CompoundTag> {
     private int animTicks = 0, animTotal = 0, animKind = 0;
     private String animGear = "";
 
+    // ---- anti-spam for ability key packets (transient) ----
+    private long packetWindowStart = 0;
+    private int packetsInWindow = 0;
+
+    public boolean allowAbilityPacket(long gameTime, int maxPerSecond) {
+        if (gameTime - packetWindowStart >= 20) {
+            packetWindowStart = gameTime;
+            packetsInWindow = 0;
+        }
+        return ++packetsInWindow <= maxPerSecond;
+    }
+
     // ---- Awakening cutscenes ----
     private final java.util.Set<String> seenCutscenes = new java.util.HashSet<>(); // saved
     private String cutsceneGear = "";   // transient: active cutscene

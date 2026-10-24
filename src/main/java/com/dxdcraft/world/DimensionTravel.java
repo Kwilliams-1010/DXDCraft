@@ -60,7 +60,7 @@ public final class DimensionTravel {
     /** For open-sky dimensions (Overworld, Heaven's floating islands). Searches outward for land. */
     private static BlockPos findSurface(ServerLevel level, int x, int z) {
         int min = level.getMinBuildHeight();
-        for (int r = 0; r <= 96; r += 16) {
+        for (int r = 0; r <= 48; r += 16) { // at most 25 columns -> keeps chunk generation on travel small
             for (int i = 0; i < (r == 0 ? 1 : 8); i++) {
                 double a = i * Math.PI / 4;
                 int cx = x + (int) (Math.cos(a) * r);
@@ -82,7 +82,7 @@ public final class DimensionTravel {
 
     /** For the Underworld (has a ceiling): scan down for an air pocket on solid ground. */
     private static BlockPos findCaveFloor(ServerLevel level, int x, int z) {
-        for (int r = 0; r <= 48; r += 8) {
+        for (int r = 0; r <= 32; r += 16) {
             for (int i = 0; i < (r == 0 ? 1 : 8); i++) {
                 double a = i * Math.PI / 4;
                 int cx = x + (int) (Math.cos(a) * r);

@@ -109,9 +109,8 @@ public final class JuggernautDrive {
         level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), 250, 1.2, 1.5, 1.2, 0.2);
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
         level.playSound(null, p.blockPosition(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 3.0F, complete ? 1.0F : 0.6F);
-        p.server.getPlayerList().broadcastSystemMessage(
-                Component.literal(p.getName().getString() + " has activated the " + name(type, complete) + "!")
-                        .withStyle(color(type), ChatFormatting.BOLD), false);
+        Combat.announce(p, Component.literal(p.getName().getString() + " has activated the " + name(type, complete) + "!")
+                .withStyle(color(type), ChatFormatting.BOLD));
         DxDLogic.updateFlight(p, d);
     }
 
@@ -156,7 +155,9 @@ public final class JuggernautDrive {
             p.getFoodData().addExhaustion(2.0F);
             // Berserk: roaring shockwaves hit EVERYTHING close by, friends included
             if (p.tickCount % 40 < 20) {
-                for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(4.0), x -> x != p && x.isAlive())) {
+                for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(4.0), x -> x != p && x.isAlive()
+                        && (!(x instanceof Player) || com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.BERSERK_HITS_PLAYERS::get, true))
+                        && Combat.canHarm(p, x))) {
                     e.hurt(Abilities.magic(p), 5.0F);
                     e.push((e.getX() - p.getX()) * 0.3, 0.3, (e.getZ() - p.getZ()) * 0.3);
                     e.hurtMarked = true;

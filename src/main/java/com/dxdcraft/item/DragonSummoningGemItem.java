@@ -39,8 +39,9 @@ public class DragonSummoningGemItem extends Item {
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 1, 0, 0, 0, 0);
         level.sendParticles(ParticleTypes.FLAME, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 120, 2, 2, 2, 0.1);
         level.playSound(null, pos, SoundEvents.ENDER_DRAGON_GROWL, SoundSource.HOSTILE, 3.0F, 0.8F);
-        level.getServer().getPlayerList().broadcastSystemMessage(
-                Component.literal("A Heavenly Dragon has awakened!").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD), false);
+        Component msg = Component.literal("A Heavenly Dragon has awakened!").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD);
+        if (player instanceof net.minecraft.server.level.ServerPlayer sp) com.dxdcraft.logic.Combat.announce(sp, msg);
+        else level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
 
         ItemStack stack = context.getItemInHand();
         if (player == null || !player.getAbilities().instabuild) stack.shrink(1);

@@ -32,6 +32,12 @@ public abstract class MagicProjectile extends ThrowableItemProjectile {
     protected abstract ParticleOptions trailParticle();
 
     @Override
+    protected boolean canHitEntity(net.minecraft.world.entity.Entity target) {
+        // Pass through players you aren't allowed to hurt (PvP off, teammates, your pets).
+        return super.canHitEntity(target) && com.dxdcraft.logic.Combat.canHarm(getOwner(), target);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (level().isClientSide) {

@@ -40,7 +40,7 @@ public class RealmTravelItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
         if (DimensionTravel.travel(sp, dest)) {
-            player.getCooldowns().addCooldown(this, 200);
+            player.getCooldowns().addCooldown(this, 20 * com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.REALM_TRAVEL_COOLDOWN::get, 10));
             return InteractionResultHolder.consume(stack);
         }
         return InteractionResultHolder.fail(stack);

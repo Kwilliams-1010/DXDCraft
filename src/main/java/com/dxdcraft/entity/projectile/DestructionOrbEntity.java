@@ -62,9 +62,14 @@ public class DestructionOrbEntity extends MagicProjectile {
         BlockPos pos = result.getBlockPos();
         BlockState state = level().getBlockState(pos);
         float hardness = state.getDestroySpeed(level(), pos);
-        boolean allowed = getOwner() instanceof Player p && p.mayBuild() && level().mayInteract(p, pos);
+        boolean allowed = com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.DESTRUCTION_BREAKS_BLOCKS::get, true)
+                && getOwner() instanceof Player p && p.mayBuild() && level().mayInteract(p, pos);
         if (allowed && hardness >= 0 && hardness <= 3.0F && !state.hasBlockEntity()) {
-            level().destroyBlock(pos, false, getOwner());
+            // Let claim/protection mods veto it, exactly like a player breaking the block.
+            var breakEvent = new net.neoforged.neoforge.event.level.BlockEvent.BreakEvent(level(), pos, state, (Player) getOwner());
+            if (!net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(breakEvent).isCanceled()) {
+                level().destroyBlock(pos, false, getOwner());
+            }
         }
         burst();
     }

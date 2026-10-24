@@ -20,6 +20,7 @@ public class DxDCraft {
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         ModTabs.TABS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER, DxDConfig.SPEC);
     }
 
     public static ResourceLocation id(String path) {

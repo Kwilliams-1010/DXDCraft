@@ -24,6 +24,8 @@ public class ModBusEvents {
         registrar.playToServer(AbilityPayload.TYPE, AbilityPayload.STREAM_CODEC, AbilityPayload::handle);
         registrar.playToClient(com.dxdcraft.network.CutscenePayload.TYPE, com.dxdcraft.network.CutscenePayload.STREAM_CODEC,
                 com.dxdcraft.network.CutscenePayload::handle);
+        registrar.playToClient(com.dxdcraft.network.FxPayload.TYPE, com.dxdcraft.network.FxPayload.STREAM_CODEC,
+                com.dxdcraft.network.FxPayload::handle);
     }
 
     @SubscribeEvent

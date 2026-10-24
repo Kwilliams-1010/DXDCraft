@@ -41,9 +41,10 @@ public class HolyWaterEntity extends ThrowableItemProjectile {
         super.onHit(result);
         if (level().isClientSide) return;
         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3.0, 2.0, 3.0))) {
-            if (DxDLogic.isDevil(e)) {
+            boolean mayHurt = com.dxdcraft.logic.Combat.canHarm(getOwner(), e);
+            if (DxDLogic.isDevil(e) && mayHurt) {
                 e.hurt(damageSources().indirectMagic(this, getOwner()), 8.0F);
-            } else if (e.isInvertedHealAndHarm()) {
+            } else if (e.isInvertedHealAndHarm() && mayHurt) {
                 e.hurt(damageSources().indirectMagic(this, getOwner()), 5.0F);
             } else {
                 e.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0));

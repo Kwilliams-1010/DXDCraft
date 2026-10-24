@@ -105,7 +105,7 @@ public final class Destiny {
         d.setElement2(null);
         d.setSecondChanceStage(0);
 
-        if (r.nextFloat() < GEAR_CHANCE) {
+        if (r.nextFloat() < com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.DESTINY_GEAR_CHANCE::get, (double) GEAR_CHANCE)) {
             int total = GEARS.stream().mapToInt(GearRoll::weight).sum();
             int pick = r.nextInt(total);
             for (GearRoll g : GEARS) {
@@ -124,7 +124,7 @@ public final class Destiny {
             Element[] all = Element.values();
             Element first = all[r.nextInt(all.length)];
             d.setElement1(first);
-            if (r.nextFloat() < DOUBLE_ELEMENT_CHANCE) {
+            if (r.nextFloat() < com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.DOUBLE_ELEMENT_CHANCE::get, (double) DOUBLE_ELEMENT_CHANCE)) {
                 d.setElement2(pickOther(first, r));
                 d.setSecondChanceStage(2); // already has two, no further rolls
             }
@@ -204,7 +204,11 @@ public final class Destiny {
         if (!d.hasInnateGear()) return;
         d.setGearAwakened(true); // locked in now; if the player logs out mid-cutscene, Sneak+V recovers the gear
         if (tierOf(d.getInnateGear()) == Tier.COMMON) p.heal(10.0F); // the gear saves you from the near-death moment
-        com.dxdcraft.cutscene.ServerCutscene.start(p, d.getInnateGear(), true);
+        if (com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.AWAKENING_CUTSCENES::get, true)) {
+            com.dxdcraft.cutscene.ServerCutscene.start(p, d.getInnateGear(), true);
+        } else {
+            finishAwaken(p, d);
+        }
     }
 
     public static void finishAwaken(ServerPlayer p, DxDData d) {
@@ -214,8 +218,8 @@ public final class Destiny {
         p.serverLevel().sendParticles(ParticleTypes.TOTEM_OF_UNDYING, p.getX(), p.getY() + 1, p.getZ(), 150, 0.6, 1.2, 0.6, 0.5);
         p.serverLevel().playSound(null, p.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
         GearGrowth.startAnim(p, d.getInnateGear(), GearGrowth.ANIM_SUMMON);
-        p.server.getPlayerList().broadcastSystemMessage(Component.literal(p.getName().getString() + " has awakened the Sacred Gear ")
-                .withStyle(ChatFormatting.GREEN).append(Component.literal(name).withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)), false);
+        Combat.announce(p, Component.literal(p.getName().getString() + " has awakened the Sacred Gear ")
+                .withStyle(ChatFormatting.GREEN).append(Component.literal(name).withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)));
         p.sendSystemMessage(Component.literal("If you ever lose it, Sneak + [V] re-manifests it (5 min cooldown).").withStyle(ChatFormatting.GRAY));
     }
 

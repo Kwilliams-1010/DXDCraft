@@ -289,6 +289,41 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 
+## Multiplayer & dedicated servers
+DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
+
+**Setup:** put the same `dxdcraft-1.0.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
+
+**What's server-safe:**
+- All game logic (races, mana, levels, gears, drives, rage, destiny, realms) runs on the server and is saved per player in the world save. Players can't cheat it from their client.
+- Ability keys are checked server-side (mana, cooldowns, gauge) and rate-limited per player against key spam.
+- Summon animations, stage-ups and cutscene effects send **one small packet** to nearby players, and each client draws the particles itself. This keeps server bandwidth low even with many players. Each client caps how many effects it plays at once.
+- The cutscene letterbox, dialogue and camera only show for the player whose gear is awakening. Everyone nearby sees the particles and hears the sounds.
+- Players in a cutscene can't be hurt or targeted by mobs, and can't cast during it.
+- Curios lookups are cached per tick, and realm travel generates only a few chunks to find a landing spot.
+
+**Multiplayer rules:**
+- Abilities, projectiles, auras and splash damage follow the server's **PvP setting** and vanilla **teams** (`/team`). With PvP off, Light Spears and Dragon Shots fly straight through other players. You never hurt your own pets.
+- **Power of Destruction** block-erasing respects spawn protection and fires the normal block-break event, so claim/protection mods (FTB Chunks, Open Parties and Claims, etc.) can block it.
+- Lightning (Zenith Tempest, Lightning element) behaves like vanilla lightning.
+
+### Server config
+`world/serverconfig/dxdcraft-server.toml` (created on first start; singleplayer uses `saves/<world>/serverconfig/`):
+
+| Setting | Default | What it does |
+|---|---|---|
+| `combat.abilitiesRespectPvp` | true | Abilities only hurt players when PvP is on and they aren't teammates |
+| `combat.berserkHitsPlayers` | true | Incomplete Juggernaut Drive shockwaves can hit players |
+| `combat.destructionBreaksBlocks` | true | Power of Destruction erases soft blocks |
+| `announcements.enabled` | true | Announce awakenings, Balance Breakers, drives, dragon summons |
+| `announcements.radius` | 0 | Only players this close hear announcements (0 = whole server) |
+| `destiny.gearChance` | 0.35 | Chance a new player is born with a dormant Sacred Gear |
+| `destiny.doubleElementChance` | 0.15 | Chance of being born with two elements |
+| `cutscenes.awakening` | true | Cutscene when an innate gear awakens |
+| `cutscenes.firstDraw` | true | Cutscene the first time a player draws each gear |
+| `server.realmTravelCooldownSeconds` | 10 | Cooldown for the realm travel items |
+| `server.maxAbilityPacketsPerSecond` | 10 | Anti-spam limit for ability keys |
+
 ## Mod compatibility (optional)
 DxD Craft runs fine alone. If these mods are installed it integrates with them automatically:
 

@@ -54,7 +54,7 @@ public class DragonShotEntity extends MagicProjectile {
             // Splash damage to everyone nearby except the shooter.
             AABB box = getBoundingBox().inflate(2.5);
             for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, box)) {
-                if (e == getOwner()) continue;
+                if (e == getOwner() || !com.dxdcraft.logic.Combat.canHarm(getOwner(), e)) continue;
                 if (result instanceof EntityHitResult ehr && ehr.getEntity() == e) continue;
                 e.hurt(damageSources().indirectMagic(this, getOwner()), damage * 0.5F);
             }
