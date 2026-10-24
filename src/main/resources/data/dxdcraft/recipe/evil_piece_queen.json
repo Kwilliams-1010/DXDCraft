@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "dxdcraft:evil_piece_knight"
+    },
+    {
+      "item": "dxdcraft:evil_piece_bishop"
+    },
+    {
+      "item": "dxdcraft:evil_piece_rook"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:evil_piece_queen",
+    "count": 1
+  }
+}

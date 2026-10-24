@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SGS",
+    "SDS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "dxdcraft:dragon_scale"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:boosted_gear",
+    "count": 1
+  }
+}

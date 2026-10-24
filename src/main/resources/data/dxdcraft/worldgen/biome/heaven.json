@@ -1,0 +1,73 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.7,
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 16774876,
+    "sky_color": 12576511,
+    "water_color": 10479871,
+    "water_fog_color": 14546687,
+    "grass_color": 10216314,
+    "foliage_color": 12120206,
+    "particle": {
+      "options": {
+        "type": "minecraft:end_rod"
+      },
+      "probability": 0.0015
+    },
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000
+    }
+  },
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [
+      {
+        "type": "minecraft:sheep",
+        "weight": 8,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:rabbit",
+        "weight": 4,
+        "minCount": 2,
+        "maxCount": 3
+      }
+    ],
+    "misc": [],
+    "monster": [],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "dxdcraft:gate_of_heaven",
+      "dxdcraft:seraph_cathedral",
+      "dxdcraft:brave_saint_shrine",
+      "dxdcraft:garden_of_eden"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:trees_birch",
+      "minecraft:flower_meadow",
+      "minecraft:flower_plains",
+      "minecraft:patch_grass_plain"
+    ],
+    []
+  ]
+}

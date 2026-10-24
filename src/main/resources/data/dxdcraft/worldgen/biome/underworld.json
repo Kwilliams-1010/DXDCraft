@@ -1,0 +1,88 @@
+{
+  "has_precipitation": false,
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 3803690,
+    "sky_color": 7019098,
+    "water_color": 7019146,
+    "water_fog_color": 2754102,
+    "particle": {
+      "options": {
+        "type": "minecraft:crimson_spore"
+      },
+      "probability": 0.02
+    },
+    "ambient_sound": "minecraft:ambient.crimson_forest.loop",
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "minecraft:ambient.crimson_forest.mood",
+      "tick_delay": 6000
+    },
+    "music": {
+      "max_delay": 24000,
+      "min_delay": 12000,
+      "replace_current_music": false,
+      "sound": "minecraft:music.nether.crimson_forest"
+    }
+  },
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "dxdcraft:stray_devil",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "dxdcraft:rogue_fallen_angel",
+        "weight": 25,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "minecraft:blaze",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": "minecraft:nether_cave"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "dxdcraft:devil_noble_castle",
+      "dxdcraft:rating_game_arena",
+      "dxdcraft:stray_devil_lair",
+      "dxdcraft:grigori_outpost"
+    ],
+    [],
+    [],
+    [
+      "minecraft:patch_fire",
+      "minecraft:patch_soul_fire",
+      "minecraft:glowstone_extra",
+      "minecraft:glowstone",
+      "minecraft:ore_gold_nether",
+      "minecraft:ore_quartz_nether"
+    ],
+    [],
+    [],
+    []
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "dxdcraft:light_fragment"
+    },
+    {
+      "item": "dxdcraft:light_fragment"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:holy_feather",
+    "count": 1
+  }
+}

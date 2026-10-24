@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "dxdcraft"
+version = "1.0.0"
+displayName = "DxD Craft"
+authors = "DxD Craft"
+description = '''
+A High School DxD inspired adventure mod (no fan service, all action).
+Become a Devil, Angel or Fallen Angel, awaken Sacred Gears, cast the Power of
+Destruction and Light Spears, hunt Stray Devils, and challenge a Heavenly Dragon.
+'''
+
+[[dependencies.dxdcraft]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.dxdcraft]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.21.2)"
+ordering = "NONE"
+side = "BOTH"

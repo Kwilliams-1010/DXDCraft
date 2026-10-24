@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "dxdcraft:evil_piece_pawn"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:evil_piece_knight",
+    "count": 1
+  }
+}

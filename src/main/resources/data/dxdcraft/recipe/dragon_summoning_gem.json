@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ELE",
+    "LDL",
+    "ELE"
+  ],
+  "key": {
+    "E": {
+      "item": "dxdcraft:demonic_essence"
+    },
+    "L": {
+      "item": "dxdcraft:light_fragment"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:dragon_summoning_gem",
+    "count": 1
+  }
+}

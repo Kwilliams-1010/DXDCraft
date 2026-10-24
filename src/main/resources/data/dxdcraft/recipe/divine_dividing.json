@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "FDF",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "dxdcraft:dragon_scale"
+    },
+    "F": {
+      "item": "minecraft:feather"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:divine_dividing",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  L",
+    " L ",
+    "G  "
+  ],
+  "key": {
+    "L": {
+      "item": "dxdcraft:light_fragment"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:light_spear",
+    "count": 1
+  }
+}

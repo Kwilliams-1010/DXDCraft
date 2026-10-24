@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "dxdcraft:light_fragment"
+    },
+    {
+      "item": "dxdcraft:holy_water"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:purification_scroll",
+    "count": 1
+  }
+}

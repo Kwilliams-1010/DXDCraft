@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " E ",
+    "ERE",
+    " E "
+  ],
+  "key": {
+    "E": {
+      "item": "dxdcraft:demonic_essence"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:evil_piece_pawn",
+    "count": 1
+  }
+}

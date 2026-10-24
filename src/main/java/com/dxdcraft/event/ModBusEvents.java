@@ -1,0 +1,43 @@
+package com.dxdcraft.event;
+
+import com.dxdcraft.DxDCraft;
+import com.dxdcraft.entity.HeavenlyDragon;
+import com.dxdcraft.entity.RogueFallenAngel;
+import com.dxdcraft.entity.StrayDevil;
+import com.dxdcraft.registry.ModEntities;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import com.dxdcraft.network.AbilityPayload;
+
+@EventBusSubscriber(modid = DxDCraft.MODID, bus = EventBusSubscriber.Bus.MOD)
+public class ModBusEvents {
+    @SubscribeEvent
+    public static void onPayloads(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToServer(AbilityPayload.TYPE, AbilityPayload.STREAM_CODEC, AbilityPayload::handle);
+    }
+
+    @SubscribeEvent
+    public static void onAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntities.STRAY_DEVIL.get(), StrayDevil.createAttributes().build());
+        event.put(ModEntities.ROGUE_FALLEN_ANGEL.get(), RogueFallenAngel.createAttributes().build());
+        event.put(ModEntities.HEAVENLY_DRAGON.get(), HeavenlyDragon.createAttributes().build());
+    }
+
+    @SubscribeEvent
+    public static void onSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(ModEntities.STRAY_DEVIL.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(ModEntities.ROGUE_FALLEN_ANGEL.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+    }
+}

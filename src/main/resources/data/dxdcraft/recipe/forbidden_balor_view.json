@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "dxdcraft:demonic_essence"
+    },
+    {
+      "item": "dxdcraft:light_fragment"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:clock"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:forbidden_balor_view",
+    "count": 1
+  }
+}
