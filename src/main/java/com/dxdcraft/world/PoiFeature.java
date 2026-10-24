@@ -120,9 +120,21 @@ public abstract class PoiFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         public void chest(int x, int y, int z, String lootTable, Direction facing) {
-            set(x, y, z, Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, facing));
+            BlockState chest = chestBlock().defaultBlockState();
+            if (chest.hasProperty(ChestBlock.FACING)) chest = chest.setValue(ChestBlock.FACING, facing);
+            set(x, y, z, chest);
             ResourceKey<LootTable> key = ResourceKey.create(Registries.LOOT_TABLE, DxDCraft.id("chests/" + lootTable));
             RandomizableContainer.setBlockEntityLootTable(level, random, at(x, y, z), key);
+        }
+
+        /** Lootr's per-player chest when Lootr is installed, otherwise a vanilla chest. */
+        private static net.minecraft.world.level.block.Block chestBlock() {
+            if (net.neoforged.fml.ModList.get().isLoaded("lootr")) {
+                net.minecraft.world.level.block.Block lootr = net.minecraft.core.registries.BuiltInRegistries.BLOCK.get(
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("lootr", "lootr_chest"));
+                if (lootr != Blocks.AIR) return lootr;
+            }
+            return Blocks.CHEST;
         }
 
         public void spawner(int x, int y, int z, EntityType<?> type) {

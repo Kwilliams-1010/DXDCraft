@@ -101,6 +101,8 @@ public final class Abilities {
             tryGearUltimate(p, gear);
         } else if (p.getOffhandItem().getItem() instanceof SacredGearItem gear) {
             tryGearUltimate(p, gear);
+        } else if (com.dxdcraft.compat.CuriosCompat.wornGear(p) != null) {
+            tryGearUltimate(p, com.dxdcraft.compat.CuriosCompat.wornGear(p));
         } else {
             tryRaceUltimate(p);
         }

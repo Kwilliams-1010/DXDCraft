@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "dxdcraft:sword_birth",
+      "required": false
+    }
+  ]
+}

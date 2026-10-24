@@ -56,7 +56,7 @@ public final class JuggernautDrive {
         if (holding(p, true)) type = DxDData.JD_RED;
         else if (holding(p, false)) type = DxDData.JD_WHITE;
         else {
-            p.displayClientMessage(Component.literal("Hold the Boosted Gear or Divine Dividing to use Juggernaut Drive").withStyle(ChatFormatting.GRAY), true);
+            p.displayClientMessage(Component.literal("Hold or wear the Boosted Gear or Divine Dividing to use Juggernaut Drive").withStyle(ChatFormatting.GRAY), true);
             return;
         }
         boolean creative = p.getAbilities().instabuild;
@@ -110,7 +110,7 @@ public final class JuggernautDrive {
 
     private static boolean holding(Player p, boolean red) {
         var item = red ? ModItems.BOOSTED_GEAR.get() : ModItems.DIVINE_DIVIDING.get();
-        return p.getMainHandItem().is(item) || p.getOffhandItem().is(item);
+        return p.getMainHandItem().is(item) || p.getOffhandItem().is(item) || com.dxdcraft.compat.CuriosCompat.has(p, item);
     }
 
     /** Called once per second from DxDLogic while a drive is active. */

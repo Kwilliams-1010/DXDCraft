@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "dxdcraft:divine_dividing",
+      "required": false
+    }
+  ]
+}

@@ -204,7 +204,7 @@ public final class DxDLogic {
     private static boolean holdingModItem(Player player) {
         Item main = player.getMainHandItem().getItem();
         Item off = player.getOffhandItem().getItem();
-        return isModItem(main) || isModItem(off);
+        return isModItem(main) || isModItem(off) || com.dxdcraft.compat.CuriosCompat.wornGear(player) != null;
     }
 
     private static boolean isModItem(Item item) {
@@ -213,7 +213,8 @@ public final class DxDLogic {
     }
 
     public static boolean holdingBoostedGear(Player player) {
-        return player.getMainHandItem().is(ModItems.BOOSTED_GEAR.get()) || player.getOffhandItem().is(ModItems.BOOSTED_GEAR.get());
+        return player.getMainHandItem().is(ModItems.BOOSTED_GEAR.get()) || player.getOffhandItem().is(ModItems.BOOSTED_GEAR.get())
+                || com.dxdcraft.compat.CuriosCompat.has(player, ModItems.BOOSTED_GEAR.get());
     }
 
     private static void tickBoostedGear(ServerPlayer player, DxDData d) {

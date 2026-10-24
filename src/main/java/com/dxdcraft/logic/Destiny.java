@@ -223,6 +223,10 @@ public final class Destiny {
         DxDData d = DxDLogic.data(p);
         if (!d.hasInnateGear() || !d.isGearAwakened()) return false;
         Item gear = gearItem(d.getInnateGear());
+        if (com.dxdcraft.compat.CuriosCompat.has(p, gear)) {
+            p.displayClientMessage(Component.literal("Your Sacred Gear is already with you.").withStyle(ChatFormatting.GRAY), true);
+            return true;
+        }
         for (int i = 0; i < p.getInventory().getContainerSize(); i++) {
             if (p.getInventory().getItem(i).is(gear)) {
                 p.displayClientMessage(Component.literal("Your Sacred Gear is already with you.").withStyle(ChatFormatting.GRAY), true);

@@ -82,7 +82,7 @@ public class CommonEvents {
 
         // Melee hits by a player holding a Sacred Gear in the main hand.
         if (source.getEntity() instanceof Player attacker && direct == attacker && source.is(DamageTypes.PLAYER_ATTACK) && !attacker.level().isClientSide) {
-            if (attacker.getMainHandItem().is(ModItems.BOOSTED_GEAR.get())) {
+            if (attacker.getMainHandItem().is(ModItems.BOOSTED_GEAR.get()) || com.dxdcraft.compat.CuriosCompat.has(attacker, ModItems.BOOSTED_GEAR.get())) {
                 DxDData d = DxDLogic.data(attacker);
                 int boosts = d.getBoosts();
                 if (boosts > 0) {
@@ -96,7 +96,7 @@ public class CommonEvents {
                         server.sendParticles(ParticleTypes.EXPLOSION, victim.getX(), victim.getY() + 1, victim.getZ(), 1, 0, 0, 0, 0);
                     }
                 }
-            } else if (attacker.getMainHandItem().is(ModItems.DIVINE_DIVIDING.get())) {
+            } else if (attacker.getMainHandItem().is(ModItems.DIVINE_DIVIDING.get()) || com.dxdcraft.compat.CuriosCompat.has(attacker, ModItems.DIVINE_DIVIDING.get())) {
                 DivineDividingItem.divide(attacker, victim);
             }
         }

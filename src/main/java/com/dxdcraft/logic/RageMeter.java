@@ -43,6 +43,8 @@ public final class RageMeter {
         Item white = ModItems.DIVINE_DIVIDING.get();
         if (p.getMainHandItem().is(red) || p.getOffhandItem().is(red)) return DxDData.JD_RED;
         if (p.getMainHandItem().is(white) || p.getOffhandItem().is(white)) return DxDData.JD_WHITE;
+        if (com.dxdcraft.compat.CuriosCompat.has(p, red)) return DxDData.JD_RED;
+        if (com.dxdcraft.compat.CuriosCompat.has(p, white)) return DxDData.JD_WHITE;
         int found = DxDData.JD_NONE;
         for (int i = 0; i < p.getInventory().getContainerSize(); i++) {
             ItemStack s = p.getInventory().getItem(i);

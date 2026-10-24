@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "dxdcraft:boosted_gear",
+      "required": false
+    }
+  ]
+}

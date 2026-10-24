@@ -238,6 +238,25 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 
+## Mod compatibility (optional)
+DxD Craft runs fine alone. If these mods are installed it integrates with them automatically:
+
+**Lootr:** every loot chest in Heaven and Underworld POIs is placed as a Lootr chest, so each player gets their own loot from every chest.
+
+**Curios API:** Sacred Gears can be worn in Curios slots instead of taking up your hands. Worn gears still work: Boosted Gear builds boosts and releases them on punches, Divine Dividing Divides on hit, the Juggernaut Drive [J] and Rage meter trigger, and [G] fires the worn gear's ultimate. (Active right-click skills still need the gear in hand.)
+
+| Slot | Gear |
+|---|---|
+| Hands | Boosted Gear |
+| Back | Divine Dividing |
+| Ring | Twilight Healing |
+| Bracelet | Absorption Line |
+| Necklace | Regulus Nemea |
+| Belt | Sword Birth |
+| Charm | Forbidden Balor View, Dimension Lost, Zenith Tempest, Annihilation Maker |
+
+DxD Craft adds these slots to players when Curios is present. To change which slot a gear uses, edit the tags in `src/main/resources/data/curios/tags/item/`.
+
 ## Textures
 All textures are simple original placeholders. Replace any PNG in
 `src/main/resources/assets/dxdcraft/textures/` with your own art (same file name and size) and rebuild.

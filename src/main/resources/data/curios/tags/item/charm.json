@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "dxdcraft:forbidden_balor_view",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:dimension_lost",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:zenith_tempest",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:annihilation_maker",
+      "required": false
+    }
+  ]
+}
