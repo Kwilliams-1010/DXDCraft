@@ -286,11 +286,14 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd gear summon [targets]` | Play the summon animation for the held/innate gear |
 | `/dxd cutscene <gear> [targets]` | Play a gear's awakening cutscene |
 | `/dxd cutscene reset seen [targets]` | Let first-draw cutscenes play again |
+| `/dxd selftest` | Run the full 36-check logic self-test against a simulated player (op 4) |
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 
 ## Multiplayer & dedicated servers
 DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
+
+**Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 36 checks (data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
 
 **Setup:** put the same `dxdcraft-1.0.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
 

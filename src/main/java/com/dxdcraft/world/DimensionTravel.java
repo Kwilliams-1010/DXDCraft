@@ -40,9 +40,7 @@ public final class DimensionTravel {
         }
         int x = p.getBlockX();
         int z = p.getBlockZ();
-        BlockPos target;
-        if (destKey == UNDERWORLD) target = findCaveFloor(dest, x, z);
-        else target = findSurface(dest, x, z);
+        BlockPos target = landingSpot(dest, x, z);
 
         p.serverLevel().sendParticles(destKey == HEAVEN ? ParticleTypes.END_ROD : ParticleTypes.CRIMSON_SPORE,
                 p.getX(), p.getY() + 1, p.getZ(), 80, 0.6, 1.0, 0.6, 0.05);
@@ -57,6 +55,11 @@ public final class DimensionTravel {
         return true;
     }
 
+    /** Safe place to arrive near x/z in the given realm (public so /dxd selftest can verify it). */
+    public static BlockPos landingSpot(ServerLevel dest, int x, int z) {
+        return dest.dimension() == UNDERWORLD ? findCaveFloor(dest, x, z) : findSurface(dest, x, z);
+    }
+
     /** For open-sky dimensions (Overworld, Heaven's floating islands). Searches outward for land. */
     private static BlockPos findSurface(ServerLevel level, int x, int z) {
         int min = level.getMinBuildHeight();
@@ -65,18 +68,25 @@ public final class DimensionTravel {
                 double a = i * Math.PI / 4;
                 int cx = x + (int) (Math.cos(a) * r);
                 int cz = z + (int) (Math.sin(a) * r);
-                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx, cz);
+                level.getChunk(cx >> 4, cz >> 4); // make sure it's generated & loaded; getHeight returns min Y for unloaded chunks
+                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, cx, cz); // top of trees too, never inside them
                 if (y > min + 2) {
-                    BlockState ground = level.getBlockState(new BlockPos(cx, y - 1, cz));
-                    if (ground.getFluidState().isEmpty()) return new BlockPos(cx, y, cz);
+                    BlockPos at = new BlockPos(cx, y, cz);
+                    BlockState ground = level.getBlockState(at.below());
+                    if (ground.getFluidState().isEmpty() && level.getBlockState(at).isAir() && level.getBlockState(at.above()).isAir()) {
+                        return at;
+                    }
                 }
             }
         }
         // Nothing found (open sky in Heaven): make a small cloud platform.
         BlockPos base = new BlockPos(x, 100, z);
-        for (int dx = -2; dx <= 2; dx++)
-            for (int dz = -2; dz <= 2; dz++)
+        for (int dx = -2; dx <= 2; dx++) {
+            for (int dz = -2; dz <= 2; dz++) {
                 level.setBlockAndUpdate(base.offset(dx, -1, dz), Blocks.WHITE_WOOL.defaultBlockState());
+                for (int dy = 0; dy <= 2; dy++) level.setBlockAndUpdate(base.offset(dx, dy, dz), Blocks.AIR.defaultBlockState());
+            }
+        }
         return base;
     }
 

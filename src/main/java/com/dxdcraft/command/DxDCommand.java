@@ -86,6 +86,7 @@ public final class DxDCommand {
                 .executes(ctx -> help(ctx.getSource()))
                 .then(Commands.literal("help").executes(ctx -> help(ctx.getSource())))
                 .then(Commands.literal("list").executes(ctx -> list(ctx.getSource())))
+                .then(Commands.literal("selftest").requires(src -> src.hasPermission(4)).executes(ctx -> SelfTest.run(ctx.getSource())))
                 .then(targeted(Commands.literal("info"), DxDCommand::info))
 
                 // Race & piece
@@ -236,6 +237,7 @@ public final class DxDCommand {
                 {"/dxd cutscene <gear> [targets]", "play a gear's awakening cutscene"},
                 {"/dxd cutscene reset seen [targets]", "let first-draw cutscenes play again"},
                 {"/dxd travel <heaven|underworld|overworld> [targets]", "teleport to a realm"},
+                {"/dxd selftest", "run the full logic self-test (op 4)"},
                 {"/dxd summon <heavenly_dragon|stray_devil|rogue_fallen_angel>", "spawn a mod mob"},
         };
         MutableComponent out = Component.literal("DxD Craft commands").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD);
