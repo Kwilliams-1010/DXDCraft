@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:raw_demonite"
+    },
+    "title": {
+      "text": "Demonite"
+    },
+    "description": {
+      "text": "Mine Demonite"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:raw_demonite"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:into_underworld"
+}

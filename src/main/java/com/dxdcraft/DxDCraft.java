@@ -15,11 +15,17 @@ public class DxDCraft {
     public static final String MODID = "dxdcraft";
 
     public DxDCraft(IEventBus modEventBus, ModContainer modContainer) {
+        // Load classes that add entries to ModItems.ITEMS before it is registered.
+        com.dxdcraft.registry.ModBlocks.BLOCKS.getEntries();
+        com.dxdcraft.registry.ModGear.TAB_ITEMS.size();
         ModItems.ITEMS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         ModTabs.TABS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        com.dxdcraft.registry.ModBlocks.BLOCKS.register(modEventBus);
+        com.dxdcraft.registry.ModBlocks.BLOCK_ENTITIES.register(modEventBus);
+        com.dxdcraft.registry.ModGear.ARMOR_MATERIALS.register(modEventBus);
         modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER, DxDConfig.SPEC);
     }
 

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:dragon_shot"
+    },
+    "title": {
+      "text": "Juggernaut Drive"
+    },
+    "description": {
+      "text": "Unleash a Juggernaut Drive"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:balance_breaker"
+}

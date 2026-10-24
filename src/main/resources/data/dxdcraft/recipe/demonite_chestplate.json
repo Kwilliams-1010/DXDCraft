@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "M M",
+    "MMM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "dxdcraft:demonite_ingot"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:demonite_chestplate",
+    "count": 1
+  }
+}

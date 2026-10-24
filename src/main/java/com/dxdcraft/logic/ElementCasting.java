@@ -49,6 +49,7 @@ public final class ElementCasting {
             case DARK -> dark(p, scale);
         };
         if (ok) {
+            DxDAdvancements.grant(p, "elemental");
             d.setElementReadyAt(slot, now + e.cooldownSeconds() * 20L);
             p.displayClientMessage(Component.literal(e.castName() + "!").withStyle(e.color(), ChatFormatting.BOLD), true);
         } else {

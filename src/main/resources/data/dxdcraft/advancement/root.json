@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:boosted_gear"
+    },
+    "title": {
+      "text": "DxD Craft"
+    },
+    "description": {
+      "text": "Your destiny has been revealed"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/end.png"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SHS",
+    "HBH",
+    "SHS"
+  ],
+  "key": {
+    "S": {
+      "item": "dxdcraft:seraphite"
+    },
+    "H": {
+      "item": "dxdcraft:seraph_halo"
+    },
+    "B": {
+      "item": "dxdcraft:holy_silver_block"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:angelic_ward",
+    "count": 1
+  }
+}

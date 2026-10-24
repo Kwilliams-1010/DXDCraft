@@ -2,6 +2,9 @@ package com.dxdcraft.registry;
 
 import com.dxdcraft.DxDCraft;
 import com.dxdcraft.entity.HeavenlyDragon;
+import com.dxdcraft.entity.SeraphGuardian;
+import com.dxdcraft.entity.UnderworldOverlord;
+import com.dxdcraft.entity.npc.DxDMerchant;
 import com.dxdcraft.entity.RogueFallenAngel;
 import com.dxdcraft.entity.StrayDevil;
 import com.dxdcraft.entity.projectile.DestructionOrbEntity;
@@ -47,4 +50,23 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<HeavenlyDragon>> HEAVENLY_DRAGON =
             ENTITY_TYPES.register("heavenly_dragon", () -> EntityType.Builder.of(HeavenlyDragon::new, MobCategory.MONSTER)
                     .sized(3.0F, 2.5F).fireImmune().clientTrackingRange(16).build("heavenly_dragon"));
+
+    // ---- Bosses ----
+    public static final DeferredHolder<EntityType<?>, EntityType<SeraphGuardian>> SERAPH_GUARDIAN =
+            ENTITY_TYPES.register("seraph_guardian", () -> EntityType.Builder.of(SeraphGuardian::new, MobCategory.MONSTER)
+                    .sized(1.2F, 3.2F).fireImmune().clientTrackingRange(16).build("seraph_guardian"));
+    public static final DeferredHolder<EntityType<?>, EntityType<UnderworldOverlord>> UNDERWORLD_OVERLORD =
+            ENTITY_TYPES.register("underworld_overlord", () -> EntityType.Builder.of(UnderworldOverlord::new, MobCategory.MONSTER)
+                    .sized(1.4F, 3.6F).fireImmune().clientTrackingRange(16).build("underworld_overlord"));
+
+    // ---- NPCs ----
+    public static final DeferredHolder<EntityType<?>, EntityType<DxDMerchant>> WANDERING_EXORCIST =
+            ENTITY_TYPES.register("wandering_exorcist", () -> EntityType.Builder.<DxDMerchant>of(DxDMerchant::exorcist, MobCategory.CREATURE)
+                    .sized(0.6F, 1.95F).clientTrackingRange(10).build("wandering_exorcist"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DxDMerchant>> ANGEL_MERCHANT =
+            ENTITY_TYPES.register("angel_merchant", () -> EntityType.Builder.<DxDMerchant>of(DxDMerchant::angel, MobCategory.CREATURE)
+                    .sized(0.6F, 1.95F).clientTrackingRange(10).build("angel_merchant"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DxDMerchant>> DEVIL_MERCHANT =
+            ENTITY_TYPES.register("devil_merchant", () -> EntityType.Builder.<DxDMerchant>of(DxDMerchant::devil, MobCategory.CREATURE)
+                    .sized(0.6F, 1.95F).fireImmune().clientTrackingRange(10).build("devil_merchant"));
 }

@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:dragonite_ingot"
+    },
+    "title": {
+      "text": "Forged in Both Realms"
+    },
+    "description": {
+      "text": "Forge a Dragonite Ingot"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:dragonite_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:dragon_slayer"
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "item": "dxdcraft:demonite_ore"
+  },
+  "result": {
+    "id": "dxdcraft:demonite_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

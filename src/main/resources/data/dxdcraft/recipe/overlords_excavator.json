@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DCD",
+    " P ",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "dxdcraft:dragonite_ingot"
+    },
+    "C": {
+      "item": "dxdcraft:overlord_crown"
+    },
+    "P": {
+      "item": "dxdcraft:dragonite_pickaxe"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:overlords_excavator",
+    "count": 1
+  }
+}

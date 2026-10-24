@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:twilight_healing"
+    },
+    "title": {
+      "text": "Sacred Awakening"
+    },
+    "description": {
+      "text": "Awaken your innate Sacred Gear"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:root"
+}

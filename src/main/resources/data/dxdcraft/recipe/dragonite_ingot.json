@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "dxdcraft:dragon_scale"
+    },
+    {
+      "item": "dxdcraft:seraphite"
+    },
+    {
+      "item": "dxdcraft:hellfire_ruby"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:dragonite_ingot",
+    "count": 1
+  }
+}

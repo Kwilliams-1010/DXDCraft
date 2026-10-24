@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "dxdcraft:seraphite_ore"
+  },
+  "result": {
+    "id": "dxdcraft:seraphite"
+  },
+  "experience": 1.0,
+  "cookingtime": 200
+}

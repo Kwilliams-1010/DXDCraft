@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:blessed_hoe"
+    },
+    "title": {
+      "text": "Bountiful Harvest"
+    },
+    "description": {
+      "text": "Obtain the Blessed Hoe"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:blessed_hoe"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:trade_angel"
+}

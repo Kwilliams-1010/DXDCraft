@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:holy_silver_chestplate"
+    },
+    "title": {
+      "text": "Silver Saint"
+    },
+    "description": {
+      "text": "Wear a full set of Holy Silver armor"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:holy_silver"
+}

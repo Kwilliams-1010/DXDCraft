@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DRD",
+    "RXR",
+    "DRD"
+  ],
+  "key": {
+    "D": {
+      "item": "dxdcraft:demonite_ingot"
+    },
+    "R": {
+      "item": "dxdcraft:hellfire_ruby"
+    },
+    "X": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:infernal_sigil",
+    "count": 1
+  }
+}

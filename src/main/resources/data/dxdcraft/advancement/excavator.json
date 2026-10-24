@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:overlords_excavator"
+    },
+    "title": {
+      "text": "Dig Deep"
+    },
+    "description": {
+      "text": "Forge the Overlord's Excavator"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:overlords_excavator"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:overlord_slayer"
+}

@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:raw_holy_silver"
+    },
+    "title": {
+      "text": "Holy Silver"
+    },
+    "description": {
+      "text": "Mine Holy Silver"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:raw_holy_silver"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:stairway_heaven"
+}

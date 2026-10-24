@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:divine_dividing"
+    },
+    "title": {
+      "text": "Sublimation"
+    },
+    "description": {
+      "text": "Grow a Sacred Gear to Stage IV"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:balance_breaker"
+}

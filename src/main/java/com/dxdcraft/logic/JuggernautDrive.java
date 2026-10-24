@@ -89,6 +89,7 @@ public final class JuggernautDrive {
 
     /** Starts a drive with no gauge or gear checks (used by the key after its checks, and by /dxd juggernaut). */
     public static void start(ServerPlayer p, int type, boolean complete) {
+        DxDAdvancements.grant(p, complete ? "juggernaut_complete" : "juggernaut");
         DxDData d = DxDLogic.data(p);
         if (d.jdActive()) end(p, d);
         d.startJd(type, complete ? COMPLETE_SECONDS : INCOMPLETE_SECONDS, complete);

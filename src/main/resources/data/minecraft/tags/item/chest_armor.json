@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_chestplate",
+    "dxdcraft:demonite_chestplate",
+    "dxdcraft:seraphite_chestplate",
+    "dxdcraft:hellfire_ruby_chestplate",
+    "dxdcraft:dragonite_chestplate"
+  ]
+}

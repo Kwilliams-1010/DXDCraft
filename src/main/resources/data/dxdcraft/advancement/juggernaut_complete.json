@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:dragon_heart"
+    },
+    "title": {
+      "text": "Master of the Dragon"
+    },
+    "description": {
+      "text": "Use a Complete Juggernaut Drive"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:juggernaut"
+}

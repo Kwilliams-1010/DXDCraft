@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_shovel",
+    "dxdcraft:demonite_shovel",
+    "dxdcraft:seraphite_shovel",
+    "dxdcraft:hellfire_ruby_shovel",
+    "dxdcraft:dragonite_shovel"
+  ]
+}

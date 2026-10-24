@@ -114,6 +114,23 @@ public final class SelfTest {
         item.use(level, p, InteractionHand.MAIN_HAND);
     }
 
+    /** Counts two ore blocks in the 3x3 chunks around the origin of a realm (generates them if needed). */
+    private static int[] countOres(ServerLevel lvl, net.minecraft.world.level.block.Block a, net.minecraft.world.level.block.Block b, int maxY) {
+        int[] n = new int[2];
+        BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
+        for (int cx = -1; cx <= 1; cx++) {
+            for (int cz = -1; cz <= 1; cz++) {
+                var chunk = lvl.getChunk(cx, cz);
+                for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) for (int y = lvl.getMinBuildHeight(); y < maxY; y++) {
+                    var st = chunk.getBlockState(m.set(cx * 16 + x, y, cz * 16 + z));
+                    if (st.is(a)) n[0]++;
+                    else if (st.is(b)) n[1]++;
+                }
+            }
+        }
+        return n;
+    }
+
     private int runAll() {
         src.sendSuccess(() -> Component.literal("Running DxD Craft self-test...").withStyle(ChatFormatting.GOLD), false);
 
@@ -426,8 +443,141 @@ public final class SelfTest {
             expect(bad.isEmpty(), "commands failed: " + bad);
         });
 
+        // ---------------------------------------------------------------- ores, equipment, bosses, NPCs, achievements
+        check("ores generate in both realms", () -> {
+            ServerLevel heaven = src.getServer().getLevel(DimensionTravel.HEAVEN);
+            ServerLevel under = src.getServer().getLevel(DimensionTravel.UNDERWORLD);
+            int[] h = countOres(heaven, com.dxdcraft.registry.ModBlocks.HOLY_SILVER_ORE.get(), com.dxdcraft.registry.ModBlocks.SERAPHITE_ORE.get(), 256);
+            int[] u = countOres(under, com.dxdcraft.registry.ModBlocks.DEMONITE_ORE.get(), com.dxdcraft.registry.ModBlocks.HELLFIRE_RUBY_ORE.get(), 128);
+            src.sendSuccess(() -> Component.literal("  ore scan (9 chunks): holy silver " + h[0] + ", seraphite " + h[1]
+                    + ", demonite " + u[0] + ", hellfire ruby " + u[1]).withStyle(ChatFormatting.GRAY), false);
+            expect(h[0] > 0 && u[0] > 0, "common ores should generate");
+            expect(h[1] > 0 || u[1] > 0, "rare ores should generate");
+        });
+        check("tool tiers mine the right ores", () -> {
+            var G = com.dxdcraft.registry.ModGear.GearSet.class;
+            ItemStack ironLevel = new ItemStack(com.dxdcraft.registry.ModGear.tool(com.dxdcraft.registry.ModGear.GearSet.HOLY_SILVER, "pickaxe"));
+            ItemStack diaLevel = new ItemStack(com.dxdcraft.registry.ModGear.tool(com.dxdcraft.registry.ModGear.GearSet.SERAPHITE, "pickaxe"));
+            ItemStack nethLevel = new ItemStack(com.dxdcraft.registry.ModGear.tool(com.dxdcraft.registry.ModGear.GearSet.DRAGONITE, "pickaxe"));
+            ItemStack stone = new ItemStack(net.minecraft.world.item.Items.STONE_PICKAXE);
+            var seraphOre = com.dxdcraft.registry.ModBlocks.SERAPHITE_ORE.get().defaultBlockState();
+            var silverOre = com.dxdcraft.registry.ModBlocks.HOLY_SILVER_ORE.get().defaultBlockState();
+            expect(stone.isCorrectToolForDrops(silverOre) && !stone.isCorrectToolForDrops(seraphOre), "stone pick: silver yes, seraphite no");
+            expect(ironLevel.isCorrectToolForDrops(seraphOre), "holy silver pick mines seraphite");
+            expect(diaLevel.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.OBSIDIAN.defaultBlockState()), "seraphite pick mines obsidian");
+            expect(nethLevel.isCorrectToolForDrops(com.dxdcraft.registry.ModBlocks.DRAGONITE_BLOCK.get().defaultBlockState()), "dragonite pick mines dragonite");
+        });
+        for (var set : com.dxdcraft.registry.ModGear.GearSet.values()) {
+            check("full set bonus: " + set.id, () -> {
+                p = fresh();
+                for (var e : com.dxdcraft.registry.ModGear.ARMOR.get(set).entrySet()) {
+                    p.setItemSlot(e.getKey().getSlot(), new ItemStack(e.getValue().get()));
+                }
+                expect(com.dxdcraft.logic.ArmorSets.fullSet(p) == set, "full set detected");
+                com.dxdcraft.logic.ArmorSets.secondTick(p, DxDLogic.data(p));
+                p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, ItemStack.EMPTY);
+                expect(com.dxdcraft.logic.ArmorSets.fullSet(p) == null, "3 pieces is not a full set");
+            });
+        }
+        check("Blessed Hoe grows crops", () -> {
+            p = fresh();
+            BlockPos base = p.blockPosition().offset(6, 0, 0);
+            for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, -1, -2), base.offset(2, -1, 2))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.FARMLAND.defaultBlockState());
+            for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, 0, -2), base.offset(2, 0, 2))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.WHEAT.defaultBlockState());
+            hold(com.dxdcraft.registry.ModGear.BLESSED_HOE.get());
+            p.setShiftKeyDown(true);
+            var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(base), net.minecraft.core.Direction.UP, base, false);
+            p.getMainHandItem().useOn(new net.minecraft.world.item.context.UseOnContext(p, InteractionHand.MAIN_HAND, hit));
+            p.setShiftKeyDown(false);
+            int grown = 0;
+            for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, 0, -2), base.offset(2, 0, 2))) {
+                if (level.getBlockState(q).getValue(net.minecraft.world.level.block.CropBlock.AGE) > 0) grown++;
+            }
+            for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, -1, -2), base.offset(2, 0, 2))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+            expect(grown >= 20, "most of the 25 wheat should grow, got " + grown);
+        });
+        check("Overlord's Excavator mines 3x3", () -> {
+            p = fresh();
+            p.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+            BlockPos c = p.blockPosition().offset(0, 0, 3);
+            for (BlockPos q : BlockPos.betweenClosed(c.offset(-1, 0, 0), c.offset(1, 2, 0))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+            hold(com.dxdcraft.registry.ModGear.OVERLORDS_EXCAVATOR.get());
+            p.lookAt(net.minecraft.commands.arguments.EntityAnchorArgument.Anchor.EYES, net.minecraft.world.phys.Vec3.atCenterOf(c.above()));
+            p.gameMode.destroyBlock(c.above());
+            int left = 0;
+            for (BlockPos q : BlockPos.betweenClosed(c.offset(-1, 0, 0), c.offset(1, 2, 0))) if (!level.getBlockState(q).isAir()) left++;
+            for (BlockPos q : BlockPos.betweenClosed(c.offset(-1, 0, 0), c.offset(1, 2, 0))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+            expect(left == 0, "all 9 blocks should be mined, " + left + " left");
+        });
+        check("Angelic Ward smites hostiles", () -> {
+            p = fresh();
+            BlockPos at = p.blockPosition().offset(-6, 0, 0);
+            level.setBlockAndUpdate(at, com.dxdcraft.registry.ModBlocks.ANGELIC_WARD.get().defaultBlockState());
+            Zombie z = target();
+            z.moveTo(at.getX() + 3, at.getY(), at.getZ(), 0, 0);
+            float hp = z.getHealth();
+            var be = (com.dxdcraft.block.AngelicWardBlockEntity) level.getBlockEntity(at);
+            expect(be != null, "ward block entity exists");
+            for (int i = 0; i < 20; i++) com.dxdcraft.block.AngelicWardBlockEntity.serverTick(level, at, level.getBlockState(at), be);
+            level.setBlockAndUpdate(at, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+            expect(z.getHealth() < hp, "zombie should be damaged by the ward");
+        });
+        for (var bossType : List.of(ModEntities.SERAPH_GUARDIAN, ModEntities.UNDERWORLD_OVERLORD, ModEntities.HEAVENLY_DRAGON)) {
+            check("boss fights: " + bossType.getId().getPath(), () -> {
+                p = fresh();
+                p.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+                Mob boss = (Mob) bossType.get().create(level);
+                boss.moveTo(p.getX() + 6, p.getY() + 1, p.getZ(), 0, 0);
+                level.addFreshEntity(boss);
+                spawned.add(boss);
+                boss.setTarget(p);
+                for (int i = 0; i < 400; i++) {
+                    boss.tick();
+                    if (boss.getTarget() == null) boss.setTarget(p);
+                }
+                int projectiles = level.getEntitiesOfClass(net.minecraft.world.entity.projectile.Projectile.class, boss.getBoundingBox().inflate(48)).size();
+                expect(boss.isAlive(), "boss survives its own attacks");
+                expect(projectiles > 0, "boss should have attacked with projectiles");
+                boss.hurt(level.damageSources().playerAttack(p), boss.getMaxHealth() * 0.6F);
+                for (int i = 0; i < 60; i++) boss.tick();  // phase 2
+                expect(boss.isAlive(), "boss enters phase 2");
+            });
+        }
+        for (var kind : com.dxdcraft.entity.npc.DxDMerchant.Kind.values()) {
+            check("merchant trades: " + kind, () -> {
+                var npc = com.dxdcraft.entity.npc.DxDMerchant.typeFor(kind).create(level);
+                expect(npc != null && npc.getOffers().size() >= 8, kind + " should have 8 trades");
+            });
+        }
+        check("boss summon sigils", () -> {
+            ServerLevel heaven = src.getServer().getLevel(DimensionTravel.HEAVEN);
+            expect(heaven != null, "heaven exists");
+            p = fresh();
+            hold(com.dxdcraft.registry.ModGear.SERAPH_SIGIL.get());
+            BlockPos at = p.blockPosition().below();
+            var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(at), net.minecraft.core.Direction.UP, at, false);
+            var r = p.getMainHandItem().useOn(new net.minecraft.world.item.context.UseOnContext(p, InteractionHand.MAIN_HAND, hit));
+            expect(r == net.minecraft.world.InteractionResult.FAIL, "Seraph Sigil must not work in the Overworld");
+        });
+        check("achievements and recipes load", () -> {
+            String[] advs = {"root", "born_anew", "level_20", "level_50", "level_100", "sacred_awakening", "balance_breaker", "sublimation",
+                    "juggernaut", "juggernaut_complete", "elemental", "twin_elements", "trade_exorcist", "stairway_heaven", "holy_silver",
+                    "seraphite", "trade_angel", "full_set_holy_silver", "full_set_seraphite", "seraph_slayer", "angelic_ward", "blessed_hoe",
+                    "into_underworld", "demonite", "hellfire_ruby", "trade_devil", "full_set_demonite", "full_set_hellfire_ruby",
+                    "overlord_slayer", "excavator", "dragon_slayer", "dragonite", "full_set_dragonite", "triple_crown"};
+            List<String> missing = new ArrayList<>();
+            for (String a : advs) if (src.getServer().getAdvancements().get(com.dxdcraft.DxDCraft.id(a)) == null) missing.add(a);
+            expect(missing.isEmpty(), "missing achievements: " + missing);
+            String[] recipes = {"dragonite_ingot", "seraph_sigil", "infernal_sigil", "blessed_hoe", "overlords_excavator", "angelic_ward",
+                    "holy_silver_ingot_from_smelting_raw", "demonite_ingot_from_blasting_raw", "seraphite_chestplate", "dragonite_pickaxe"};
+            List<String> missingR = new ArrayList<>();
+            for (String r : recipes) if (src.getServer().getRecipeManager().byKey(com.dxdcraft.DxDCraft.id(r)).isEmpty()) missingR.add(r);
+            expect(missingR.isEmpty(), "missing recipes: " + missingR);
+        });
+
         // ---------------------------------------------------------------- cleanup + report
         for (Mob m : spawned) m.discard();
+        level.getEntitiesOfClass(com.dxdcraft.entity.StrayDevil.class, p.getBoundingBox().inflate(64)).forEach(net.minecraft.world.entity.Entity::discard);
         level.getEntitiesOfClass(net.minecraft.world.entity.Entity.class, p.getBoundingBox().inflate(64),
                 e -> e instanceof com.dxdcraft.entity.projectile.MagicProjectile || e instanceof com.dxdcraft.entity.projectile.HolyWaterEntity
                         || (e instanceof net.minecraft.world.entity.TamableAnimal t && t.getOwnerUUID() != null)

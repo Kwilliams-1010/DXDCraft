@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "dxdcraft:holy_silver_block"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:holy_silver_ingot",
+    "count": 9
+  }
+}

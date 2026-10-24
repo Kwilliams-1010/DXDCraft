@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:hellfire_ruby_chestplate"
+    },
+    "title": {
+      "text": "Wreathed in Flame"
+    },
+    "description": {
+      "text": "Wear a full set of Hellfire Ruby armor"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:hellfire_ruby"
+}

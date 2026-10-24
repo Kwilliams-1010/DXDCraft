@@ -143,6 +143,16 @@ public abstract class PoiFeature extends Feature<NoneFeatureConfiguration> {
             if (be instanceof SpawnerBlockEntity spawner) spawner.setEntityId(type, random);
         }
 
+        /** Places a permanent trading NPC (stays forever, never despawns). */
+        public void merchant(int x, int y, int z, com.dxdcraft.entity.npc.DxDMerchant.Kind kind) {
+            var npc = com.dxdcraft.entity.npc.DxDMerchant.typeFor(kind).create(level.getLevel());
+            if (npc == null) return;
+            BlockPos p = at(x, y, z);
+            npc.moveTo(p.getX() + 0.5, p.getY(), p.getZ() + 0.5, random.nextFloat() * 360F, 0F);
+            npc.setPersistenceRequired();
+            level.addFreshEntity(npc);
+        }
+
         public RandomSource random() {
             return random;
         }

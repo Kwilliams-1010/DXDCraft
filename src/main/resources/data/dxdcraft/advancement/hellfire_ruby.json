@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:hellfire_ruby"
+    },
+    "title": {
+      "text": "Hellfire Ruby"
+    },
+    "description": {
+      "text": "Find a Hellfire Ruby"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:hellfire_ruby"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:demonite"
+}

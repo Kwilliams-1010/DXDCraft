@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:dragon_scale"
+    },
+    "title": {
+      "text": "Ultimate-Class"
+    },
+    "description": {
+      "text": "Reach DxD level 50"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:level_20"
+}

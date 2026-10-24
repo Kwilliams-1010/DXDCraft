@@ -59,7 +59,10 @@
       "dxdcraft:garden_of_eden"
     ],
     [],
-    [],
+    [
+      "dxdcraft:ore_holy_silver",
+      "dxdcraft:ore_seraphite"
+    ],
     [],
     [],
     [

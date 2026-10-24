@@ -212,6 +212,7 @@ public final class Destiny {
     }
 
     public static void finishAwaken(ServerPlayer p, DxDData d) {
+        DxDAdvancements.grant(p, "sacred_awakening");
         giveGear(p, d);
         String name = gearName(d.getInnateGear());
         Abilities.title(p, "SACRED GEAR AWAKENED", ChatFormatting.GREEN, name);

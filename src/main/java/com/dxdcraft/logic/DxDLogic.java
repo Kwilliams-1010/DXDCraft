@@ -78,6 +78,8 @@ public final class DxDLogic {
         checkLevelUp(player, d);
         Destiny.secondTick(player, d);
         GearGrowth.secondTick(player, d);
+        ArmorSets.secondTick(player, d);
+        stateAchievements(player, d);
         ElementCasting.passives(player, d);
         Race race = d.getRace();
         boolean day = player.level().isDay();
@@ -161,6 +163,22 @@ public final class DxDLogic {
                 line.append(Component.literal("   Boost x" + d.getBoosts()).withStyle(ChatFormatting.GREEN));
             }
             player.displayClientMessage(line, true);
+        }
+    }
+
+    /** Achievements that depend on the player's current state (checked once per second). */
+    private static void stateAchievements(ServerPlayer p, DxDData d) {
+        if (p.tickCount % 100 != 0) return; // every 5 seconds is plenty
+        DxDAdvancements.grant(p, "root");
+        if (d.getRace() != Race.HUMAN) DxDAdvancements.grant(p, "born_anew");
+        if (d.getLevel() >= 20) DxDAdvancements.grant(p, "level_20");
+        if (d.getLevel() >= 50) DxDAdvancements.grant(p, "level_50");
+        if (d.getLevel() >= 100) DxDAdvancements.grant(p, "level_100");
+        if (d.getElement2() != null) DxDAdvancements.grant(p, "twin_elements");
+        if (d.isGearAwakened()) DxDAdvancements.grant(p, "sacred_awakening");
+        for (String gid : d.grownGears()) {
+            if (d.getGearStage(gid) >= 3) DxDAdvancements.grant(p, "balance_breaker");
+            if (d.getGearStage(gid) >= 4) DxDAdvancements.grant(p, "sublimation");
         }
     }
 

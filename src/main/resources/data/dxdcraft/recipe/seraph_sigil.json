@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "HSH",
+    "SDS",
+    "HSH"
+  ],
+  "key": {
+    "H": {
+      "item": "dxdcraft:holy_silver_ingot"
+    },
+    "S": {
+      "item": "dxdcraft:seraphite"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:seraph_sigil",
+    "count": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_ore",
+    "dxdcraft:demonite_ore",
+    "dxdcraft:holy_silver_block",
+    "dxdcraft:demonite_block"
+  ]
+}

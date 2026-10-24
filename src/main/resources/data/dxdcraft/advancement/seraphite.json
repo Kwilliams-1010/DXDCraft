@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:seraphite"
+    },
+    "title": {
+      "text": "Heaven's Gem"
+    },
+    "description": {
+      "text": "Find Seraphite"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:seraphite"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:holy_silver"
+}

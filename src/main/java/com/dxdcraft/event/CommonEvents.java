@@ -72,6 +72,20 @@ public class CommonEvents {
         LivingEntity victim = event.getEntity();
         DamageSource source = event.getSource();
 
+        // Armor set bonuses that react to being hit.
+        if (victim instanceof ServerPlayer armored) {
+            var set = com.dxdcraft.logic.ArmorSets.fullSet(armored);
+            if (set == com.dxdcraft.registry.ModGear.GearSet.HOLY_SILVER
+                    && source.getDirectEntity() instanceof com.dxdcraft.entity.projectile.HolyWaterEntity) {
+                event.setCanceled(true);
+                return;
+            }
+            if (set == com.dxdcraft.registry.ModGear.GearSet.HELLFIRE_RUBY && source.getEntity() instanceof LivingEntity attacker
+                    && attacker != armored && com.dxdcraft.logic.Combat.canHarm(armored, attacker)) {
+                attacker.igniteForSeconds(4.0F);
+            }
+        }
+
         // Players in an awakening cutscene can't be hurt.
         if (victim instanceof ServerPlayer cp && DxDLogic.data(cp).inCutscene()) {
             event.setCanceled(true);
@@ -192,5 +206,24 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         DxDCommand.register(event.getDispatcher());
+    }
+
+    /** Overlord's Excavator: break the 3x3 around the mined block. */
+    @SubscribeEvent
+    public static void onBreak(net.neoforged.neoforge.event.level.BlockEvent.BreakEvent event) {
+        if (event.getPlayer() instanceof ServerPlayer sp && sp.getMainHandItem().getItem() instanceof com.dxdcraft.item.ExcavatorItem) {
+            com.dxdcraft.item.ExcavatorItem.breakArea(sp, event.getPos());
+        }
+    }
+
+    /** Wandering merchants: every 5 minutes, each player may get a visit from their realm's trader. */
+    @SubscribeEvent
+    public static void onServerTick(net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) {
+        var server = event.getServer();
+        if (server.getTickCount() % 6000 != 0) return;
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            if (p.isSpectator() || p.getRandom().nextFloat() > 0.25F) continue;
+            com.dxdcraft.world.NpcSpawner.trySpawnNear(p);
+        }
     }
 }

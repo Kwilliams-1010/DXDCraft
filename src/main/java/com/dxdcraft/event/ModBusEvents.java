@@ -33,6 +33,11 @@ public class ModBusEvents {
         event.put(ModEntities.STRAY_DEVIL.get(), StrayDevil.createAttributes().build());
         event.put(ModEntities.ROGUE_FALLEN_ANGEL.get(), RogueFallenAngel.createAttributes().build());
         event.put(ModEntities.HEAVENLY_DRAGON.get(), HeavenlyDragon.createAttributes().build());
+        event.put(ModEntities.SERAPH_GUARDIAN.get(), com.dxdcraft.entity.SeraphGuardian.createAttributes().build());
+        event.put(ModEntities.UNDERWORLD_OVERLORD.get(), com.dxdcraft.entity.UnderworldOverlord.createAttributes().build());
+        event.put(ModEntities.WANDERING_EXORCIST.get(), com.dxdcraft.entity.npc.DxDMerchant.createAttributes().build());
+        event.put(ModEntities.ANGEL_MERCHANT.get(), com.dxdcraft.entity.npc.DxDMerchant.createAttributes().build());
+        event.put(ModEntities.DEVIL_MERCHANT.get(), com.dxdcraft.entity.npc.DxDMerchant.createAttributes().build());
     }
 
     @SubscribeEvent

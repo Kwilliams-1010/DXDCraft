@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_sword",
+    "dxdcraft:demonite_sword",
+    "dxdcraft:seraphite_sword",
+    "dxdcraft:hellfire_ruby_sword",
+    "dxdcraft:dragonite_sword"
+  ]
+}

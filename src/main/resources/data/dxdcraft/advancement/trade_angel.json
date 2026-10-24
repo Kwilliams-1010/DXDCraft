@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:holy_silver_ingot"
+    },
+    "title": {
+      "text": "Blessed Commerce"
+    },
+    "description": {
+      "text": "Trade with an Angel Merchant"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:stairway_heaven"
+}

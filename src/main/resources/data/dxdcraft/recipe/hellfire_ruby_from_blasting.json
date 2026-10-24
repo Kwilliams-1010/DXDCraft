@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "item": "dxdcraft:hellfire_ruby_ore"
+  },
+  "result": {
+    "id": "dxdcraft:hellfire_ruby"
+  },
+  "experience": 1.0,
+  "cookingtime": 100
+}

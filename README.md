@@ -231,6 +231,67 @@ During the scene:
 
 Ops: `/dxd cutscene <gear> [targets]` plays one, and `/dxd cutscene reset seen [targets]` lets first-draw cutscenes play again.
 
+### Ores, materials and equipment
+| Ore | Found in | Mine with | Gives |
+|---|---|---|---|
+| Holy Silver Ore | Heaven (common, all heights) | Stone pickaxe+ | Raw Holy Silver → smelt → **Holy Silver Ingot** |
+| Seraphite Ore | Heaven (rare, glows) | Iron-tier pickaxe+ | **Seraphite** gem |
+| Demonite Ore | Underworld (common, y 10–120) | Stone pickaxe+ | Raw Demonite → smelt → **Demonite Ingot** |
+| Hellfire Ruby Ore | Underworld (rare, y 10–70, glows) | Iron-tier pickaxe+ | **Hellfire Ruby** gem |
+
+**Dragonite Ingot** (endgame): Netherite Ingot + Dragon Scale + Seraphite + Hellfire Ruby (shapeless).
+Ingots also craft into storage blocks (Holy Silver, Demonite, Dragonite) and back.
+
+**Five equipment sets.** Each set has a helmet, chestplate, leggings, boots, sword, pickaxe, axe, shovel and hoe, all crafted in the vanilla shapes:
+
+| Set | Tier | Armor (boots/legs/chest/helm) | Full-set bonus |
+|---|---|---|---|
+| Holy Silver | Iron+ (faster, 400 uses) | 2/5/6/2 | Regeneration in daylight or in Heaven; immune to Holy Water |
+| Demonite | Iron+ (500 uses, fireproof) | 2/5/7/2, toughness 1 | Fire Resistance; Night Vision in the Underworld |
+| Seraphite | Diamond+ (1800 uses) | 3/6/8/3, toughness 2.5 | +3 mana regen; Slow Falling while sneaking mid-air |
+| Hellfire Ruby | Diamond+ (1700 uses, fireproof) | 3/6/8/3, toughness 2.5 | Strength; anyone who hits you is set on fire |
+| Dragonite | Netherite+ (3000 uses, fireproof) | 4/7/9/4, toughness 4 | Strength + Resistance; ULT gauge +1 per second |
+
+All armor works with vanilla armor trims, and the tools are in the vanilla tool tags so other mods recognise them.
+
+**Special tools:**
+- **Blessed Hoe** (farming): Holy Silver Hoe + Seraphite + Light Fragments, or buy it from the Angel Merchant. **Sneak + use** on crops to give everything in a 5×5 area a growth pulse.
+- **Overlord's Excavator** (mining): Dragonite Pickaxe + Overlord's Crown + Dragonite. Mines **3×3** (sneak for a single block). Respects claims and protection like normal mining.
+- **Angelic Ward** (defending): a placeable block made from 2 Seraph Halos (one per Seraph Guardian kill), Seraphite and a Holy Silver Block. Every second it smites hostile mobs within 16 blocks (double damage to undead and devils), pushes them back and makes them glow.
+
+### Bosses
+| Boss | Summon | Fight | Drops |
+|---|---|---|---|
+| **Heavenly Dragon** | Dragon Summoning Gem (anywhere) | Flies, Dragon Shots, dives, BOOSTs below half health | Dragon Scales, Diamonds, Dragon Heart |
+| **Seraph Guardian** | **Seraph Sigil**, used in Heaven | Hovers and throws Light Spear volleys; Judgment beam every 10 s smites and lifts you; below half health raises a Sanctuary shield and doubles its spears | **Seraph Halo**, Seraphite, Light Fragments, Holy Silver |
+| **Underworld Overlord** | **Infernal Sigil**, used in the Underworld | Heavy melee, Power of Destruction barrages, summons Stray Devils; below half health erupts in hellfire | **Overlord's Crown**, Hellfire Rubies, Demonic Essence, Demonite |
+
+Sigils: Seraph Sigil = Holy Silver + Seraphite + Diamond; Infernal Sigil = Demonite + Hellfire Ruby + Diamond (or buy them from the realm merchants).
+
+### NPC merchants
+| NPC | Where | Currency | Sells |
+|---|---|---|---|
+| **Wandering Exorcist** | Visits players in the Overworld | Emeralds | Holy Water, Light Fragments, Demonic Essence, Purification Scroll, **Heaven's Gate Key**, **Underworld Magic Circle**; buys Fragments and Essence |
+| **Angel Merchant** | Lives in every Seraph Cathedral; also visits players in Heaven | Holy Silver | Holy Water, golden carrots, Holy Feather, Seraphite, **Seraph Sigil**, **Blessed Hoe**, **Twilight Healing** |
+| **Devil Merchant** | Lives in every Devil Noble Castle; also visits players in the Underworld | Demonite | Evil Pieces (Pawn → Rook), Hellfire Ruby, **Infernal Sigil**, **Sword Birth** |
+
+Every 5 minutes each player has a 25% chance of a visit from their current realm's merchant. Visiting merchants leave after one day; the ones in cathedrals and castles stay forever.
+
+### Progression path
+1. **Overworld:** fight Stray Devils and Rogue Fallen Angels for Essence and Fragments, or buy a travel item from a **Wandering Exorcist**.
+2. **Enter Heaven / the Underworld:** mine Holy Silver / Demonite for iron-plus gear, and trade with the realm merchant.
+3. **Rare gems:** Seraphite / Hellfire Ruby for diamond-plus gear and the sigils.
+4. **Realm bosses:** the Seraph Guardian (Halo → Angelic Ward) and the Underworld Overlord (Crown → Excavator).
+5. **Heavenly Dragon** → Dragon Scales → **Dragonite**, the endgame set.
+
+### Achievements
+A **DxD Craft** tab in the Advancements screen with 34 achievements:
+- Destiny, race and level milestones (Lv 20 / 50 / 100)
+- Sacred Gear awakening, Balance Breaker, Sublimation, and both Juggernaut Drives
+- Elements and Twin Elements
+- Entering each realm, every ore, every full armor set, and trading with each merchant
+- Each special tool, Dragonite, each boss, and **Triple Crown** for defeating all three
+
 ### Magic
 - **Sigil of Destruction** (Devils) – Power of Destruction blast, 25 mana. Erases soft blocks it hits.
 - **Light Spear** (Angels / Fallen Angels) – 15 mana. Double damage to devils and undead.
@@ -286,14 +347,14 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd gear summon [targets]` | Play the summon animation for the held/innate gear |
 | `/dxd cutscene <gear> [targets]` | Play a gear's awakening cutscene |
 | `/dxd cutscene reset seen [targets]` | Let first-draw cutscenes play again |
-| `/dxd selftest` | Run the full 36-check logic self-test against a simulated player (op 4) |
+| `/dxd selftest` | Run the full 54-check logic self-test against a simulated player (op 4) |
 | `/dxd travel <heaven\|underworld\|overworld> [targets]` | Teleport to a realm |
 | `/dxd summon <heavenly_dragon\|stray_devil\|rogue_fallen_angel>` | Spawn a mod mob where you stand (dragon spawns 4 blocks up) |
 
 ## Multiplayer & dedicated servers
 DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
 
-**Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 36 checks (data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
+**Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 54 checks (ores generating in both realms, tool tiers, all five armor set bonuses, the Blessed Hoe, Excavator and Angelic Ward, all three boss fights, merchant trades, achievements and recipes, data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
 
 **Setup:** put the same `dxdcraft-1.0.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
 

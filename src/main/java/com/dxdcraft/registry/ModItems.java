@@ -82,6 +82,16 @@ public class ModItems {
     public static final DeferredItem<Item> DRAGON_SHOT = ITEMS.register("dragon_shot", () -> new Item(new Item.Properties()));
 
     // ---- Spawn eggs ----
+    public static final DeferredItem<Item> SERAPH_GUARDIAN_SPAWN_EGG = ITEMS.register("seraph_guardian_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.SERAPH_GUARDIAN, 0xF4F1E6, 0xE8C547, new Item.Properties()));
+    public static final DeferredItem<Item> UNDERWORLD_OVERLORD_SPAWN_EGG = ITEMS.register("underworld_overlord_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.UNDERWORLD_OVERLORD, 0x2A0A12, 0xD0204A, new Item.Properties()));
+    public static final DeferredItem<Item> WANDERING_EXORCIST_SPAWN_EGG = ITEMS.register("wandering_exorcist_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.WANDERING_EXORCIST, 0x1E1E28, 0xE0E0E0, new Item.Properties()));
+    public static final DeferredItem<Item> ANGEL_MERCHANT_SPAWN_EGG = ITEMS.register("angel_merchant_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.ANGEL_MERCHANT, 0xFFFBEA, 0x7FD0FF, new Item.Properties()));
+    public static final DeferredItem<Item> DEVIL_MERCHANT_SPAWN_EGG = ITEMS.register("devil_merchant_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.DEVIL_MERCHANT, 0x3A0A2A, 0xC4122F, new Item.Properties()));
     public static final DeferredItem<Item> STRAY_DEVIL_SPAWN_EGG = ITEMS.register("stray_devil_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.STRAY_DEVIL, 0x2B0F2E, 0xC4122F, new Item.Properties()));
     public static final DeferredItem<Item> ROGUE_FALLEN_ANGEL_SPAWN_EGG = ITEMS.register("rogue_fallen_angel_spawn_egg",

@@ -43,6 +43,23 @@ public class ModTabs {
                 out.accept(ModItems.DEMONIC_ESSENCE.get());
                 out.accept(ModItems.LIGHT_FRAGMENT.get());
                 out.accept(ModItems.DRAGON_SCALE.get());
+                for (var ore : new net.minecraft.world.level.ItemLike[]{
+                        com.dxdcraft.registry.ModBlocks.HOLY_SILVER_ORE_ITEM.get(), com.dxdcraft.registry.ModBlocks.SERAPHITE_ORE_ITEM.get(),
+                        com.dxdcraft.registry.ModBlocks.DEMONITE_ORE_ITEM.get(), com.dxdcraft.registry.ModBlocks.HELLFIRE_RUBY_ORE_ITEM.get(),
+                        ModGear.RAW_HOLY_SILVER.get(), ModGear.HOLY_SILVER_INGOT.get(), com.dxdcraft.registry.ModBlocks.HOLY_SILVER_BLOCK_ITEM.get(),
+                        ModGear.SERAPHITE.get(), ModGear.RAW_DEMONITE.get(), ModGear.DEMONITE_INGOT.get(),
+                        com.dxdcraft.registry.ModBlocks.DEMONITE_BLOCK_ITEM.get(), ModGear.HELLFIRE_RUBY.get(), ModGear.DRAGONITE_INGOT.get(),
+                        com.dxdcraft.registry.ModBlocks.DRAGONITE_BLOCK_ITEM.get(), ModGear.SERAPH_SIGIL.get(), ModGear.INFERNAL_SIGIL.get(),
+                        ModGear.SERAPH_HALO.get(), ModGear.OVERLORD_CROWN.get(), ModGear.BLESSED_HOE.get(), ModGear.OVERLORDS_EXCAVATOR.get(),
+                        com.dxdcraft.registry.ModBlocks.ANGELIC_WARD_ITEM.get()}) {
+                    out.accept(ore);
+                }
+                for (var item : ModGear.TAB_ITEMS) out.accept(item.get());
+                out.accept(ModItems.SERAPH_GUARDIAN_SPAWN_EGG.get());
+                out.accept(ModItems.UNDERWORLD_OVERLORD_SPAWN_EGG.get());
+                out.accept(ModItems.WANDERING_EXORCIST_SPAWN_EGG.get());
+                out.accept(ModItems.ANGEL_MERCHANT_SPAWN_EGG.get());
+                out.accept(ModItems.DEVIL_MERCHANT_SPAWN_EGG.get());
                 out.accept(ModItems.STRAY_DEVIL_SPAWN_EGG.get());
                 out.accept(ModItems.ROGUE_FALLEN_ANGEL_SPAWN_EGG.get());
                 out.accept(ModItems.HEAVENLY_DRAGON_SPAWN_EGG.get());

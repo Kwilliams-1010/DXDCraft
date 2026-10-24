@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:heaven_gate_key"
+    },
+    "title": {
+      "text": "Stairway to Heaven"
+    },
+    "description": {
+      "text": "Enter Heaven"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "dxdcraft:heaven"
+      }
+    }
+  },
+  "parent": "dxdcraft:root"
+}

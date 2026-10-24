@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:seraph_halo"
+    },
+    "title": {
+      "text": "Fallen Seraph"
+    },
+    "description": {
+      "text": "Defeat the Seraph Guardian"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "dxdcraft:seraph_guardian"
+        }
+      }
+    }
+  },
+  "parent": "dxdcraft:seraphite"
+}

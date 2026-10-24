@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:overlord_crown"
+    },
+    "title": {
+      "text": "Dethroned"
+    },
+    "description": {
+      "text": "Defeat the Underworld Overlord"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "dxdcraft:underworld_overlord"
+        }
+      }
+    }
+  },
+  "parent": "dxdcraft:hellfire_ruby"
+}

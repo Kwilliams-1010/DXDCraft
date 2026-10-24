@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:angelic_ward"
+    },
+    "title": {
+      "text": "Sanctuary"
+    },
+    "description": {
+      "text": "Craft an Angelic Ward"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "dxdcraft:angelic_ward"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "dxdcraft:seraph_slayer"
+}

@@ -1,0 +1,55 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:dragon_heart"
+    },
+    "title": {
+      "text": "Triple Crown"
+    },
+    "description": {
+      "text": "Defeat the Heavenly Dragon, the Seraph Guardian and the Underworld Overlord"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dragon": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "dxdcraft:heavenly_dragon"
+        }
+      }
+    },
+    "seraph": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "dxdcraft:seraph_guardian"
+        }
+      }
+    },
+    "overlord": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "dxdcraft:underworld_overlord"
+        }
+      }
+    }
+  },
+  "parent": "dxdcraft:dragon_slayer",
+  "requirements": [
+    [
+      "dragon"
+    ],
+    [
+      "seraph"
+    ],
+    [
+      "overlord"
+    ]
+  ]
+}

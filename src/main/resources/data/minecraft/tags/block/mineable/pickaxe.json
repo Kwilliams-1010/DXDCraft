@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_ore",
+    "dxdcraft:seraphite_ore",
+    "dxdcraft:demonite_ore",
+    "dxdcraft:hellfire_ruby_ore",
+    "dxdcraft:holy_silver_block",
+    "dxdcraft:demonite_block",
+    "dxdcraft:dragonite_block",
+    "dxdcraft:angelic_ward"
+  ]
+}

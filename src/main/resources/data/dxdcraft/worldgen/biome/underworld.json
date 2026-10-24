@@ -72,7 +72,10 @@
       "dxdcraft:grigori_outpost"
     ],
     [],
-    [],
+    [
+      "dxdcraft:ore_demonite",
+      "dxdcraft:ore_hellfire_ruby"
+    ],
     [
       "minecraft:patch_fire",
       "minecraft:patch_soul_fire",

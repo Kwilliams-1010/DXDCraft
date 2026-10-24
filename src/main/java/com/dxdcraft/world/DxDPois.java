@@ -89,6 +89,7 @@ public final class DxDPois {
             b.set(-1, 1, 8, s(Blocks.GOLD_BLOCK));
             b.set(1, 1, 8, s(Blocks.GOLD_BLOCK));
             b.chest(0, 1, 8, "seraph_cathedral", Direction.NORTH);
+            b.merchant(0, 0, 4, com.dxdcraft.entity.npc.DxDMerchant.Kind.ANGEL);
             b.set(-2, 1, 9, s(Blocks.LANTERN));
             b.set(2, 1, 9, s(Blocks.LANTERN));
             // ceiling lights
@@ -204,6 +205,7 @@ public final class DxDPois {
             b.set(0, 9, 3, s(Blocks.SHROOMLIGHT));
             b.chest(-3, 0, 6, "devil_noble_castle", Direction.EAST);
             b.chest(3, 0, 6, "devil_noble_castle", Direction.WEST);
+            b.merchant(0, 0, 2, com.dxdcraft.entity.npc.DxDMerchant.Kind.DEVIL);
         }
     }
 

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_helmet",
+    "dxdcraft:demonite_helmet",
+    "dxdcraft:seraphite_helmet",
+    "dxdcraft:hellfire_ruby_helmet",
+    "dxdcraft:dragonite_helmet"
+  ]
+}

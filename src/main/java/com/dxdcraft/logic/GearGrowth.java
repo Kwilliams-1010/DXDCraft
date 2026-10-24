@@ -106,6 +106,8 @@ public final class GearGrowth {
     }
 
     private static void announce(ServerPlayer p, String gid, int stage) {
+        if (stage >= BALANCE_BREAKER) DxDAdvancements.grant(p, "balance_breaker");
+        if (stage >= SUBLIMATION) DxDAdvancements.grant(p, "sublimation");
         String name = Destiny.gearName(gid);
         ChatFormatting color = stage >= SUBLIMATION ? ChatFormatting.LIGHT_PURPLE : stage >= BALANCE_BREAKER ? ChatFormatting.GOLD : ChatFormatting.GREEN;
         Abilities.title(p, stage == BALANCE_BREAKER ? "BALANCE BREAKER!" : stage == SUBLIMATION ? "SUBLIMATION!" : "GEAR EVOLVED",

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "M",
+    "S",
+    "S"
+  ],
+  "key": {
+    "M": {
+      "item": "dxdcraft:dragonite_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:dragonite_shovel",
+    "count": 1
+  }
+}

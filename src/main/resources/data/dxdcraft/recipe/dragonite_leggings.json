@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "M M",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "dxdcraft:dragonite_ingot"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:dragonite_leggings",
+    "count": 1
+  }
+}

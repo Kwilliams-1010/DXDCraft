@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_helmet",
+    "dxdcraft:holy_silver_chestplate",
+    "dxdcraft:holy_silver_leggings",
+    "dxdcraft:holy_silver_boots",
+    "dxdcraft:demonite_helmet",
+    "dxdcraft:demonite_chestplate",
+    "dxdcraft:demonite_leggings",
+    "dxdcraft:demonite_boots",
+    "dxdcraft:seraphite_helmet",
+    "dxdcraft:seraphite_chestplate",
+    "dxdcraft:seraphite_leggings",
+    "dxdcraft:seraphite_boots",
+    "dxdcraft:hellfire_ruby_helmet",
+    "dxdcraft:hellfire_ruby_chestplate",
+    "dxdcraft:hellfire_ruby_leggings",
+    "dxdcraft:hellfire_ruby_boots",
+    "dxdcraft:dragonite_helmet",
+    "dxdcraft:dragonite_chestplate",
+    "dxdcraft:dragonite_leggings",
+    "dxdcraft:dragonite_boots"
+  ]
+}

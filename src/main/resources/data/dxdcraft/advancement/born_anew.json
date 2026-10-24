@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:evil_piece_pawn"
+    },
+    "title": {
+      "text": "Born Anew"
+    },
+    "description": {
+      "text": "Become a Devil, Angel or Fallen Angel"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "dxdcraft:root"
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LSL",
+    " H ",
+    " L "
+  ],
+  "key": {
+    "L": {
+      "item": "dxdcraft:light_fragment"
+    },
+    "S": {
+      "item": "dxdcraft:seraphite"
+    },
+    "H": {
+      "item": "dxdcraft:holy_silver_hoe"
+    }
+  },
+  "result": {
+    "id": "dxdcraft:blessed_hoe",
+    "count": 1
+  }
+}

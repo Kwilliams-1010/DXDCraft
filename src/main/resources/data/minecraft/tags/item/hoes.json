@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "dxdcraft:holy_silver_hoe",
+    "dxdcraft:demonite_hoe",
+    "dxdcraft:seraphite_hoe",
+    "dxdcraft:hellfire_ruby_hoe",
+    "dxdcraft:dragonite_hoe",
+    "dxdcraft:blessed_hoe"
+  ]
+}

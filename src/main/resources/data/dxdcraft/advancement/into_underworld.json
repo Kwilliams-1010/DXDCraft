@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "dxdcraft:underworld_magic_circle"
+    },
+    "title": {
+      "text": "Into the Underworld"
+    },
+    "description": {
+      "text": "Enter the Underworld"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "dxdcraft:underworld"
+      }
+    }
+  },
+  "parent": "dxdcraft:root"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "dxdcraft:dragonite_block"
+    }
+  ],
+  "result": {
+    "id": "dxdcraft:dragonite_ingot",
+    "count": 9
+  }
+}
