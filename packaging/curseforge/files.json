@@ -61,5 +61,19 @@
     "required": true,
     "title": "Architectury API",
     "file": "architectury-13.0.11-neoforge.jar"
+  },
+  {
+    "projectID": 852662,
+    "fileID": 5770623,
+    "required": true,
+    "title": "Overflowing Bars",
+    "file": "OverflowingBars-v21.1.1-1.21.1-NeoForge.jar"
+  },
+  {
+    "projectID": 495476,
+    "fileID": 9276690,
+    "required": true,
+    "title": "Puzzles Lib",
+    "file": "puzzleslib-v21.1.65-mc1.21.1+neoforge.jar"
   }
 ]

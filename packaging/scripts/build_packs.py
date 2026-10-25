@@ -38,10 +38,11 @@ with zipfile.ZipFile(cf, "w", zipfile.ZIP_DEFLATED) as z:
 # ---------------------------------------------------------------- Modrinth (.mrpack)
 pack = json.load(open(os.path.join(PACKAGING, "server-pack", "pack.json")))
 files = [{"path": f"mods/{m['file']}", "hashes": {"sha512": m["sha512"], "sha1": m["sha1"]},
-          "env": {"client": "required", "server": "required"}, "downloads": [m["url"]], "fileSize": m["size"]}
+          "env": {"client": "required", "server": "unsupported" if m.get("side") == "client" else "required"},
+          "downloads": [m["url"]], "fileSize": m["size"]}
          for m in pack["mods"]]
 index = {"formatVersion": 1, "game": "minecraft", "versionId": version, "name": "DxD Craft Pack",
-         "summary": "DxD Craft + Sophisticated Backpacks, Applied Energistics 2, Relics + More Relics",
+         "summary": "DxD Craft + Sophisticated Backpacks, Applied Energistics 2, Relics + More Relics, Overflowing Bars",
          "files": files, "dependencies": {"minecraft": pack["minecraft"], "neoforge": pack["neoforge"]}}
 mr = os.path.join(out, f"DxDCraftPack-{version}.mrpack")
 with zipfile.ZipFile(mr, "w", zipfile.ZIP_DEFLATED) as z:

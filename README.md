@@ -8,7 +8,7 @@ A High School DxD inspired mod for **Minecraft 1.21.1 + NeoForge**. All action, 
 2. Unzip this folder, open a terminal inside it, and run:
    - Windows: `gradlew.bat build`
    - Mac/Linux: `./gradlew build`
-3. The mod appears at `build/libs/dxdcraft-1.1.0.jar`. Drop it into your `.minecraft/mods` folder
+3. The mod appears at `build/libs/dxdcraft-1.1.1.jar`. Drop it into your `.minecraft/mods` folder
    (with NeoForge 1.21.1 installed).
 
 To test without installing: `gradlew runClient` launches a dev copy of Minecraft with the mod loaded.
@@ -369,7 +369,7 @@ DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
 
 **Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 56 checks (ores generating in both realms, tool tiers, all five armor set bonuses, the Blessed Hoe, Excavator and Angelic Ward, all three boss fights, merchant trades, achievements and recipes, data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
 
-**Setup:** put the same `dxdcraft-1.1.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
+**Setup:** put the same `dxdcraft-1.1.1.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
 
 **What's server-safe:**
 - All game logic (races, mana, levels, gears, drives, rage, destiny, realms) runs on the server and is saved per player in the world save. Players can't cheat it from their client.
@@ -416,7 +416,9 @@ DxD Craft has been tested together with these mods (dedicated server, all checks
 
 **Expected server log noise:** Relics and More Relics print a few red "Attempted to load class ... for invalid dist DEDICATED_SERVER" lines on dedicated servers. Those are their client-only tweaks being skipped and are harmless.
 
-`DxDCraftPack-1.1.0.mrpack` installs all of the above plus DxD Craft in one click in the Modrinth App, Prism Launcher or ATLauncher.
+**Overflowing Bars** (with Puzzles Lib) is included for players: extra hearts and armor stack into one row with a counter instead of filling the screen, which matters during Juggernaut Drive. It is client-only, so the server doesn't need it.
+
+`DxDCraftPack-1.1.1.mrpack` installs all of the above plus DxD Craft in one click in the Modrinth App, Prism Launcher or ATLauncher.
 
 ## Mod compatibility (optional)
 DxD Craft runs fine alone. If these mods are installed it integrates with them automatically:

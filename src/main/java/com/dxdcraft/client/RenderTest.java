@@ -72,6 +72,22 @@ public final class RenderTest {
                 STEPS.add(new Step(2, () -> cmd("dxd juggernaut stop")));
             }
         }
+        // HUD: survival, first person, mid Juggernaut Drive (extra hearts) - checks the health/armor bars.
+        STEPS.add(new Step(20, () -> {
+            cmd("gamemode survival");
+            cmd("item replace entity @s armor.chest with dxdcraft:dragonite_chestplate");
+            cmd("item replace entity @s armor.head with dxdcraft:dragonite_helmet");
+            cmd("dxd juggernaut start red complete");
+            camera(CameraType.FIRST_PERSON);
+            Minecraft.getInstance().options.hideGui = false;
+        }));
+        STEPS.add(new Step(40, () -> shot("hud_juggernaut")));
+        STEPS.add(new Step(2, () -> {
+            Minecraft.getInstance().options.hideGui = true;
+            cmd("dxd juggernaut stop");
+            cmd("clear @s");
+            cmd("gamemode creative");
+        }));
         // Worn in the Sacred Gear Curios slot.
         for (String g : GEARS) {
             STEPS.add(new Step(20, () -> { cmd("curios replace sacred_gear 0 @s with dxdcraft:" + g); camera(CameraType.THIRD_PERSON_FRONT); }));

@@ -44,6 +44,7 @@ public final class ServerPackLauncher {
         int ok = 0, fetched = 0, listed = 0;
         while (m.find()) {
             String obj = m.group();
+            if (obj.matches("(?s).*\"side\"\\s*:\\s*\"client\".*")) continue; // client-only mods (e.g. HUD) stay off the server
             String file = field(obj, "file"), url = field(obj, "url"), sha = field(obj, "sha512");
             listed++;
             Path target = mods.resolve(file);
