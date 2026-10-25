@@ -92,7 +92,10 @@ public final class JuggernautDrive {
         DxDAdvancements.grant(p, complete ? "juggernaut_complete" : "juggernaut");
         DxDData d = DxDLogic.data(p);
         if (d.jdActive()) end(p, d);
+        BalanceBreaker.clear(p); // the drive replaces the Balance Breaker armor
         d.startJd(type, complete ? COMPLETE_SECONDS : INCOMPLETE_SECONDS, complete);
+        BalanceBreaker.broadcast(p, type == DxDData.JD_RED ? "boosted_gear" : "divine_dividing",
+                complete ? com.dxdcraft.network.TransformPayload.MODE_JD_COMPLETE : com.dxdcraft.network.TransformPayload.MODE_JD);
 
         ServerLevel level = p.serverLevel();
         if (!complete) {
@@ -184,6 +187,7 @@ public final class JuggernautDrive {
         boolean complete = d.isJdComplete();
         int type = d.getJdType();
         d.clearJd();
+        BalanceBreaker.broadcast(p, type == DxDData.JD_RED ? "boosted_gear" : "divine_dividing", com.dxdcraft.network.TransformPayload.MODE_NONE);
         d.setBoosts(0);
         d.setBoostTimer(0);
         p.removeEffect(MobEffects.HEALTH_BOOST);

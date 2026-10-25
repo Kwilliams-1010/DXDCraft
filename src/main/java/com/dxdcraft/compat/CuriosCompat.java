@@ -30,6 +30,19 @@ public final class CuriosCompat {
 
     private CuriosCompat() {}
 
+    /** Which Curios slot each Sacred Gear goes in (mirrors data/curios/tags/item/*.json). */
+    public static final java.util.Map<net.neoforged.neoforge.registries.DeferredItem<Item>, String> GEAR_SLOTS = java.util.Map.of(
+            com.dxdcraft.registry.ModItems.BOOSTED_GEAR, "hands",
+            com.dxdcraft.registry.ModItems.DIVINE_DIVIDING, "back",
+            com.dxdcraft.registry.ModItems.SWORD_BIRTH, "belt",
+            com.dxdcraft.registry.ModItems.ABSORPTION_LINE, "bracelet",
+            com.dxdcraft.registry.ModItems.FORBIDDEN_BALOR_VIEW, "charm",
+            com.dxdcraft.registry.ModItems.DIMENSION_LOST, "charm",
+            com.dxdcraft.registry.ModItems.ZENITH_TEMPEST, "charm",
+            com.dxdcraft.registry.ModItems.ANNIHILATION_MAKER, "charm",
+            com.dxdcraft.registry.ModItems.REGULUS_NEMEA, "necklace",
+            com.dxdcraft.registry.ModItems.TWILIGHT_HEALING, "ring");
+
     public static boolean isLoaded() {
         if (loaded == null) loaded = ModList.get() != null && ModList.get().isLoaded("curios");
         return loaded;

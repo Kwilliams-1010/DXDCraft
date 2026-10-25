@@ -1,0 +1,45 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "dxdcraft:boosted_gear",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:divine_dividing",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:sword_birth",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:absorption_line",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:forbidden_balor_view",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:dimension_lost",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:zenith_tempest",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:annihilation_maker",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:regulus_nemea",
+      "required": false
+    },
+    {
+      "id": "dxdcraft:twilight_healing",
+      "required": false
+    }
+  ]
+}

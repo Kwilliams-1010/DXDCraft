@@ -32,6 +32,7 @@ public record AbilityPayload(int action) implements CustomPacketPayload {
                 case Abilities.ACTION_ELEMENT_1 -> com.dxdcraft.logic.ElementCasting.cast(player, 0);
                 case Abilities.ACTION_ELEMENT_2 -> com.dxdcraft.logic.ElementCasting.cast(player, 1);
                 case Abilities.ACTION_JUGGERNAUT -> com.dxdcraft.logic.JuggernautDrive.tryActivate(player);
+                case Abilities.ACTION_BALANCE_BREAKER -> com.dxdcraft.logic.BalanceBreaker.toggle(player);
                 default -> {}
             }
         });

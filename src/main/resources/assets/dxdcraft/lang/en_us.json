@@ -120,5 +120,7 @@
   "entity.dxdcraft.angel_merchant": "Angel Merchant",
   "item.dxdcraft.angel_merchant_spawn_egg": "Angel Merchant Spawn Egg",
   "entity.dxdcraft.devil_merchant": "Devil Merchant",
-  "item.dxdcraft.devil_merchant_spawn_egg": "Devil Merchant Spawn Egg"
+  "item.dxdcraft.devil_merchant_spawn_egg": "Devil Merchant Spawn Egg",
+  "curios.identifier.sacred_gear": "Sacred Gear",
+  "key.dxdcraft.balance_breaker": "Balance Breaker"
 }

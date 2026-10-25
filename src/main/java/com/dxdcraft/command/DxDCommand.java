@@ -136,6 +136,10 @@ public final class DxDCommand {
                                 .then(Commands.argument("dragon", StringArgumentType.word()).suggests(DRAGONS)
                                         .then(targeted(Commands.argument("mode", StringArgumentType.word()).suggests(JD_MODES), DxDCommand::jdStart))))
                         .then(targeted(Commands.literal("stop"), DxDCommand::jdStop)))
+                .then(Commands.literal("balancebreaker").requires(DxDCommand::op)
+                        .then(Commands.literal("start")
+                                .then(targeted(Commands.argument("gear", StringArgumentType.word()).suggests(GEAR_IDS), DxDCommand::bbStart)))
+                        .then(targeted(Commands.literal("stop"), DxDCommand::bbStop)))
                 .then(Commands.literal("master").requires(DxDCommand::op)
                         .then(targeted(Commands.argument("gear", StringArgumentType.word()).suggests(DRAGONS_BOTH), (ctx, t) -> master(ctx, t, true))))
                 .then(Commands.literal("unmaster").requires(DxDCommand::op)
@@ -225,6 +229,8 @@ public final class DxDCommand {
                 {"/dxd ability [targets]", "fire the racial ability (free)"},
                 {"/dxd juggernaut start <red|white> <incomplete|complete> [targets]", "force a drive"},
                 {"/dxd juggernaut stop [targets]", "end a drive"},
+                {"/dxd balancebreaker start <gear> [targets]", "force the Balance Breaker armor"},
+                {"/dxd balancebreaker stop [targets]", "release it"},
                 {"/dxd master <red|white|both> [targets]", "unlock Complete Juggernaut Drive"},
                 {"/dxd unmaster <red|white|both> [targets]", "lock it again"},
                 {"/dxd give <gears|pieces|race_items|magic|materials|all> [targets]", "item kits"},
@@ -466,6 +472,33 @@ public final class DxDCommand {
         for (ServerPlayer p : targets) JuggernautDrive.start(p, type, complete);
         ok(ctx.getSource(), "Started " + JuggernautDrive.name(type, complete) + " for " + names(targets));
         return targets.size();
+    }
+
+    private static int bbStart(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        String gear = StringArgumentType.getString(ctx, "gear");
+        if (!Destiny.gearIds().contains(gear)) {
+            ctx.getSource().sendFailure(Component.literal("Unknown gear: " + gear));
+            return 0;
+        }
+        for (ServerPlayer p : targets) {
+            com.dxdcraft.logic.BalanceBreaker.clear(p);
+            com.dxdcraft.logic.BalanceBreaker.start(p, gear, true);
+        }
+        ctx.getSource().sendSuccess(() -> Component.literal("Balance Breaker (" + gear + ") started for " + targets.size() + " player(s)"), true);
+        return targets.size();
+    }
+
+    private static int bbStop(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {
+        int n = 0;
+        for (ServerPlayer p : targets) {
+            if (com.dxdcraft.logic.BalanceBreaker.active(p)) {
+                com.dxdcraft.logic.BalanceBreaker.end(p, true);
+                n++;
+            }
+        }
+        int stopped = n;
+        ctx.getSource().sendSuccess(() -> Component.literal("Ended Balance Breaker for " + stopped + " player(s)"), true);
+        return stopped;
     }
 
     private static int jdStop(CommandContext<CommandSourceStack> ctx, Collection<ServerPlayer> targets) {

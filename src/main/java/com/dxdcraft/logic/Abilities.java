@@ -40,6 +40,7 @@ public final class Abilities {
     public static final int ACTION_JUGGERNAUT = 2;
     public static final int ACTION_ELEMENT_1 = 3;
     public static final int ACTION_ELEMENT_2 = 4;
+    public static final int ACTION_BALANCE_BREAKER = 5;
     /** Every ultimate (gear or race) costs this much mana on top of a full ULT gauge. */
     public static final int ULT_MANA_COST = 50;
 

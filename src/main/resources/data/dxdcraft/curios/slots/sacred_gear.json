@@ -1,0 +1,6 @@
+{
+  "order": 1,
+  "size": 1,
+  "icon": "dxdcraft:slot/sacred_gear_slot",
+  "validators": ["curios:tag"]
+}

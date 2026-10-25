@@ -481,7 +481,13 @@ public final class SelfTest {
         }
         check("Blessed Hoe grows crops", () -> {
             p = fresh();
-            BlockPos base = p.blockPosition().offset(6, 0, 0);
+            // Above the treetops: wheat needs light/open sky or it pops off (fresh worlds often spawn in forests).
+            BlockPos col = p.blockPosition().offset(6, 0, 0);
+            int top = 0;
+            for (BlockPos q : BlockPos.betweenClosed(col.offset(-2, 0, -2), col.offset(2, 0, 2))) {
+                top = Math.max(top, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, q.getX(), q.getZ()));
+            }
+            BlockPos base = new BlockPos(col.getX(), top + 3, col.getZ());
             for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, -1, -2), base.offset(2, -1, 2))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.FARMLAND.defaultBlockState());
             for (BlockPos q : BlockPos.betweenClosed(base.offset(-2, 0, -2), base.offset(2, 0, 2))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.WHEAT.defaultBlockState());
             hold(com.dxdcraft.registry.ModGear.BLESSED_HOE.get());
@@ -577,6 +583,18 @@ public final class SelfTest {
             for (String slot : new String[]{"back", "ring", "bracelet", "necklace", "belt", "charm"}) {
                 expect(((java.util.Optional<?>) handlerI.getMethod("getStacksHandler", String.class).invoke(inv, slot)).isPresent(), "Curios slot " + slot);
             }
+        });
+        check("Curios: every gear passes Curios' own slot validation", () -> {
+            if (!com.dxdcraft.compat.CuriosCompat.isLoaded()) return;
+            p = fresh();
+            Class<?> api = Class.forName("top.theillusivec4.curios.api.CuriosApi");
+            var slotsFor = api.getMethod("getItemStackSlots", ItemStack.class, net.minecraft.world.entity.LivingEntity.class);
+            List<String> bad = new ArrayList<>();
+            for (var e : com.dxdcraft.compat.CuriosCompat.GEAR_SLOTS.entrySet()) {
+                java.util.Map<?, ?> m = (java.util.Map<?, ?>) slotsFor.invoke(null, new ItemStack(e.getKey().get()), p);
+                if (!m.containsKey(e.getValue())) bad.add(e.getKey().getId().getPath() + " -> " + m.keySet());
+            }
+            expect(bad.isEmpty(), "Curios rejects: " + bad);
         });
         check("achievements and recipes load", () -> {
             String[] advs = {"root", "born_anew", "level_20", "level_50", "level_100", "sacred_awakening", "balance_breaker", "sublimation",

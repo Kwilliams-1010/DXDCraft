@@ -6,47 +6,66 @@
     {
       "file": "OctoLib-NEOFORGE-0.6.2+1.21.jar",
       "url": "https://cdn.modrinth.com/data/RH2KUdKJ/versions/yVCCi6TK/OctoLib-NEOFORGE-0.6.2%2B1.21.jar",
-      "sha512": "c33faa056c9d5403f06b7aa883290c86c33dcea3502f99720df98eccbd819cd3050fb2ffecf048f2dbee1b69a14e9dc6c23245f35ba3a78e46b056859666a60a"
+      "sha512": "c33faa056c9d5403f06b7aa883290c86c33dcea3502f99720df98eccbd819cd3050fb2ffecf048f2dbee1b69a14e9dc6c23245f35ba3a78e46b056859666a60a",
+      "sha1": "f4f66d677b104c6af7f5c0f7e3c08d8e4370ecad",
+      "size": 544378
     },
     {
       "file": "appliedenergistics2-19.2.18.jar",
       "url": "https://cdn.modrinth.com/data/XxWD5pD3/versions/KDnFUmMm/appliedenergistics2-19.2.18.jar",
-      "sha512": "39bc4cf733a4321631e2637a1a6dfd3527135fdac1b572534e6fd1f9eab7a6dd92d56c5fa066263c95149c9b20cabdd1fd3dff80bea515381b1d2d754cad26c3"
+      "sha512": "39bc4cf733a4321631e2637a1a6dfd3527135fdac1b572534e6fd1f9eab7a6dd92d56c5fa066263c95149c9b20cabdd1fd3dff80bea515381b1d2d754cad26c3",
+      "sha1": "bcd04bc7f181b2ffa314625f284c8eca6fee7fe4",
+      "size": 8236552
     },
     {
       "file": "architectury-13.0.11-neoforge.jar",
       "url": "https://cdn.modrinth.com/data/lhGA9TYQ/versions/1IiqEQGl/architectury-13.0.11-neoforge.jar",
-      "sha512": "d9f7c3bb8162577dfb461ffdf04bd6a3563c7586934a0e2a744c14421beffb8286f0d88d4c758317003f20f99fe8072a39b9d675af061e036970d36db36027f0"
+      "sha512": "d9f7c3bb8162577dfb461ffdf04bd6a3563c7586934a0e2a744c14421beffb8286f0d88d4c758317003f20f99fe8072a39b9d675af061e036970d36db36027f0",
+      "sha1": "008656a0702801174b8ec245ed7aad1921d6e9f1",
+      "size": 584734
     },
     {
       "file": "curios-neoforge-9.5.1+1.21.1.jar",
       "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/yohfFbgD/curios-neoforge-9.5.1%2B1.21.1.jar",
-      "sha512": "5981a267686b744e7e3c227f78cbcd5267c14ac6979a28e814695f4589273998563147207fef4a5cdb7cdbdc39797cd95d9e4abadb55869f18e02a38d0654ae5"
+      "sha512": "5981a267686b744e7e3c227f78cbcd5267c14ac6979a28e814695f4589273998563147207fef4a5cdb7cdbdc39797cd95d9e4abadb55869f18e02a38d0654ae5",
+      "sha1": "418fcd42e3a7844c9bdc71c9b6401fdb3894e0c4",
+      "size": 410690
     },
     {
       "file": "guideme-21.1.20.jar",
       "url": "https://cdn.modrinth.com/data/Ck4E7v7R/versions/mUlgxNj8/guideme-21.1.20.jar",
-      "sha512": "5e87550a56f97a23996b4c2e06a067a985f9dbbb3a79dd07a302fab275ff24637ed875e50eeafce030dd828799d323e50d86cc2509d53011069c895886a1cbdb"
+      "sha512": "5e87550a56f97a23996b4c2e06a067a985f9dbbb3a79dd07a302fab275ff24637ed875e50eeafce030dd828799d323e50d86cc2509d53011069c895886a1cbdb",
+      "sha1": "3003020c170cc84ea307fa1d212d80268806a9be",
+      "size": 9325132
     },
     {
       "file": "morerelics-1.7.7-forRelics-0.12.8-1.0-1.21.1.jar",
       "url": "https://cdn.modrinth.com/data/NmYBBHLU/versions/vFU5WdGv/morerelics-1.7.7-forRelics-0.12.8-1.0-1.21.1.jar",
-      "sha512": "ab1ba4ef43a0e9e97e16daba4a8b403691141258df04bd31cd9f0d3abc3987246914637ccf9ed61e55126992e39340331c58365a7858a86d318a7b24286ac18f"
+      "sha512": "ab1ba4ef43a0e9e97e16daba4a8b403691141258df04bd31cd9f0d3abc3987246914637ccf9ed61e55126992e39340331c58365a7858a86d318a7b24286ac18f",
+      "sha1": "bc220ed291187c97bd1896f1fdd29b2377879ae1",
+      "size": 830791
     },
     {
       "file": "relics-1.21.1-0.12.8.jar",
       "url": "https://cdn.modrinth.com/data/OCJRPujW/versions/WKEe9sPL/relics-1.21.1-0.12.8.jar",
-      "sha512": "4490d5d1f7ae24fe69135151b5730018ec7f2e64970349d590564c70d8d67f94d805c5680866086b4c8ba9afb4999b9c0b97b869b6fb24a90808e9ca73974b7f"
+      "sha512": "4490d5d1f7ae24fe69135151b5730018ec7f2e64970349d590564c70d8d67f94d805c5680866086b4c8ba9afb4999b9c0b97b869b6fb24a90808e9ca73974b7f",
+      "sha1": "1fe7d57ebfa56ebd0aeecfed01075f8b55b94ef7",
+      "size": 5007593
     },
     {
       "file": "sophisticatedbackpacks-1.21.1-3.26.14.2222.jar",
       "url": "https://cdn.modrinth.com/data/TyCTlI4b/versions/eg9lPtG4/sophisticatedbackpacks-1.21.1-3.26.14.2222.jar",
-      "sha512": "a2d4f486efd6eb0806c2c358c4217300b56cfca25893ca6e9c4c85d2e163f17f44f05e602d62ec8f17c426a15e40c310436ab90ba9ceeab14fac7710bf521191"
+      "sha512": "a2d4f486efd6eb0806c2c358c4217300b56cfca25893ca6e9c4c85d2e163f17f44f05e602d62ec8f17c426a15e40c310436ab90ba9ceeab14fac7710bf521191",
+      "sha1": "ccaaa38967d561a4c49f26364ec0ba68d593b95d",
+      "size": 1257036
     },
     {
       "file": "sophisticatedcore-1.21.1-1.5.17.2426.jar",
       "url": "https://cdn.modrinth.com/data/nmoqTijg/versions/gtPF4VTh/sophisticatedcore-1.21.1-1.5.17.2426.jar",
-      "sha512": "e4b24ceb806443a5f6611ef4b10e193d300d0aba507a64c64c52f9ebd1cdb95052e6eebc4c2bd2c1118e475b25f45dba0de37e25a9d194c691ccaa052e220d3a"
+      "sha512": "e4b24ceb806443a5f6611ef4b10e193d300d0aba507a64c64c52f9ebd1cdb95052e6eebc4c2bd2c1118e475b25f45dba0de37e25a9d194c691ccaa052e220d3a",
+      "sha1": "2fec77e21c5da32b32e1be543a0f191a6db62291",
+      "size": 1819706
     }
-  ]
+  ],
+  "dxdcraft": "dxdcraft-1.1.0.jar"
 }

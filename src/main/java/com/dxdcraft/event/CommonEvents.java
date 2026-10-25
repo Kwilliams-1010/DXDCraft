@@ -53,7 +53,27 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) com.dxdcraft.cutscene.ServerCutscene.abort(player);
+        if (event.getEntity() instanceof ServerPlayer player) {
+            com.dxdcraft.cutscene.ServerCutscene.abort(player);
+            com.dxdcraft.logic.BalanceBreaker.clear(player);
+        }
+    }
+
+    /** A client starts seeing a player: tell it if that player is transformed. */
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        if (event.getTarget() instanceof ServerPlayer target && event.getEntity() instanceof ServerPlayer watcher) {
+            var state = com.dxdcraft.logic.BalanceBreaker.stateOf(target);
+            if (state != null) net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(watcher, state);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            var state = com.dxdcraft.logic.BalanceBreaker.stateOf(player);
+            if (state != null) net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(player, state);
+        }
     }
 
     @SubscribeEvent
@@ -61,6 +81,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             DxDData d = DxDLogic.data(player);
             d.clearJd();
+            com.dxdcraft.logic.BalanceBreaker.clear(player);
             d.setRage(0);
             d.setMana(d.getMaxMana() / 2);
             DxDLogic.updateFlight(player, d);

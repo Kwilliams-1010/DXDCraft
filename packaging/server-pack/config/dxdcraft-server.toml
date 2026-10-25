@@ -1,0 +1,43 @@
+[combat]
+	#If true, DxD abilities, projectiles and auras only hurt other players when the server has PvP on,
+	#and never hurt teammates (vanilla /team).
+	abilitiesRespectPvp = true
+	#If true, the Incomplete Juggernaut Drive's berserk shockwaves can hit other players (still subject to abilitiesRespectPvp).
+	berserkHitsPlayers = true
+	#If true, the Power of Destruction erases soft blocks it hits.
+	#Block breaking is reported to protection/claim mods, which can still prevent it.
+	destructionBreaksBlocks = true
+
+[announcements]
+	#Announce awakenings, Balance Breakers and Juggernaut Drives to other players.
+	enabled = true
+	#Only players within this many blocks (same dimension) see announcements. 0 = whole server.
+	# Default: 0
+	# Range: 0 ~ 100000
+	radius = 0
+
+[destiny]
+	#Chance a new player is born with a dormant Sacred Gear (otherwise they get an element).
+	# Default: 0.35
+	# Range: 0.0 ~ 1.0
+	gearChance = 0.35
+	#Chance an element user is born with two elements.
+	# Default: 0.15
+	# Range: 0.0 ~ 1.0
+	doubleElementChance = 0.15
+
+[cutscenes]
+	#Play the cutscene when an innate Sacred Gear awakens.
+	awakening = true
+	#Play the cutscene the first time a player draws each Sacred Gear type.
+	firstDraw = true
+
+[server]
+	#Cooldown in seconds for Heaven's Gate Key / Underworld Magic Circle.
+	# Default: 10
+	# Range: 0 ~ 3600
+	realmTravelCooldownSeconds = 10
+	#Ability key presses accepted per player per second (anti-spam).
+	# Default: 10
+	# Range: 1 ~ 100
+	maxAbilityPacketsPerSecond = 10

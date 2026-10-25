@@ -20,6 +20,13 @@ neoForge {
         client {
             client()
         }
+        // Visual check: joins the local dev server and screenshots every gear form (see client/RenderTest).
+        renderTest {
+            client()
+            gameDirectory = project.file('run-client')
+            systemProperty 'dxdcraft.renderTest', 'true'
+            programArguments.addAll '--quickPlayMultiplayer', 'localhost:25565', '--username', 'GearTester'
+        }
         server {
             server()
             programArgument '--nogui'
@@ -38,4 +45,12 @@ neoForge {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+// The mod version shown in-game comes from gradle.properties.
+processResources {
+    inputs.property 'mod_version', mod_version
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand mod_version: mod_version
+    }
 }

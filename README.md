@@ -8,7 +8,7 @@ A High School DxD inspired mod for **Minecraft 1.21.1 + NeoForge**. All action, 
 2. Unzip this folder, open a terminal inside it, and run:
    - Windows: `gradlew.bat build`
    - Mac/Linux: `./gradlew build`
-3. The mod appears at `build/libs/dxdcraft-1.0.0.jar`. Drop it into your `.minecraft/mods` folder
+3. The mod appears at `build/libs/dxdcraft-1.1.0.jar`. Drop it into your `.minecraft/mods` folder
    (with NeoForge 1.21.1 installed).
 
 To test without installing: `gradlew runClient` launches a dev copy of Minecraft with the mod loaded.
@@ -62,7 +62,7 @@ Every gear has an active skill (right-click) and an **Ultimate** (see below).
 | Angel | **Judgment Light** – smites enemies within 10 blocks (double vs devils/undead), heals allies | **Holy Barrier** – absorption shield + knocks enemies away (30 mana, 25 s cd) |
 | Fallen Angel | **Black Wing Storm** – 16 light spears in every direction, enemies levitate | **Light Rain** – a spear falls on every enemy within 14 blocks (40 mana, 20 s cd) |
 
-Press **R** to cast your element (Sneak+R for the second). Press **J** for the Juggernaut Drive (see below). Keys can be rebound in Options → Controls → DxD Craft. Creative mode ignores gauge, mana and cooldowns for testing.
+Press **R** to cast your element (Sneak+R for the second). Press **H** for Balance Breaker and **J** for the Juggernaut Drive (see below). Keys can be rebound in Options → Controls → DxD Craft. Creative mode ignores gauge, mana and cooldowns for testing.
 
 ### DxD Levels
 You start at **Lv 1** (max 100). Earn DxD XP by:
@@ -95,6 +95,17 @@ If you've mastered a gear but aren't Lv 40 yet, pressing J still triggers the dr
 | Wing flight | 1 per second |
 
 During a Juggernaut Drive your mana regenerates fast (+3/s incomplete, +6/s complete) instead of refilling instantly.
+
+### Balance Breaker transformation
+Once a gear reaches **Stage III: Balance Breaker**, hold or wear it and press **H** to transform. The gear's armor assembles on you piece by piece (legs, body, arms, helmet, then horns, wings, crest or halo), glowing as each piece forms. Everyone nearby sees it. Press **H** again to release it.
+
+| | |
+|---|---|
+| Cost | 40 mana to transform, then 2-3 mana per second (less at Stage IV) |
+| Ends | when you press H, run out of mana, die, lose the gear, or start a Juggernaut Drive |
+| Powers | each gear's own buffs, e.g. Boosted Gear: Strength II, Resistance II, flight and double boost speed; Divine Dividing: Speed II, flight and Divides nearby enemies; Twilight Healing: Regeneration II and heals nearby allies |
+
+Juggernaut Drive has its own heavier, spiked armor in red or white.
 
 ### Juggernaut Drive (Boosted Gear & Divine Dividing only)
 Reach **DxD Lv 20**, grow the gear to **Stage III: Balance Breaker**, hold the Boosted Gear (Red Dragon) or Divine Dividing (White Dragon), fill the ULT gauge, have 80 mana, and press **J**.
@@ -334,6 +345,8 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 | `/dxd ability [targets]` | Fire the racial ability for free |
 | `/dxd juggernaut start <red\|white> <incomplete\|complete> [targets]` | Force a Juggernaut Drive (ignores level, gear, gauge and mana) |
 | `/dxd juggernaut stop [targets]` | End an active drive (incomplete still has its after-effects) |
+| `/dxd balancebreaker start <gear> [targets]` | Force the Balance Breaker armor (no stage, mana or gear needed) |
+| `/dxd balancebreaker stop [targets]` | Release it |
 | `/dxd master <red\|white\|both> [targets]` | Unlock the Complete Juggernaut Drive |
 | `/dxd unmaster <red\|white\|both> [targets]` | Lock it again |
 | `/dxd give <gears\|pieces\|race_items\|magic\|materials\|all> [targets]` | Item kits |
@@ -354,9 +367,9 @@ Everything is under `/dxd`. Type `/dxd` (or `/dxd help`) in game for the full li
 ## Multiplayer & dedicated servers
 DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
 
-**Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 54 checks (ores generating in both realms, tool tiers, all five armor set bonuses, the Blessed Hoe, Excavator and Angelic Ward, all three boss fights, merchant trades, achievements and recipes, data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
+**Check your install:** run `/dxd selftest` from the server console (or as an op level 4 player). It runs 56 checks (ores generating in both realms, tool tiers, all five armor set bonuses, the Blessed Hoe, Excavator and Angelic Ward, all three boss fights, merchant trades, achievements and recipes, data saving, races, levels, Destiny odds, awakening and cutscenes, all 6 elements, all 10 Sacred Gears with their skills, stages and ultimates, Juggernaut Drive gates, rage, race powers, items, realm landing spots, PvP rules and every `/dxd` command) and reports pass/fail.
 
-**Setup:** put the same `dxdcraft-1.0.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
+**Setup:** put the same `dxdcraft-1.1.0.jar` in the server's `mods` folder **and** every player's `mods` folder. If you use Curios or Lootr, they also go on both. To test a local server from the project: `gradlew runServer`.
 
 **What's server-safe:**
 - All game logic (races, mana, levels, gears, drives, rage, destiny, realms) runs on the server and is saved per player in the world save. Players can't cheat it from their client.
@@ -403,17 +416,18 @@ DxD Craft has been tested together with these mods (dedicated server, all checks
 
 **Expected server log noise:** Relics and More Relics print a few red "Attempted to load class ... for invalid dist DEDICATED_SERVER" lines on dedicated servers. Those are their client-only tweaks being skipped and are harmless.
 
-`DxDCraftPack-1.0.0.mrpack` installs all of the above plus DxD Craft in one click in the Modrinth App, Prism Launcher or ATLauncher.
+`DxDCraftPack-1.1.0.mrpack` installs all of the above plus DxD Craft in one click in the Modrinth App, Prism Launcher or ATLauncher.
 
 ## Mod compatibility (optional)
 DxD Craft runs fine alone. If these mods are installed it integrates with them automatically:
 
 **Lootr:** every loot chest in Heaven and Underworld POIs is placed as a Lootr chest, so each player gets their own loot from every chest.
 
-**Curios API:** Sacred Gears can be worn in Curios slots instead of taking up your hands. Worn gears still work: Boosted Gear builds boosts and releases them on punches, Divine Dividing Divides on hit, the Juggernaut Drive [J] and Rage meter trigger, and [G] fires the worn gear's ultimate. (Active right-click skills still need the gear in hand.)
+**Curios API:** Sacred Gears can be worn in Curios slots instead of taking up your hands. Every player gets a dedicated **Sacred Gear** slot (top of the Curios panel, gem icon) that accepts any gear; the classic slots below also still work. A worn gear is visible on your character: the Boosted Gear as a gauntlet, Divine Dividing as folded light wings, Absorption Line as a bracer, Sword Birth as a belt, Regulus Nemea as a pendant, Twilight Healing as rings, and the other four hover over your shoulders. Worn gears still work: Boosted Gear builds boosts and releases them on punches, Divine Dividing Divides on hit, the Juggernaut Drive [J] and Rage meter trigger, and [G] fires the worn gear's ultimate. (Active right-click skills still need the gear in hand.)
 
 | Slot | Gear |
 |---|---|
+| **Sacred Gear** | any gear |
 | Hands | Boosted Gear |
 | Back | Divine Dividing |
 | Ring | Twilight Healing |

@@ -39,22 +39,41 @@ public final class ServerPackLauncher {
 
         // ---- 1. mods
         Path mods = Files.createDirectories(root.resolve("mods"));
-        Matcher m = Pattern.compile("\\{\\s*\"file\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*\"url\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*\"sha512\"\\s*:\\s*\"([0-9a-f]+)\"\\s*}").matcher(pack);
-        int ok = 0, fetched = 0;
+        // Each mod is one {...} object in the "mods" array; read its fields independently of their order.
+        Matcher m = Pattern.compile("\\{[^{}]*\"file\"[^{}]*}").matcher(pack);
+        int ok = 0, fetched = 0, listed = 0;
         while (m.find()) {
-            Path target = mods.resolve(m.group(1));
-            String sha = m.group(3);
+            String obj = m.group();
+            String file = field(obj, "file"), url = field(obj, "url"), sha = field(obj, "sha512");
+            listed++;
+            Path target = mods.resolve(file);
             if (Files.exists(target) && sha.equals(sha512(Files.readAllBytes(target)))) {
                 ok++;
                 continue;
             }
-            log("Downloading " + m.group(1));
-            byte[] data = download(m.group(2));
-            if (!sha.equals(sha512(data))) throw new IOException("Hash mismatch for " + m.group(1) + " - download corrupted, try again");
+            log("Downloading " + file);
+            byte[] data = download(url);
+            if (!sha.equals(sha512(data))) throw new IOException("Hash mismatch for " + file + " - download corrupted, try again");
             Files.write(target, data);
             fetched++;
         }
+        if (listed == 0) throw new IllegalStateException("pack.json lists no mods - the launcher is broken, please report it");
         log("Mods ready: " + (ok + fetched) + " (" + fetched + " downloaded)");
+
+        // Updating the pack: an older DxD Craft jar left in mods/ would crash the server (duplicate mod).
+        Matcher dxd = Pattern.compile("\"dxdcraft\"\\s*:\\s*\"([^\"]+)\"").matcher(pack);
+        if (dxd.find()) {
+            String current = dxd.group(1);
+            try (var list = Files.list(mods)) {
+                for (Path old : list.toList()) {
+                    String n = old.getFileName().toString();
+                    if (n.startsWith("dxdcraft-") && n.endsWith(".jar") && !n.equals(current) && Files.exists(mods.resolve(current))) {
+                        Files.delete(old);
+                        log("Removed old " + n + " (replaced by " + current + ")");
+                    }
+                }
+            }
+        }
 
         // ---- 2. NeoForge
         boolean windows = System.getProperty("os.name").toLowerCase().contains("win");

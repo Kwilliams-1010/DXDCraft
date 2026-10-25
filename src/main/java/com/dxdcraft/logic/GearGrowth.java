@@ -113,7 +113,7 @@ public final class GearGrowth {
         Abilities.title(p, stage == BALANCE_BREAKER ? "BALANCE BREAKER!" : stage == SUBLIMATION ? "SUBLIMATION!" : "GEAR EVOLVED",
                 color, name + " - " + label(stage));
         String extra = switch (stage) {
-            case BALANCE_BREAKER -> " Its ULTIMATE is now unlocked.";
+            case BALANCE_BREAKER -> " Its ULTIMATE is unlocked, and you can now transform: press [H] for Balance Breaker.";
             case SUBLIMATION -> " It has reached its true form.";
             default -> "";
         };

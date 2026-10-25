@@ -1,0 +1,65 @@
+[
+  {
+    "projectID": 309927,
+    "fileID": 6529130,
+    "required": true,
+    "title": "Curios API",
+    "file": "curios-neoforge-9.5.1+1.21.1.jar"
+  },
+  {
+    "projectID": 223794,
+    "fileID": 8992605,
+    "required": true,
+    "title": "Applied Energistics 2",
+    "file": "appliedenergistics2-19.2.18.jar"
+  },
+  {
+    "projectID": 1173950,
+    "fileID": 9292538,
+    "required": true,
+    "title": "GuideME",
+    "file": "guideme-21.1.20.jar"
+  },
+  {
+    "projectID": 422301,
+    "fileID": 9271144,
+    "required": true,
+    "title": "Sophisticated Backpacks",
+    "file": "sophisticatedbackpacks-1.21.1-3.26.14.2222.jar"
+  },
+  {
+    "projectID": 618298,
+    "fileID": 9279274,
+    "required": true,
+    "title": "Sophisticated Core",
+    "file": "sophisticatedcore-1.21.1-1.5.17.2426.jar"
+  },
+  {
+    "projectID": 445274,
+    "fileID": 8158315,
+    "required": true,
+    "title": "Relics",
+    "file": "relics-1.21.1-0.12.8.jar"
+  },
+  {
+    "projectID": 1269280,
+    "fileID": 8859015,
+    "required": true,
+    "title": "More Relics",
+    "file": "morerelics-1.7.7-forRelics-0.12.8-1.0-1.21.1.jar"
+  },
+  {
+    "projectID": 916747,
+    "fileID": 8040848,
+    "required": true,
+    "title": "ShatterLib | OctoLib",
+    "file": "OctoLib-NEOFORGE-0.6.2+1.21.jar"
+  },
+  {
+    "projectID": 419699,
+    "fileID": 8492726,
+    "required": true,
+    "title": "Architectury API",
+    "file": "architectury-13.0.11-neoforge.jar"
+  }
+]

@@ -9,6 +9,16 @@ Only DxD Craft is shipped in the packs. Every other mod is referenced by its off
 | `DxDCraftPack-<ver>.mrpack` | `scripts/build_mrpack.py <mods dir> <dxd jar> <out>` | Modrinth App, Prism, ATLauncher |
 | `DxDCraft-ServerPack-<ver>.zip` | `server-pack/` (launcher + configs) + `mods/dxdcraft-<ver>.jar` | Dedicated servers |
 
+## Building all packs
+```
+gradlew build
+python3 packaging/scripts/build_packs.py build/libs/dxdcraft-<ver>.jar <ver> out/
+```
+Every release is tested end to end before it ships: fresh server-pack install (including updating over
+an old DxD jar), `/dxd selftest` on a brand-new world, CurseForge manifest installed from CurseForge's
+CDN, and a real client joining that server and cycling every Balance Breaker / Juggernaut form and worn
+gear (`gradlew runRenderTest` with `-Ddxdcraft.renderTest=true`, see `client/RenderTest.java`).
+
 ## Server launcher
 `server-pack/ServerPackLauncher.java` embeds `pack.json`, downloads and SHA-512-verifies each mod,
 installs NeoForge on first start, then launches the server.

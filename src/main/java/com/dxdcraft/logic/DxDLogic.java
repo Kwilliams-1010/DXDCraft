@@ -97,6 +97,10 @@ public final class DxDLogic {
 
         RageMeter.secondTick(player, d);
         if (d.jdActive()) return; // rage just triggered a drive
+        if (BalanceBreaker.secondTick(player, d)) {
+            updateFlight(player, d);
+            return; // the armor's mana drain replaces normal regeneration
+        }
 
         // Mana: flying drains it, otherwise it regenerates.
         boolean flyingWithWings = race.hasWings() && player.getAbilities().flying && !player.isCreative() && !player.isSpectator();
@@ -259,7 +263,7 @@ public final class DxDLogic {
     /** Grants or removes wing flight. Creative/spectator flight is never touched. */
     public static void updateFlight(ServerPlayer player, DxDData d) {
         if (player.isCreative() || player.isSpectator()) return;
-        boolean shouldFly = (d.getRace().hasWings() && d.getMana() > 0) || d.jdActive();
+        boolean shouldFly = (d.getRace().hasWings() && d.getMana() > 0) || d.jdActive() || BalanceBreaker.grantsFlight(player);
         var abilities = player.getAbilities();
         if (abilities.mayfly != shouldFly) {
             abilities.mayfly = shouldFly;
