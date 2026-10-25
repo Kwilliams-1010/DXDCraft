@@ -1,0 +1,64 @@
+{
+  "minecraft": {
+    "version": "1.21.1",
+    "modLoaders": [
+      {
+        "id": "neoforge-21.1.264",
+        "primary": true
+      }
+    ]
+  },
+  "manifestType": "minecraftModpack",
+  "manifestVersion": 1,
+  "name": "DxD Craft Pack",
+  "version": "1.0.0",
+  "author": "DxD Craft",
+  "files": [
+    {
+      "projectID": 309927,
+      "fileID": 6529130,
+      "required": true
+    },
+    {
+      "projectID": 223794,
+      "fileID": 8992605,
+      "required": true
+    },
+    {
+      "projectID": 1173950,
+      "fileID": 9292538,
+      "required": true
+    },
+    {
+      "projectID": 422301,
+      "fileID": 9271144,
+      "required": true
+    },
+    {
+      "projectID": 618298,
+      "fileID": 9279274,
+      "required": true
+    },
+    {
+      "projectID": 445274,
+      "fileID": 8158315,
+      "required": true
+    },
+    {
+      "projectID": 1269280,
+      "fileID": 8859015,
+      "required": true
+    },
+    {
+      "projectID": 916747,
+      "fileID": 8040848,
+      "required": true
+    },
+    {
+      "projectID": 419699,
+      "fileID": 8492726,
+      "required": true
+    }
+  ],
+  "overrides": "overrides"
+}

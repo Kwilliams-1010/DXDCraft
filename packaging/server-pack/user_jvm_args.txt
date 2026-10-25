@@ -1,0 +1,4 @@
+# Extra Java arguments for the server, one or more per line.
+# Memory: 6G is comfortable for this pack with ~10 players; use at least 4G.
+# (If you start with start.sh / start.bat, memory is set there instead.)
+# -Xmx6G
