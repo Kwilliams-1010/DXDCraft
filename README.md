@@ -388,6 +388,23 @@ DxD Craft is built to run on servers (NeoForge 1.21.1 dedicated server or LAN).
 | `server.realmTravelCooldownSeconds` | 10 | Cooldown for the realm travel items |
 | `server.maxAbilityPacketsPerSecond` | 10 | Anti-spam limit for ability keys |
 
+## Recommended modpack
+DxD Craft has been tested together with these mods (dedicated server, all checks passing, 20 TPS). They don't depend on each other; install whichever you like:
+
+| Mod | Version tested | Notes |
+|---|---|---|
+| Sophisticated Backpacks | 1.21.1-3.26.14.2222 | needs Sophisticated Core 1.21.1-1.5.17.2426 |
+| Applied Energistics 2 | 19.2.18 | needs GuideME 21.1.20 |
+| Relics | **0.12.8** | needs OctoLib 0.6.2 and Curios API. Use 0.12.8, because More Relics is built for it |
+| More Relics | 1.7.7-forRelics-0.12.8-1.0 | needs Relics, Architectury API 13.0.11, OctoLib, Curios |
+| Curios API | 9.5.1+1.21.1 | also unlocks DxD Craft's worn Sacred Gears |
+
+**Default key bindings don't clash.** DxD Craft uses G / J / R / V. Sophisticated Backpacks uses B / C / X / Z and [ / ]. Relics and AE2 use Shift / Ctrl / Alt combos.
+
+**Expected server log noise:** Relics and More Relics print a few red "Attempted to load class ... for invalid dist DEDICATED_SERVER" lines on dedicated servers. Those are their client-only tweaks being skipped and are harmless.
+
+`DxDCraftPack-1.0.0.mrpack` installs all of the above plus DxD Craft in one click in the Modrinth App, Prism Launcher or ATLauncher.
+
 ## Mod compatibility (optional)
 DxD Craft runs fine alone. If these mods are installed it integrates with them automatically:
 

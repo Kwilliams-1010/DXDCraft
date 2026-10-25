@@ -559,6 +559,25 @@ public final class SelfTest {
             var r = p.getMainHandItem().useOn(new net.minecraft.world.item.context.UseOnContext(p, InteractionHand.MAIN_HAND, hit));
             expect(r == net.minecraft.world.InteractionResult.FAIL, "Seraph Sigil must not work in the Overworld");
         });
+        check("Curios: worn Sacred Gear works", () -> {
+            if (!com.dxdcraft.compat.CuriosCompat.isLoaded()) return; // optional mod not installed: nothing to test
+            p = fresh();
+            Class<?> api = Class.forName("top.theillusivec4.curios.api.CuriosApi");
+            Object inv = ((java.util.Optional<?>) api.getMethod("getCuriosInventory", net.minecraft.world.entity.LivingEntity.class).invoke(null, p))
+                    .orElseThrow(() -> new AssertionError("player has no Curios inventory"));
+            Class<?> handlerI = Class.forName("top.theillusivec4.curios.api.type.capability.ICuriosItemHandler");
+            Object hands = ((java.util.Optional<?>) handlerI.getMethod("getStacksHandler", String.class).invoke(inv, "hands"))
+                    .orElseThrow(() -> new AssertionError("DxD Craft's 'hands' Curios slot is missing"));
+            Class<?> stacksI = Class.forName("top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler");
+            var stacks = (net.neoforged.neoforge.items.IItemHandlerModifiable) stacksI.getMethod("getStacks").invoke(hands);
+            stacks.setStackInSlot(0, new ItemStack(ModItems.BOOSTED_GEAR.get()));
+            p.tickCount++; // new tick -> fresh Curios cache
+            expect(com.dxdcraft.compat.CuriosCompat.has(p, ModItems.BOOSTED_GEAR.get()), "worn Boosted Gear should be seen");
+            expect(DxDLogic.holdingBoostedGear(p), "worn Boosted Gear should build boosts");
+            for (String slot : new String[]{"back", "ring", "bracelet", "necklace", "belt", "charm"}) {
+                expect(((java.util.Optional<?>) handlerI.getMethod("getStacksHandler", String.class).invoke(inv, slot)).isPresent(), "Curios slot " + slot);
+            }
+        });
         check("achievements and recipes load", () -> {
             String[] advs = {"root", "born_anew", "level_20", "level_50", "level_100", "sacred_awakening", "balance_breaker", "sublimation",
                     "juggernaut", "juggernaut_complete", "elemental", "twin_elements", "trade_exorcist", "stairway_heaven", "holy_silver",
