@@ -21,12 +21,22 @@ public final class TransformState {
         public final String gear;
         public final int mode;
         public final long startTick;
+        public final boolean animated;
         public long endTick = -1;
+        /** Animation time (seconds) up to which timeline sounds/particles have been played. */
+        public float fxDoneUntil = -1.0F;
 
-        Entry(String gear, int mode, long startTick) {
+        Entry(String gear, int mode, long startTick, boolean animated) {
             this.gear = gear;
             this.mode = mode;
             this.startTick = startTick;
+            this.animated = animated;
+        }
+
+        /** Name of this form's transformation animation in the animation files. */
+        public String animationName() {
+            if (juggernaut()) return "transform.juggernaut_" + ("boosted_gear".equals(gear) ? "red" : "white");
+            return "transform." + gear;
         }
 
         public boolean juggernaut() {
@@ -49,7 +59,7 @@ public final class TransformState {
             if (e != null && e.endTick < 0) e.endTick = now();
             return;
         }
-        FORMS.put(p.entityId(), new Entry(p.gear(), p.mode(), now()));
+        FORMS.put(p.entityId(), new Entry(p.gear(), p.mode(), now(), p.animated()));
     }
 
     /** The entity's form, or null. Entries that finished dissolving are dropped here. */
@@ -60,6 +70,11 @@ public final class TransformState {
             return null;
         }
         return e;
+    }
+
+    /** All forms currently known (entity id -> form). */
+    public static Map<Integer, Entry> all() {
+        return FORMS;
     }
 
     @SubscribeEvent

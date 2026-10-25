@@ -13,6 +13,9 @@ Become a Devil, Angel or Fallen Angel, awaken Sacred Gears, cast the Power of
 Destruction and Light Spears, hunt Stray Devils, and challenge a Heavenly Dragon.
 '''
 
+[[mixins]]
+config = "dxdcraft.mixins.json"
+
 [[dependencies.dxdcraft]]
 modId = "neoforge"
 type = "required"

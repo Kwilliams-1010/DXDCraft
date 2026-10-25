@@ -128,7 +128,34 @@ public final class GearRenderLayers {
             int overlay = LivingEntityRenderer.getOverlayCoords(player, 0.0F);
             copyPose(getParentModel(), shell);
 
-            // Shell pieces assemble in order: legs, body, arms, head (then the extras).
+            // Playing the Blockbench transformation scene: every piece follows its animation bone.
+            com.dxdcraft.client.anim.BedrockAnimation anim = com.dxdcraft.client.anim.TransformScenes.playing(form, partialTick);
+            if (anim != null) {
+                float st = com.dxdcraft.client.anim.TransformScenes.time(form, partialTick);
+                float alpha = com.dxdcraft.client.anim.TransformAnimations.scalar(anim, "fx_alpha", st, 1.0F) * dissolve;
+                float glowLevel = com.dxdcraft.client.anim.TransformAnimations.scalar(anim, "fx_glow", st, 1.0F);
+                String[] bones = {"armor_head", "armor_body", "armor_right_arm", "armor_left_arm", "armor_right_leg", "armor_left_leg"};
+                for (int i = 0; i < bones.length; i++) {
+                    copyPose(getParentModel(), shell);
+                    ModelPart part = new ModelPart[]{shell.head, shell.body, shell.rightArm, shell.leftArm, shell.rightLeg, shell.leftLeg}[i];
+                    shell.setAllVisible(false);
+                    part.visible = true;
+                    com.dxdcraft.client.anim.TransformAnimations.apply(anim, bones[i], st, part);
+                    if (Math.abs(part.xScale) < 0.01F && Math.abs(part.yScale) < 0.01F) {
+                        scale(part, 1.0F);
+                        continue;
+                    }
+                    shell.renderToBuffer(pose, buffers.getBuffer(RenderType.entityTranslucent(armorTex)), light, overlay, argb(alpha, 0xFFFFFF));
+                    shell.renderToBuffer(pose, buffers.getBuffer(RenderType.eyes(glowTex)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY,
+                            glow(alpha * glowLevel, 0xFFFFFF));
+                    scale(part, 1.0F);
+                }
+                shell.setAllVisible(true);
+                renderExtras(pose, buffers, light, overlay, player, style, alpha, ageInTicks, jug, anim, st);
+                return;
+            }
+
+            // No scene (disabled, or joined mid-way): shell pieces assemble in order: legs, body, arms, head (then the extras).
             ModelPart[][] groups = {{shell.rightLeg, shell.leftLeg}, {shell.body}, {shell.rightArm, shell.leftArm}, {shell.head}};
             for (int i = 0; i < groups.length; i++) {
                 float q = Mth.clamp((t - i * WINDOW) / WINDOW, 0.0F, 1.0F) * dissolve;
@@ -148,11 +175,12 @@ public final class GearRenderLayers {
             shell.setAllVisible(true);
 
             float qx = Mth.clamp((t - 4 * WINDOW) / WINDOW, 0.0F, 1.0F) * dissolve;
-            if (qx > 0.0F) renderExtras(pose, buffers, light, overlay, player, style, qx, ageInTicks, jug);
+            if (qx > 0.0F) renderExtras(pose, buffers, light, overlay, player, style, qx, ageInTicks, jug, null, 0.0F);
         }
 
         private void renderExtras(PoseStack pose, MultiBufferSource buffers, int light, int overlay, AbstractClientPlayer player,
-                                  GearStyles.Style s, float q, float age, boolean jug) {
+                                  GearStyles.Style s, float q, float age, boolean jug,
+                                  com.dxdcraft.client.anim.BedrockAnimation anim, float st) {
             GearModels.ExtrasModel m = extras;
             copyPose(getParentModel(), m);
             float grow = 0.6F + 0.4F * q;
@@ -171,6 +199,33 @@ public final class GearRenderLayers {
             m.halo.yRot = age * 0.05F;
             for (ModelPart p : new ModelPart[]{m.hornL, m.hornR, m.crest, m.halo, m.core, m.wingL, m.wingR, m.tail, m.pauldronL, m.pauldronR, m.clawsL, m.clawsR}) {
                 scale(p, grow * size);
+            }
+
+            if (anim != null) {
+                if (anim.bone("wing_left") != null || anim.bone("wing_right") != null) {
+                    // the scene drives the wings fully, starting from folded against the back
+                    // (wing_left rotation y -60 / wing_right +60 opens them; z raises: left negative, right positive)
+                    m.wingL.yRot = -1.35F; m.wingR.yRot = 1.35F; m.wingL.zRot = -0.15F; m.wingR.zRot = 0.15F;
+                    scale(m.wingL, size); scale(m.wingR, size);
+                }
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "wing_left", st, m.wingL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "wing_right", st, m.wingR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "horns", st, m.hornL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "horns", st, m.hornR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "horn_left", st, m.hornL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "horn_right", st, m.hornR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "crest", st, m.crest);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "halo", st, m.halo);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "tail", st, m.tail);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "pauldrons", st, m.pauldronL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "pauldrons", st, m.pauldronR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "pauldron_left", st, m.pauldronL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "pauldron_right", st, m.pauldronR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "claws", st, m.clawsL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "claws", st, m.clawsR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "claws_left", st, m.clawsL);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "claws_right", st, m.clawsR);
+                com.dxdcraft.client.anim.TransformAnimations.apply(anim, "core", st, m.core);
             }
 
             ResourceLocation tex = tex("armor/gear_extras");

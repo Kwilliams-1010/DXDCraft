@@ -92,6 +92,12 @@ public class CommonEvents {
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
         LivingEntity victim = event.getEntity();
         DamageSource source = event.getSource();
+        // Mid-transformation scene: untouchable (and unable to act) for its 3 seconds.
+        if (victim instanceof ServerPlayer tp && com.dxdcraft.logic.BalanceBreaker.transforming(tp)
+                && !source.is(net.minecraft.tags.DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            event.setCanceled(true);
+            return;
+        }
 
         // Armor set bonuses that react to being hit.
         if (victim instanceof ServerPlayer armored) {

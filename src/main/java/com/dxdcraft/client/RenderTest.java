@@ -22,7 +22,31 @@ public final class RenderTest {
     private static final boolean ENABLED = Boolean.getBoolean("dxdcraft.renderTest");
     private static final String[] GEARS = {"boosted_gear", "divine_dividing", "sword_birth", "absorption_line", "forbidden_balor_view",
             "dimension_lost", "zenith_tempest", "annihilation_maker", "regulus_nemea", "twilight_healing"};
-    private record Step(int delay, Runnable action) {}
+    private record Step(int delay, Runnable action, java.util.function.BooleanSupplier until) {
+        Step(int delay, Runnable action) {
+            this(delay, action, () -> true);
+        }
+    }
+    private static float nextFrame;
+    private static int frameNo, waited;
+
+    /** Waits for the local player's scene, screenshotting it every 0.15s of scene time until it ends. */
+    private static boolean captureScene(String key) {
+        var mc = Minecraft.getInstance();
+        var e = TransformState.get(mc.player.getId());
+        var anim = com.dxdcraft.client.anim.TransformScenes.playing(e, 0.0F);
+        if (anim == null) return frameNo > 0 || ++waited > 200; // finished (or never started: give up after 10s)
+        float t = com.dxdcraft.client.anim.TransformScenes.time(e, 0.0F);
+        if (t >= nextFrame) {
+            shot(String.format("scene_%s_%02d", key, frameNo++));
+            nextFrame = t + 0.15F;
+        }
+        return false;
+    }
+
+    private static Step scene(String key) {
+        return new Step(1, () -> { nextFrame = 0.0F; frameNo = 0; waited = 0; }, () -> captureScene(key));
+    }
     private static final List<Step> STEPS = new ArrayList<>();
     private static int inWorld, index, wait;
 
@@ -56,21 +80,32 @@ public final class RenderTest {
             cmd("effect give @s minecraft:night_vision infinite 0 true");
         }));
         for (String g : GEARS) {
-            STEPS.add(new Step(5, () -> { cmd("dxd balancebreaker start " + g); camera(CameraType.THIRD_PERSON_FRONT); }));
-            STEPS.add(new Step(12, () -> shot("assemble_" + g)));            // mid-transformation
-            STEPS.add(new Step(40, () -> shot("bb_" + g + "_front")));
+            // The whole scene as the transforming player sees it (scene camera), one frame every 3 ticks.
+            STEPS.add(new Step(25, () -> {
+                camera(CameraType.FIRST_PERSON);
+                Minecraft.getInstance().options.hideGui = false;
+                cmd("dxd balancebreaker start " + g);
+            }));
+            STEPS.add(scene(g));
+            STEPS.add(new Step(6, () -> { Minecraft.getInstance().options.hideGui = true; camera(CameraType.THIRD_PERSON_FRONT); }));
+            STEPS.add(new Step(6, () -> shot("bb_" + g + "_front")));
             STEPS.add(new Step(2, () -> camera(CameraType.THIRD_PERSON_BACK)));
-            STEPS.add(new Step(8, () -> shot("bb_" + g + "_back")));
+            STEPS.add(new Step(6, () -> shot("bb_" + g + "_back")));
             STEPS.add(new Step(2, () -> cmd("dxd balancebreaker stop")));
         }
-        for (String mode : new String[]{"incomplete", "complete"}) {
-            for (String dragon : new String[]{"red", "white"}) {
-                STEPS.add(new Step(25, () -> { cmd("dxd juggernaut start " + dragon + " " + mode); camera(CameraType.THIRD_PERSON_FRONT); }));
-                STEPS.add(new Step(45, () -> shot("jd_" + dragon + "_" + mode + "_front")));
-                STEPS.add(new Step(2, () -> camera(CameraType.THIRD_PERSON_BACK)));
-                STEPS.add(new Step(8, () -> shot("jd_" + dragon + "_" + mode + "_back")));
-                STEPS.add(new Step(2, () -> cmd("dxd juggernaut stop")));
-            }
+        for (String[] jd : new String[][]{{"red", "incomplete"}, {"white", "complete"}}) {
+            String key = "juggernaut_" + jd[0];
+            STEPS.add(new Step(25, () -> {
+                camera(CameraType.FIRST_PERSON);
+                Minecraft.getInstance().options.hideGui = false;
+                cmd("dxd juggernaut start " + jd[0] + " " + jd[1]);
+            }));
+            STEPS.add(scene(key));
+            STEPS.add(new Step(6, () -> { Minecraft.getInstance().options.hideGui = true; camera(CameraType.THIRD_PERSON_FRONT); }));
+            STEPS.add(new Step(6, () -> shot("jd_" + jd[0] + "_" + jd[1] + "_front")));
+            STEPS.add(new Step(2, () -> camera(CameraType.THIRD_PERSON_BACK)));
+            STEPS.add(new Step(6, () -> shot("jd_" + jd[0] + "_" + jd[1] + "_back")));
+            STEPS.add(new Step(2, () -> cmd("dxd juggernaut stop")));
         }
         // HUD: survival, first person, mid Juggernaut Drive (extra hearts) - checks the health/armor bars.
         STEPS.add(new Step(20, () -> {
@@ -107,8 +142,15 @@ public final class RenderTest {
         if (!mc.player.hasPermissions(2)) return; // wait until the test harness has opped us
         if (STEPS.isEmpty() && index == 0) build();
         if (index >= STEPS.size()) return;
-        if (++wait < STEPS.get(index).delay) return;
-        wait = 0;
-        STEPS.get(index++).action().run();
+        mc.getToasts().clear(); // offline test server: hide the chat-verification notice
+        Step step = STEPS.get(index);
+        if (wait < step.delay) {
+            if (++wait == step.delay) step.action().run();
+            return;
+        }
+        if (step.until().getAsBoolean()) {
+            index++;
+            wait = 0;
+        }
     }
 }

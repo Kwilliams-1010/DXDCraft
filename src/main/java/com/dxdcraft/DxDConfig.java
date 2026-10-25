@@ -20,6 +20,7 @@ public final class DxDConfig {
     public static final ModConfigSpec.DoubleValue DOUBLE_ELEMENT_CHANCE;
     public static final ModConfigSpec.BooleanValue FIRST_DRAW_CUTSCENES;
     public static final ModConfigSpec.BooleanValue AWAKENING_CUTSCENES;
+    public static final ModConfigSpec.BooleanValue TRANSFORM_SCENES;
     public static final ModConfigSpec.IntValue REALM_TRAVEL_COOLDOWN;
     public static final ModConfigSpec.IntValue MAX_ABILITY_PACKETS_PER_SECOND;
 
@@ -56,6 +57,9 @@ public final class DxDConfig {
                 .define("awakening", true);
         FIRST_DRAW_CUTSCENES = b.comment("Play the cutscene the first time a player draws each Sacred Gear type.")
                 .define("firstDraw", true);
+        TRANSFORM_SCENES = b.comment("Play the animated transformation scene (camera sweep, armor flying in) for Balance Breaker",
+                        "and Juggernaut Drive. The player can't move or be hurt for those 3 seconds. Off = armor appears instantly.")
+                .define("transformation", true);
         b.pop();
 
         b.push("server");

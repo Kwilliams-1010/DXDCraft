@@ -94,7 +94,7 @@ public final class JuggernautDrive {
         if (d.jdActive()) end(p, d);
         BalanceBreaker.clear(p); // the drive replaces the Balance Breaker armor
         d.startJd(type, complete ? COMPLETE_SECONDS : INCOMPLETE_SECONDS, complete);
-        BalanceBreaker.broadcast(p, type == DxDData.JD_RED ? "boosted_gear" : "divine_dividing",
+        BalanceBreaker.playScene(p, type == DxDData.JD_RED ? "boosted_gear" : "divine_dividing",
                 complete ? com.dxdcraft.network.TransformPayload.MODE_JD_COMPLETE : com.dxdcraft.network.TransformPayload.MODE_JD);
 
         ServerLevel level = p.serverLevel();
@@ -110,8 +110,10 @@ public final class JuggernautDrive {
 
         Abilities.title(p, complete ? "JUGGERNAUT DRIVE" : "JUGGERNAUT DRIVE?!", color(type),
                 complete ? name(type, true) + " - full control" : "The dragon's rage is consuming you...");
-        level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), 250, 1.2, 1.5, 1.2, 0.2);
-        level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
+        if (!BalanceBreaker.scenesEnabled()) {
+            level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), 250, 1.2, 1.5, 1.2, 0.2);
+            level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
+        }
         level.playSound(null, p.blockPosition(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 3.0F, complete ? 1.0F : 0.6F);
         Combat.announce(p, Component.literal(p.getName().getString() + " has activated the " + name(type, complete) + "!")
                 .withStyle(color(type), ChatFormatting.BOLD));
@@ -170,7 +172,7 @@ public final class JuggernautDrive {
             }
         }
 
-        level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), complete ? 30 : 50, 0.6, 1.0, 0.6, 0.05);
+        level.sendParticles(particle(type), p.getX(), p.getY() + 1, p.getZ(), complete ? 10 : 18, 0.6, 1.0, 0.6, 0.05);
 
         GearGrowth.addXp(p, type == DxDData.JD_RED ? ModItems.BOOSTED_GEAR.get() : ModItems.DIVINE_DIVIDING.get(), 1);
 

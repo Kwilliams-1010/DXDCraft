@@ -1,8 +1,8 @@
-DxD CRAFT SERVER PACK 1.1.1
+DxD CRAFT SERVER PACK 1.2.0
 Minecraft 1.21.1 / NeoForge 21.1.264 / Java 21
 
 Included mods
-  DxD Craft 1.1.1, Sophisticated Backpacks + Sophisticated Core, Applied Energistics 2 (+ GuideME),
+  DxD Craft 1.2.0, Sophisticated Backpacks + Sophisticated Core, Applied Energistics 2 (+ GuideME),
   Relics 0.12.8 + More Relics, OctoLib, Curios, Architectury.
   Only DxD Craft is inside this zip. The others are downloaded automatically from their official
   Modrinth pages the first time the server starts (their licenses don't allow re-uploading them).
@@ -33,10 +33,10 @@ UPDATING AN EXISTING SERVER
 
 ------------------------------------------------------------------------------------------
 PLAYERS (CLIENT) - everyone needs the same mods
-  Easiest: import DxDCraftPack-1.1.1.mrpack into Modrinth App, Prism Launcher or ATLauncher.
+  Easiest: import DxDCraftPack-1.2.0.mrpack into Modrinth App, Prism Launcher or ATLauncher.
   CurseForge app: Create Custom Profile -> Minecraft 1.21.1, NeoForge 21.1.264, then add:
     Sophisticated Backpacks, Sophisticated Core, Applied Energistics 2, Relics (version 0.12.8!),
-    More Relics, Curios API, Architectury API, and drop dxdcraft-1.1.1.jar into the profile's mods folder.
+    More Relics, Curios API, Architectury API, and drop dxdcraft-1.2.0.jar into the profile's mods folder.
 
 ------------------------------------------------------------------------------------------
 SETTINGS

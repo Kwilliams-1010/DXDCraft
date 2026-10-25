@@ -39,6 +39,36 @@ public final class BalanceBreaker {
     public static final int START_MANA = 40;
     /** Transformation sequence length in ticks (the armor assembles piece by piece). */
     public static final int ASSEMBLE_TICKS = 30;
+    /** Length of the animated transformation scenes (must match the animation files). */
+    public static final int SCENE_TICKS_BB = 60, SCENE_TICKS_JD = 70;
+    private static final Map<UUID, Long> SCENE_UNTIL = new HashMap<>();
+
+    public static boolean scenesEnabled() {
+        return com.dxdcraft.DxDConfig.get(com.dxdcraft.DxDConfig.TRANSFORM_SCENES::get, true);
+    }
+
+    /** True while the player is in the middle of a transformation scene (can't move or be hurt). */
+    public static boolean transforming(Player p) {
+        Long until = SCENE_UNTIL.get(p.getUUID());
+        if (until == null) return false;
+        if (p.level().getGameTime() >= until) {
+            SCENE_UNTIL.remove(p.getUUID());
+            return false;
+        }
+        return true;
+    }
+
+    /** Starts the protected scene window and tells every client to play it. */
+    public static void playScene(ServerPlayer p, String gear, int mode) {
+        boolean animated = scenesEnabled();
+        if (animated) {
+            SCENE_UNTIL.put(p.getUUID(), p.level().getGameTime()
+                    + (mode == TransformPayload.MODE_BALANCE_BREAKER ? SCENE_TICKS_BB : SCENE_TICKS_JD));
+            p.setDeltaMovement(0, Math.max(0, p.getDeltaMovement().y), 0);
+            p.hurtMarked = true;
+        }
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(p, new TransformPayload(p.getId(), gear, mode, animated));
+    }
 
     private record Form(String gear, long startedAt, boolean forced) {}
     private static final Map<UUID, Form> ACTIVE = new HashMap<>();
@@ -123,13 +153,15 @@ public final class BalanceBreaker {
      */
     public static void start(ServerPlayer p, String gear, boolean forced) {
         ACTIVE.put(p.getUUID(), new Form(gear, p.level().getGameTime(), forced));
-        broadcast(p, gear, TransformPayload.MODE_BALANCE_BREAKER);
+        playScene(p, gear, TransformPayload.MODE_BALANCE_BREAKER);
         DxDAdvancements.grant(p, "balance_breaker");
         ServerLevel level = p.serverLevel();
         Abilities.title(p, "BALANCE BREAKER", color(gear), formName(gear));
-        level.playSound(null, p.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 2.0F, 0.7F);
-        level.playSound(null, p.blockPosition(), SoundEvents.ARMOR_EQUIP_NETHERITE.value(), SoundSource.PLAYERS, 2.0F, 0.8F);
-        level.sendParticles(particle(gear), p.getX(), p.getY() + 1, p.getZ(), 120, 0.5, 1.2, 0.5, 0.15);
+        if (!scenesEnabled()) {
+            level.playSound(null, p.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 2.0F, 0.7F);
+            level.playSound(null, p.blockPosition(), SoundEvents.ARMOR_EQUIP_NETHERITE.value(), SoundSource.PLAYERS, 2.0F, 0.8F);
+            level.sendParticles(particle(gear), p.getX(), p.getY() + 1, p.getZ(), 120, 0.5, 1.2, 0.5, 0.15);
+        }
         Combat.announce(p, Component.literal(p.getName().getString() + " entered Balance Breaker: ").withStyle(color(gear))
                 .append(Component.literal(formName(gear)).withStyle(ChatFormatting.BOLD)));
         applyBuffs(p, gear);
@@ -138,6 +170,7 @@ public final class BalanceBreaker {
 
     /** Ends the form. voluntary = the player released it (no message about running dry). */
     public static void end(ServerPlayer p, boolean voluntary) {
+        SCENE_UNTIL.remove(p.getUUID());
         Form f = ACTIVE.remove(p.getUUID());
         if (f == null) return;
         broadcast(p, f.gear, TransformPayload.MODE_NONE);
@@ -150,6 +183,7 @@ public final class BalanceBreaker {
 
     /** Silent cleanup (logout / death / Juggernaut Drive taking over). */
     public static void clear(ServerPlayer p) {
+        SCENE_UNTIL.remove(p.getUUID());
         Form f = ACTIVE.remove(p.getUUID());
         if (f != null) broadcast(p, f.gear, TransformPayload.MODE_NONE);
     }

@@ -584,6 +584,20 @@ public final class SelfTest {
                 expect(((java.util.Optional<?>) handlerI.getMethod("getStacksHandler", String.class).invoke(inv, slot)).isPresent(), "Curios slot " + slot);
             }
         });
+        check("Balance Breaker transformation scene", () -> {
+            p = fresh();
+            com.dxdcraft.logic.BalanceBreaker.start(p, "boosted_gear", true);
+            expect(com.dxdcraft.logic.BalanceBreaker.active(p), "form should be active");
+            expect(com.dxdcraft.logic.BalanceBreaker.transforming(p) == com.dxdcraft.logic.BalanceBreaker.scenesEnabled(),
+                    "scene window should match the config");
+            if (com.dxdcraft.logic.BalanceBreaker.transforming(p)) {
+                float before = p.getHealth();
+                p.hurt(level.damageSources().generic(), 6.0F);
+                expect(p.getHealth() == before, "player must not be hurt mid-scene");
+            }
+            com.dxdcraft.logic.BalanceBreaker.end(p, true);
+            expect(!com.dxdcraft.logic.BalanceBreaker.active(p) && !com.dxdcraft.logic.BalanceBreaker.transforming(p), "form should end cleanly");
+        });
         check("Curios: every gear passes Curios' own slot validation", () -> {
             if (!com.dxdcraft.compat.CuriosCompat.isLoaded()) return;
             p = fresh();

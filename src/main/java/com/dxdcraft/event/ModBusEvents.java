@@ -20,7 +20,7 @@ import com.dxdcraft.network.AbilityPayload;
 public class ModBusEvents {
     @SubscribeEvent
     public static void onPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar("1");
+        PayloadRegistrar registrar = event.registrar("2");
         registrar.playToServer(AbilityPayload.TYPE, AbilityPayload.STREAM_CODEC, AbilityPayload::handle);
         registrar.playToClient(com.dxdcraft.network.CutscenePayload.TYPE, com.dxdcraft.network.CutscenePayload.STREAM_CODEC,
                 com.dxdcraft.network.CutscenePayload::handle);

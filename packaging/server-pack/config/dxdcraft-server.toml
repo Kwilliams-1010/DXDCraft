@@ -31,6 +31,9 @@
 	awakening = true
 	#Play the cutscene the first time a player draws each Sacred Gear type.
 	firstDraw = true
+	#Play the animated transformation scene (camera sweep, armor flying in) for Balance Breaker
+	#and Juggernaut Drive. The player can't move or be hurt for those 3 seconds. Off = armor appears instantly.
+	transformation = true
 
 [server]
 	#Cooldown in seconds for Heaven's Gate Key / Underworld Magic Circle.
